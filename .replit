@@ -4,3 +4,30 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+packages = ["mono"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "compiler_demo"
+
+[[workflows.workflow]]
+name = "compiler_demo"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = """
+bash -c \"echo 'Compiling Cmm program...'; java -cp antlr-4.13.2-complete.jar:. Main input.txt output.txt && echo 'Compilation successful! Generated assembly:' && cat output.txt && echo -e '
+
+Executing program...' && echo 'Output:' && mono TextVM.exe output.txt\""""
+
+[workflows.workflow.metadata]
+outputType = "console"

@@ -31,3 +31,7 @@ Executing program...' && echo 'Output:' && mono TextVM.exe output.txt\""""
 
 [workflows.workflow.metadata]
 outputType = "console"
+
+[deployment]
+deploymentTarget = "scheduled"
+run = ["bash", "-c", "java -cp antlr-4.13.2-complete.jar:. Main input.txt output.txt && echo 'Compilation successful! Generated assembly:' && cat output.txt && echo 'Executing program...' && mono TextVM.exe output.txt"]

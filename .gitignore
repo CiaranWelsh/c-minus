@@ -1,8 +1,10 @@
 # Compiled Java classes
-build/
+mini-compiler/build/
+c-minus/build/
 
 # Generated output files
-output.txt
+mini-compiler/output.txt
+c-minus/output.txt
 
 # OS specific files
 .DS_Store

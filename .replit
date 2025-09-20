@@ -16,33 +16,33 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "compiler_demo"
+args = "mini_compiler_demo"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "build_project"
+args = "build_mini_compiler"
 
 [[workflows.workflow]]
-name = "compiler_demo"
+name = "mini_compiler_demo"
 author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = """
-bash -c \"echo 'Compiling Cmm program...'; java -cp antlr-4.13.2-complete.jar:build Main input.txt output.txt && echo 'Compilation successful! Generated assembly:' && cat output.txt && echo -e '
+bash -c \"cd mini-compiler && echo 'Compiling Cmm program...' && java -cp antlr-4.13.2-complete.jar:build Main input.txt output.txt && echo 'Compilation successful! Generated assembly:' && cat output.txt && echo -e '
 
 Executing program...' && echo 'Output:' && mono TextVM.exe output.txt\""""
 
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[workflows.workflow]]
-name = "build_project"
+name = "build_mini_compiler"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bash -c \"echo 'Generating parser files...'; java -jar antlr-4.13.2-complete.jar src/parser/Cmm.g4 -package parser -no-listener && echo 'Compiling Java sources...'; find src -name '*.java' ! -name 'MainIntrospector.java' ! -name 'TestRig*.java' | xargs javac -cp antlr-4.13.2-complete.jar -d build && echo 'Build complete!'\""
+args = "bash -c \"cd mini-compiler && echo 'Generating parser files...' && java -jar antlr-4.13.2-complete.jar src/parser/Cmm.g4 -package parser -no-listener && echo 'Compiling Java sources...' && find src -name '*.java' ! -name 'MainIntrospector.java' ! -name 'TestRig*.java' | xargs javac -cp antlr-4.13.2-complete.jar -d build && echo 'Build complete!'\""
 
 [workflows.workflow.metadata]
 outputType = "console"

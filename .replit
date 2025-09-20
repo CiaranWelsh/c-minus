@@ -22,6 +22,10 @@ args = "mini_compiler_demo"
 task = "workflow.run"
 args = "build_mini_compiler"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "view_ast"
+
 [[workflows.workflow]]
 name = "mini_compiler_demo"
 author = "agent"
@@ -43,6 +47,17 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "bash -c \"cd mini-compiler && echo 'Generating parser files...' && java -jar antlr-4.13.2-complete.jar src/parser/Cmm.g4 -package parser -no-listener && echo 'Compiling Java sources...' && find src -name '*.java' ! -name 'MainIntrospector.java' ! -name 'TestRig*.java' | xargs javac -cp antlr-4.13.2-complete.jar -d build && echo 'Build complete!'\""
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "view_ast"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash -c \"cd mini-compiler && echo 'Building AST from input.txt...' && java -cp antlr-4.13.2-complete.jar:build MainASTViewer input.txt\""
 
 [workflows.workflow.metadata]
 outputType = "console"

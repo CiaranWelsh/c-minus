@@ -92,11 +92,11 @@ public class MainASTViewer {
             
             printIndent(level + 1);
             System.out.println("Left:");
-            assignment.getLeft().accept(this, level + 2);
+            assignment.getLeftHandSide().accept(this, level + 2);
             
             printIndent(level + 1);
             System.out.println("Right:");
-            assignment.getRight().accept(this, level + 2);
+            assignment.getRightHandSide().accept(this, level + 2);
             
             return null;
         }
@@ -116,11 +116,11 @@ public class MainASTViewer {
             
             printIndent(level + 1);
             System.out.println("Left:");
-            arithmetic.getLeft().accept(this, level + 2);
+            arithmetic.getOperand1().accept(this, level + 2);
             
             printIndent(level + 1);
             System.out.println("Right:");
-            arithmetic.getRight().accept(this, level + 2);
+            arithmetic.getOperand2().accept(this, level + 2);
             
             return null;
         }
@@ -136,7 +136,7 @@ public class MainASTViewer {
         @Override
         public Void visit(IntLiteral intLiteral, Integer level) {
             printIndent(level);
-            System.out.println("IntLiteral: " + intLiteral.getValue() + 
+            System.out.println("IntLiteral: " + intLiteral.value + 
                              (intLiteral.getType() != null ? " [type: " + intLiteral.getType() + "]" : ""));
             return null;
         }
@@ -144,7 +144,7 @@ public class MainASTViewer {
         @Override
         public Void visit(RealLiteral realLiteral, Integer level) {
             printIndent(level);
-            System.out.println("RealLiteral: " + realLiteral.getValue() + 
+            System.out.println("RealLiteral: " + realLiteral.value + 
                              (realLiteral.getType() != null ? " [type: " + realLiteral.getType() + "]" : ""));
             return null;
         }

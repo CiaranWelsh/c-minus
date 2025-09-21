@@ -1,0 +1,81 @@
+---
+config:
+  layout: elk
+---
+classDiagram
+    class AstNode {
+       <<interface>>
+    }
+    class Locatable {
+        <<interface >>
+        line()  int 
+        column() int 
+    }
+    AstNode <|.. Locatable : Extend 
+    class Definition{
+        <<interface >>
+        type():Type
+        identifier():String
+    }
+    class  FunctionDefinition{
+    }
+    class VariableDefinition{
+    }
+    Definition <|-- FunctionDefinition:Implements
+    Definition <|-- VariableDefinition:Implements
+    Locatable <|.. Definition: Extends 
+    class  Program {
+    }
+    AstNode <|-- Program
+    Program o--> "many" Definition: Contains Many 
+    class Type{
+        <<interface >>
+    }
+    AstNode <|.. Type:Extend
+    Type "1" <--  Definition
+    note for Type "why model Type interaction
+    with Definition as association and not
+    extension? we could do 'Definition extends Type' 
+    but you choose 'Definition is associated with 1 Type'"
+    class Statement{
+        <<interface >>
+    }
+    Locatable <|..  Statement :Extend
+    Statement <--o "*" FunctionDefinition : Contains 
+    Statement <|-- VariableDefinition : Implements
+    class Expression{
+        <<interface>>
+    }
+
+
+    class UnaryMinus{
+
+    }
+
+
+
+    class Variable {
+        name:String
+    }
+    class IntLiteral{
+        value: int
+    }
+    class Arithmetic{
+        operator:String
+    }
+    Expression <|-- UnaryMinus:impl 
+    Expression <|-- Variable:impl 
+    Expression <|-- IntLiteral:impl 
+    BinomialExpression <|-- Arithmetic:impl 
+    Expression "1" <--o UnaryMinus 
+    Expression "2" <--o Arithmetic  
+    Locatable <|.. Expression: Extend
+
+
+    class Assignment{
+
+    }
+
+    Statement <|-- Assignment:impl
+
+    Expression "2" o-- Assignment

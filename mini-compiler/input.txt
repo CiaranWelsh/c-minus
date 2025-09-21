@@ -2,10 +2,14 @@
 int a;
 double b;
 
+
 void main() {
 	a = 123;
 	write 2*(a+2);
 	b = 1.1;
 	write b+2.2;
+	int c[10]; 
+	c[4] = 6;
+	
 }
 

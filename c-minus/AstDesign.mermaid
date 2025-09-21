@@ -33,27 +33,25 @@ classDiagram
     }
     AstNode <|.. Type:Extend
     Type "1" <--  Definition
-    note for Type "why model Type interaction
-    with Definition as association and not
-    extension? we could do 'Definition extends Type' 
-    but you choose 'Definition is associated with 1 Type'"
+
     class Statement{
         <<interface >>
     }
     Locatable <|..  Statement :Extend
-    Statement <--o "*" FunctionDefinition : Contains 
+    FunctionDefinition o--> "*" Statement : Contains
+
     Statement <|-- VariableDefinition : Implements
     class Expression{
         <<interface>>
     }
 
-
+    
     class UnaryMinus{
-
+    
     }
+    
 
-
-
+    
     class Variable {
         name:String
     }
@@ -67,8 +65,7 @@ classDiagram
     Expression <|-- Variable:impl 
     Expression <|-- IntLiteral:impl 
     BinomialExpression <|-- Arithmetic:impl 
-    Expression "1" <--o UnaryMinus 
-    Expression "2" <--o Arithmetic  
+    UnaryMinus o--> "1" Expression : operand 
     Locatable <|.. Expression: Extend
 
 
@@ -78,8 +75,8 @@ classDiagram
 
     Statement <|-- Assignment:impl
 
-    Expression "2" o-- Assignment
-
+    Assignment o--  "1" Expression :left 
+    Assignment o--  "1" Expression :right
     class DoubleLiteral {
         value:double
     }
@@ -123,8 +120,20 @@ classDiagram
 
     BinomialExpression <|-- ComparisonExpression:impl
 
+    %% ComparisonExpression needs its two operands
+    ComparisonExpression o--> "1" Expression : left
+    ComparisonExpression o--> "1" Expression : right
+
+    %% LogicalExpression needs its two operands  
+    LogicalExpression o--> "1" Expression : left
+    LogicalExpression o--> "1" Expression : right
+
+    %% Arithmetic Node needs its two operands  
+    Arithmetic o--> "1" Expression : left
+    Arithmetic o--> "1" Expression : right
 
 
+    
     class LogicalExpression{
 
         operator:String  
@@ -136,9 +145,9 @@ classDiagram
     %% array access requires both an index expression and an array expression.
     %% that is, ArrayAccess has one expression that evaluates to an array
     %% like `getArray()` and another which evaluates to an index `4+1` 
-
+    
     class ArrayAccess{
-
+    
     }
 
     Expression <|-- ArrayAccess :impl
@@ -152,11 +161,11 @@ classDiagram
     }
     %% argument list is basically a list of 0 or more expressions
     Expression <|-- FunctionInvocation: impl
-    FunctionInvocation o--> "*" Expression
+    FunctionInvocation o--> "*" Expression: Argument 
 
 
-
-
+    
+        
     %% expression.string
     %% the lhs can evaluate to a struct, like getCar().model
     %% rhs is not expression. just a string identifier because it cannot evaluate to anything
@@ -165,3 +174,22 @@ classDiagram
     }
     Expression <|-- FieldAccess : impl
     FieldAccess o--> "1" Expression : struct
+
+
+    
+
+    
+    
+
+    
+
+    
+
+
+
+
+
+
+
+
+

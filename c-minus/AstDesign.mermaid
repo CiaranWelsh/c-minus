@@ -12,7 +12,7 @@ classDiagram
         column() int 
     }
     AstNode <|.. Locatable : Extend 
-    class Definition{
+        class Definition{
         <<interface >>
         type():Type
         identifier():String
@@ -39,6 +39,7 @@ classDiagram
     }
     Locatable <|..  Statement :Extend
     FunctionDefinition o--> "*" Statement : Contains
+    FunctionDefinition o--> "*" VarDefinition : localVariables
 
     Statement <|-- VariableDefinition : Implements
     class Expression{
@@ -175,21 +176,72 @@ classDiagram
     Expression <|-- FieldAccess : impl
     FieldAccess o--> "1" Expression : struct
 
+    %% of statement without an else clause
+    %% if in c syntax:
+    %% if (condition){
+    %% 
+    %% }
+    %% condition is an expression that evaluates to true
+    %% meaning that we need a bool type
+    class If{
+
+    }
+    Statement <|-- If: impl 
+    If o-- "1" Expression : condition
+    If o--> "*" Statement : thenBody
+    
+    class IfElse{
+
+    }
+    Statement <|-- IfElse: impl 
+    IfElse o-- "1" Expression : condition 
+    IfElse o-- "1" Statement : thenBody
+    IfElse o-- "1" Statement : elseBody
+    %% while(condition is true){
+    %% }
+    class While{
+
+    }
+    Statement <|-- While: impl 
+    While o-- "1" Expression : condition
+    While o--> "*" Statement : body 
+
+
+    %% function call as statement (for procedures)
+class FunctionCall {
+}
+Statement <|-- FunctionCall : impl
+FunctionCall o--> "1" FunctionInvocation : invocation
+
+
+    %% keep for later...
+    %% inside strict you can define local variables or recursive structure
+    %% they can be arrays with [], anomyous (no name following the strict) 
+    %% or named, if followed by a name.
+    %%class StructDefinition{
+
+    %% }
+
+    %%Definition <|-- StructDefinition: imp
 
     
 
-    
-    
-
-    
-
-    
-
-
+%% write and read statements for I/O
+%% write a+b;
+class Write {
+}
+Statement <|-- Write : impl
+Write o--> "*" Expression : outputs
 
 
+class Read {
+}
+Statement <|-- Read : impl
+Read o--> "*" Expression : inputs  
+%% read x; - must be lvalue
 
-
-
-
-
+%% return statement - spec says expression is required
+class Return {
+}
+Statement <|-- Return : impl
+Return o--> "1" Expression : v

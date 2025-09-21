@@ -79,3 +79,89 @@ classDiagram
     Statement <|-- Assignment:impl
 
     Expression "2" o-- Assignment
+
+    class DoubleLiteral {
+        value:double
+    }
+
+    class CharLiteral{
+        value:char
+    }
+
+    %% cast is an expression that contains a type to cast into and an 
+    %% expression that needs to be evaluated to a type that can be cast to type
+    class Cast{
+    }
+    Cast o--> "1" Type: targetType
+    Cast o--> "1" Expression: expression
+
+    Expression <|-- DoubleLiteral:impl
+
+    Expression <|-- CharLiteral:impl
+        Expression <|-- Cast:impl
+
+
+    class BinomialExpression{
+        <<interface>>
+    }
+
+    Expression <|.. BinomialExpression:Extends
+
+
+    class LogicalNot{
+
+    }
+    Expression <|-- LogicalNot:impl 
+    LogicalNot o-- "1" Expression: operand
+
+
+
+    class ComparisonExpression{
+        operator:String
+
+    }
+
+    BinomialExpression <|-- ComparisonExpression:impl
+
+
+
+    class LogicalExpression{
+
+        operator:String  
+    }
+
+    BinomialExpression <|-- LogicalExpression:impl
+
+
+    %% array access requires both an index expression and an array expression.
+    %% that is, ArrayAccess has one expression that evaluates to an array
+    %% like `getArray()` and another which evaluates to an index `4+1` 
+
+    class ArrayAccess{
+
+    }
+
+    Expression <|-- ArrayAccess :impl
+    ArrayAccess o--> "1" Expression: array
+    ArrayAccess o--> "1" Expression: index
+
+
+    %% call_func()
+    class FunctionInvocation{
+        name:string
+    }
+    %% argument list is basically a list of 0 or more expressions
+    Expression <|-- FunctionInvocation: impl
+    FunctionInvocation o--> "*" Expression
+
+
+
+
+    %% expression.string
+    %% the lhs can evaluate to a struct, like getCar().model
+    %% rhs is not expression. just a string identifier because it cannot evaluate to anything
+    class FieldAccess {
+        fieldName: String
+    }
+    Expression <|-- FieldAccess : impl
+    FieldAccess o--> "1" Expression : struct

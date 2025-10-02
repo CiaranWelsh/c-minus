@@ -1,0 +1,6 @@
+// Assignment followed by write
+void main(){
+  int a;
+  a = 17;
+  write a;
+}

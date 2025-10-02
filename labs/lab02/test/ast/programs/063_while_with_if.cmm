@@ -1,0 +1,11 @@
+// While loop with if statement inside
+void main(){
+  int i;
+  i = 0;
+  while (i < 20) {
+    if (i > 12) {
+      i = 0;
+    }
+    i = i + 1;
+  }
+}

@@ -1,0 +1,10 @@
+// If with multiple statements in body
+void main(){
+  int a;
+  int b;
+  a = 19;
+  if (a > 0) {
+    a = 1;
+    b = 2;
+  }
+}

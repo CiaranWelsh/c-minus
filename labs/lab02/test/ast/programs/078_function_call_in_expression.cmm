@@ -1,0 +1,9 @@
+// Function call within expression
+int getValue() {
+  return 19;
+}
+
+void main(){
+  int result;
+  result = getValue() + 28;
+}

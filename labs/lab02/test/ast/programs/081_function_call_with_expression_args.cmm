@@ -1,0 +1,9 @@
+// Function call with expression arguments
+int add(int x, int y) {
+  return x + y;
+}
+
+void main(){
+  int result;
+  result = add(5 + 3, 7 * 2);
+}

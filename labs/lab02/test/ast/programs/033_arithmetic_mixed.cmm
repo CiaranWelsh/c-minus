@@ -1,0 +1,7 @@
+// Mixed arithmetic with literal and variable
+void main(){
+  int a;
+  int result;
+  a = 19;
+  result = a + 28;
+}

@@ -1,0 +1,4 @@
+// Write statement with char literal
+void main(){
+  write 'A';
+}

@@ -1,0 +1,4 @@
+// Write statement with int literal
+void main(){
+  write 8;
+}

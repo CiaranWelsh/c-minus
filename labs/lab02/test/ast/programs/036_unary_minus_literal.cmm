@@ -1,0 +1,5 @@
+// Unary minus on literal
+void main(){
+  int a;
+  a = -18;
+}

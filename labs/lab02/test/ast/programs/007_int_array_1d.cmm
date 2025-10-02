@@ -1,0 +1,6 @@
+// Single dimensional int array
+int[10] arr;
+
+void main(){
+
+}

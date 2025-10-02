@@ -1,0 +1,7 @@
+// Cast double to int
+void main(){
+  double a;
+  int b;
+  a = 9.876;
+  b = (int)a;
+}

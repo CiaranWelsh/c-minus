@@ -1,0 +1,26 @@
+// Function that sums array elements
+int[8] data;
+
+int sumArray() {
+  int sum;
+  int i;
+  sum = 0;
+  i = 0;
+  while (i < 8) {
+    sum = sum + data[i];
+    i = i + 1;
+  }
+  return sum;
+}
+
+void main(){
+  int total;
+  int i;
+  i = 0;
+  while (i < 8) {
+    data[i] = i + 3;
+    i = i + 1;
+  }
+  total = sumArray();
+  write total;
+}

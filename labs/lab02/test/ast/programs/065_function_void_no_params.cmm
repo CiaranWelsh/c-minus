@@ -1,0 +1,8 @@
+// Function returning void with no parameters
+void helper() {
+  int temp;
+  temp = 84;
+}
+
+void main(){
+}

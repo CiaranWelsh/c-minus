@@ -1,0 +1,7 @@
+// Function returning char with no parameters
+char getChar() {
+  return 'M';
+}
+
+void main(){
+}

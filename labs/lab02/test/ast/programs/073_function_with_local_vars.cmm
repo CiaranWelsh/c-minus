@@ -1,0 +1,11 @@
+// Function with local variables
+int compute(int a) {
+  int temp;
+  int result;
+  temp = a * 4;
+  result = temp + 7;
+  return result;
+}
+
+void main(){
+}

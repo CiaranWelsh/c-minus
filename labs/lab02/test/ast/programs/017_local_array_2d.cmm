@@ -1,0 +1,4 @@
+// Local 2D array
+void main(){
+  double[5][10] matrix;
+}

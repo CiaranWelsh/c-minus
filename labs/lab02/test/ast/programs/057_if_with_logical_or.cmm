@@ -1,0 +1,10 @@
+// If with logical OR condition
+void main(){
+  int a;
+  int b;
+  a = 5;
+  b = 45;
+  if ((a < 10) || (b > 50)) {
+    a = 1;
+  }
+}

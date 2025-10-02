@@ -1,0 +1,9 @@
+// Array access with expression as index
+void main(){
+  int[10] arr;
+  int i;
+  int x;
+  i = 2;
+  arr[i + 1] = 56;
+  x = arr[i + 1];
+}

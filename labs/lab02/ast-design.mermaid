@@ -1,0 +1,249 @@
+---
+config:
+  layout: elk
+---
+%% renders using the online version mermaid live editor.
+classDiagram
+    class AstNode {
+        <<interface>>
+    }
+    class Locatable {
+        <<interface >>
+        line()  int
+        column() int
+    }
+    AstNode <|.. Locatable : Extend
+    class Definition{
+        <<interface >>
+        type() Type
+        identifier() String
+    }
+    class  FunctionDefinition{
+        localVariables() List~VariableDefinition~
+    }
+    class VariableDefinition{
+    }
+    Definition <|-- FunctionDefinition:Implements
+    Definition <|-- VariableDefinition:Implements
+    Locatable <|.. Definition: Extends
+    class  Program {
+    }
+    AstNode <|-- Program
+    Program o--> "many" Definition: Contains Many
+    class Type{
+    <<interface >>
+    }
+    AstNode <|.. Type:Extend
+    Type "1" <--  Definition
+
+    class Statement{
+    <<interface >>
+    }
+    Locatable <|..  Statement :Extend
+    FunctionDefinition o--> "*" Statement : Contains
+    FunctionDefinition o--> "*" VariableDefinition : localVariables
+
+    Statement <|-- VariableDefinition : Implements
+    class Expression{
+    <<interface>>
+    }
+
+
+    class UnaryMinus{
+
+            }
+
+
+
+    class Variable {
+    name:String
+    }
+    class IntLiteral{
+    value: int
+    }
+    class Arithmetic{
+    operator:String
+    }
+    Expression <|-- UnaryMinus:impl
+    Expression <|-- Variable:impl
+    Expression <|-- IntLiteral:impl
+    BinomialExpression <|-- Arithmetic:impl
+    UnaryMinus o--> "1" Expression : operand
+    Locatable <|.. Expression: Extend
+
+
+    class Assignment{
+
+            }
+
+    Statement <|-- Assignment:impl
+
+    Assignment o--  "1" Expression :left
+    Assignment o--  "1" Expression :right
+    class DoubleLiteral {
+    value:double
+    }
+
+    class CharLiteral{
+    value:char
+    }
+
+    %% cast is an expression that contains a type to cast into and an
+    %% expression that needs to be evaluated to a type that can be cast to type
+    class Cast{
+            }
+    Cast o--> "1" Type: targetType
+    Cast o--> "1" Expression: expression
+
+    Expression <|-- DoubleLiteral:impl
+
+    Expression <|-- CharLiteral:impl
+    Expression <|-- Cast:impl
+
+
+    class BinomialExpression{
+    <<interface>>
+    }
+
+    Expression <|.. BinomialExpression:Extends
+
+
+    class LogicalNot{
+
+            }
+    Expression <|-- LogicalNot:impl
+    LogicalNot o-- "1" Expression: operand
+
+
+
+    class ComparisonExpression{
+    operator:String
+
+    }
+
+    BinomialExpression <|-- ComparisonExpression:impl
+
+    %% ComparisonExpression needs its two operands
+    ComparisonExpression o--> "1" Expression : left
+    ComparisonExpression o--> "1" Expression : right
+
+    %% LogicalExpression needs its two operands
+    LogicalExpression o--> "1" Expression : left
+    LogicalExpression o--> "1" Expression : right
+
+    %% Arithmetic Node needs its two operands
+    Arithmetic o--> "1" Expression : left
+    Arithmetic o--> "1" Expression : right
+
+
+
+    class LogicalExpression{
+
+    operator:String
+    }
+
+    BinomialExpression <|-- LogicalExpression:impl
+
+
+    %% array access requires both an index expression and an array expression.
+    %% that is, ArrayAccess has one expression that evaluates to an array
+    %% like `getArray()` and another which evaluates to an index `4+1`
+
+    class ArrayAccess{
+
+            }
+
+    Expression <|-- ArrayAccess :impl
+    ArrayAccess o--> "1" Expression: array
+    ArrayAccess o--> "1" Expression: index
+
+
+    %% call_func()
+    class FunctionInvocation{
+    name:string
+    }
+    %% argument list is basically a list of 0 or more expressions
+    Expression <|-- FunctionInvocation: impl
+    FunctionInvocation o--> "*" Expression: Argument
+
+
+
+
+    %% expression.string
+    %% the lhs can evaluate to a struct, like getCar().model
+    %% rhs is not expression. just a string identifier because it cannot evaluate to anything
+    class FieldAccess {
+    fieldName: String
+    }
+    Expression <|-- FieldAccess : impl
+    FieldAccess o--> "1" Expression : struct
+
+    %% of statement without an else clause
+    %% if in c syntax:
+    %% if (condition){
+    %%
+    %% }
+    %% condition is an expression that evaluates to true
+    %% meaning that we need a bool type
+    class If{
+
+            }
+    Statement <|-- If: impl
+    If o-- "1" Expression : condition
+    If o--> "*" Statement : thenBody
+
+    class IfElse{
+
+            }
+    Statement <|-- IfElse: impl
+    IfElse o-- "1" Expression : condition
+    IfElse o-- "1" Statement : thenBody
+    IfElse o-- "1" Statement : elseBody
+    %% while(condition is true){
+    %% }
+    class While{
+
+            }
+    Statement <|-- While: impl
+    While o-- "1" Expression : condition
+    While o--> "*" Statement : body
+
+
+    %% function call as statement (for procedures)
+    class FunctionCall {
+        }
+    Statement <|-- FunctionCall : impl
+    FunctionCall o--> "1" FunctionInvocation : invocation
+
+
+    %% keep for later...
+    %% inside strict you can define local variables or recursive structure
+    %% they can be arrays with [], anomyous (no name following the strict)
+    %% or named, if followed by a name.
+    %%class StructDefinition{
+
+    %% }
+
+    %%Definition <|-- StructDefinition: imp
+
+
+
+    %% write and read statements for I/O
+    %% write a+b;
+    class Write {
+        }
+    Statement <|-- Write : impl
+    Write o--> "*" Expression : outputs
+
+
+    class Read {
+        }
+    Statement <|-- Read : impl
+    Read o--> "*" Expression : inputs
+    %% read x; - must be lvalue
+
+    %% return statement - spec says expression is required
+    class Return {
+        }
+    Statement <|-- Return : impl
+    Return o--> "1" Expression : v

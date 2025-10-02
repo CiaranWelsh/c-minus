@@ -10,7 +10,7 @@ import ast.AbstractLocatable;
 import ast.types.Type;
 import visitor.Visitor;
 
-public class VarDefinition extends AbstractLocatable {
+public class VarDefinition extends AbstractLocatable implements Statement {
 
     /**
      * The offset of the variable

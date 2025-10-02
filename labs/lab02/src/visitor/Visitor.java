@@ -11,10 +11,7 @@
 package visitor;
 
 import ast.Program;
-import ast.expressions.Arithmetic;
-import ast.expressions.IntLiteral;
-import ast.expressions.RealLiteral;
-import ast.expressions.Variable;
+import ast.expressions.*;
 import ast.statements.Assignment;
 import ast.statements.VarDefinition;
 import ast.statements.Write;
@@ -33,7 +30,9 @@ public interface Visitor<TP, TR> {
 	 public TR visit(IntLiteral intLiteral, TP param);
 
 	 public TR visit(RealLiteral realLiteral, TP param);
-	
+
+     public TR visit(Cast cast, TP param);
+
 	// ************ Statements ***************
 	
 	 public TR visit(Write write, TP param);

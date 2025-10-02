@@ -7,10 +7,12 @@
 
 package ast;
 
+import ast.statements.FuncDefinition;
 import ast.statements.Statement;
 import ast.statements.VarDefinition;
 import visitor.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Program implements ASTNode {
@@ -18,23 +20,26 @@ public class Program implements ASTNode {
 	/**
 	 * Global variables
 	 */
-	private final List<VarDefinition> varDefinitions;
+	private List<VarDefinition> varDefinitions = new ArrayList<>();
 	public List<VarDefinition> getVarDefinitions() {
 		return this.varDefinitions;
 	}
-	
-	/**
-	 * Statements in the main function
+
+    /**
+	 * function definitions
 	 */
-	private final List<Statement> statements;
-	public List<Statement> getStatements() {
-		return this.statements;
+	private final List<FuncDefinition> funcDefinitions;
+	public List<FuncDefinition> getFuncDefinitions() {
+		return this.funcDefinitions;
 	}
-	
-	
-	public Program(List<VarDefinition> varDefinitions, List<Statement> statements) {
+
+	public Program(List<VarDefinition> varDefinitions, List<FuncDefinition> funcDefinitions) {
 		this.varDefinitions = varDefinitions;
-		this.statements = statements;
+		this.funcDefinitions= funcDefinitions;
+	}
+
+	public Program(List<FuncDefinition> funcDefinitions) {
+		this.funcDefinitions= funcDefinitions;
 	}
 
 	@Override
@@ -44,8 +49,8 @@ public class Program implements ASTNode {
 	
 	@Override
 	public String toString() {
-		return String.format("Program with %d variable definitions and %d statements.", 
-								this.varDefinitions.size(), this.statements.size());
+		return String.format("Program with %d variable definitions and %d funcDefinitions.",
+								this.varDefinitions.size(), this.funcDefinitions.size());
 	}
 
 }

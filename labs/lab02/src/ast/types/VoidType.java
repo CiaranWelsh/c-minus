@@ -3,6 +3,14 @@ package ast.types;
 import visitor.Visitor;
 
 public class VoidType extends AbstractType{
+
+
+    private static final VoidType instance=new VoidType();
+
+
+    public static VoidType getInstance() { return instance; }
+
+
     @Override
     public <Context, ResultType> ResultType accept(Visitor<Context, ResultType> visitor, Context param) {
         return null;

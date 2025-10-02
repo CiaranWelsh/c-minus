@@ -1,32 +1,28 @@
 package ast.statements;
 
 import ast.AbstractLocatable;
-import ast.types.Type;
+import ast.types.FunctionType;
 import visitor.Visitor;
 
 import java.util.ArrayList;
 
 public class FuncDefinition extends AbstractLocatable {
 
-    Type returnType;
+    FunctionType fnType;
     String functionIdentifier;
-    ArrayList<VarDefinition> args;
-    FunctionBody functionBody;
+    ArrayList<Statement> fnBody;
 
     public FuncDefinition(
             int line,
             int col,
-            Type returnType,
+            FunctionType fnType,
             String functionIdentifier,
-            ArrayList<VarDefinition> args,
-            ArrayList<VarDefinition> localDefinitions,
-            ArrayList<Statement> statements
+            ArrayList<Statement> body
     ) {
         super(line, col);
-        this.returnType = returnType;
+        this.fnType = fnType;
         this.functionIdentifier = functionIdentifier;
-        this.args = args;
-        this.functionBody = new FunctionBody(localDefinitions, statements);
+        this.fnBody = body;
     }
 
     @Override

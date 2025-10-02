@@ -8,14 +8,8 @@
 package visitor;
 
 import ast.Program;
-import ast.expressions.Arithmetic;
-import ast.expressions.IntLiteral;
-import ast.expressions.RealLiteral;
-import ast.expressions.Variable;
-import ast.statements.Assignment;
-import ast.statements.Statement;
-import ast.statements.VarDefinition;
-import ast.statements.Write;
+import ast.expressions.*;
+import ast.statements.*;
 import ast.types.ErrorType;
 import ast.types.IntType;
 import ast.types.RealType;
@@ -26,8 +20,8 @@ public class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
 	public TR visit(Program program, TP param) {
 		for(VarDefinition varDefinition: program.getVarDefinitions())
 			varDefinition.accept(this, param);
-		for(Statement statement: program.getStatements())
-			statement.accept(this, param);
+		for(FuncDefinition funcDefinition: program.getFuncDefinitions())
+			funcDefinition.accept(this, param);
 		return null;
 	}
 
@@ -45,6 +39,13 @@ public class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
 	public TR visit(RealLiteral realLiteral, TP param) {
 		return null;
 	}
+
+    public TR visit(Cast cast, TP param){
+        cast.getNewType().accept(this, param);
+        cast.getDest().accept(this, param);
+        return null;
+    }
+
 
 	@Override
 	public TR visit(Assignment assignment, TP param) {

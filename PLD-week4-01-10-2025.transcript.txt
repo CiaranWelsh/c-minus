@@ -1,0 +1,3894 @@
+WEBVTT
+
+1
+00:00:06.820 --> 00:00:08.109
+Francisco.Ortin@cit.ie: Hello, everybody.
+
+2
+00:00:09.480 --> 00:00:13.149
+Francisco.Ortin@cit.ie: Let's continue with syntax analysis.
+
+3
+00:00:14.940 --> 00:00:18.109
+Francisco.Ortin@cit.ie: So, last lecture, we started with syntax analysis.
+
+4
+00:00:18.530 --> 00:00:25.030
+Francisco.Ortin@cit.ie: We saw the objectives of Syntax Analyzer, which were… First,
+
+5
+00:00:26.040 --> 00:00:28.759
+Francisco.Ortin@cit.ie: Parsing the input, so checking if the…
+
+6
+00:00:29.880 --> 00:00:33.090
+Francisco.Ortin@cit.ie: Input program fulfills the grammar specification.
+
+7
+00:00:34.070 --> 00:00:39.550
+Francisco.Ortin@cit.ie: If that's not, achieved, then we have syntax errors.
+
+8
+00:00:39.840 --> 00:00:44.150
+Francisco.Ortin@cit.ie: Otherwise, if that's correct, then we create the AST. That's the second objective.
+
+9
+00:00:45.340 --> 00:00:50.380
+Francisco.Ortin@cit.ie: In order to do that, we saw,
+
+10
+00:00:51.420 --> 00:00:56.480
+Francisco.Ortin@cit.ie: derivations, and how derivations define the process of parsing.
+
+11
+00:00:56.780 --> 00:01:03.040
+Francisco.Ortin@cit.ie: But Part 3… Allows you to show in a data structure
+
+12
+00:01:03.190 --> 00:01:05.300
+Francisco.Ortin@cit.ie: Or to represent in a data structure.
+
+13
+00:01:05.500 --> 00:01:09.789
+Francisco.Ortin@cit.ie: all the process of one set derivations. So this is an important,
+
+14
+00:01:10.170 --> 00:01:15.850
+Francisco.Ortin@cit.ie: a data structure that, when we simplify it, is gonna be the AST.
+
+15
+00:01:16.360 --> 00:01:22.970
+Francisco.Ortin@cit.ie: And then we started seeing something important that we're going to continue today with this, which is ambiguous grammars.
+
+16
+00:01:24.570 --> 00:01:26.939
+Francisco.Ortin@cit.ie: Okay, so for you to remember.
+
+17
+00:01:27.520 --> 00:01:31.479
+Francisco.Ortin@cit.ie: This was an activity we, solved last lecture.
+
+18
+00:01:31.670 --> 00:01:34.040
+Francisco.Ortin@cit.ie: This is a tiny language.
+
+19
+00:01:34.400 --> 00:01:41.389
+Francisco.Ortin@cit.ie: And the activity has asked to, define by extension In other words.
+
+20
+00:01:41.870 --> 00:01:47.629
+Francisco.Ortin@cit.ie: Specifying or showing different examples of the language service recognized.
+
+21
+00:01:47.910 --> 00:01:51.410
+Francisco.Ortin@cit.ie: for this given language, alright?
+
+22
+00:01:52.410 --> 00:01:57.720
+Francisco.Ortin@cit.ie: So after applying one-step derivation, starting from Danny's program.
+
+23
+00:01:57.840 --> 00:02:03.100
+Francisco.Ortin@cit.ie: Which is just one assignment, if we take the second production, I'm making it more complicated.
+
+24
+00:02:03.790 --> 00:02:07.369
+Francisco.Ortin@cit.ie: With different protections, then we,
+
+25
+00:02:07.630 --> 00:02:21.330
+Francisco.Ortin@cit.ie: get this, final solution with, with these programs. Then ID, assigned ID semicolon is one program, another one would… would be, ID in constant semicolon.
+
+26
+00:02:22.430 --> 00:02:31.170
+Francisco.Ortin@cit.ie: Then, we may take this production here instead of the second one, the first one, which is more complicated, because here we have
+
+27
+00:02:31.340 --> 00:02:35.309
+Francisco.Ortin@cit.ie: more complex control flow, structures, like IF.
+
+28
+00:02:35.830 --> 00:02:42.029
+Francisco.Ortin@cit.ie: So we start… we start with… without the else part, so here we have if ID, then a segment.
+
+29
+00:02:42.220 --> 00:02:51.610
+Francisco.Ortin@cit.ie: Then we took, production number 6 instead of 5, and then we have else. So we have if condition, then one,
+
+30
+00:02:52.160 --> 00:02:56.970
+Francisco.Ortin@cit.ie: a segment, otherwise… Then another assignment.
+
+31
+00:02:57.650 --> 00:03:02.540
+Francisco.Ortin@cit.ie: And the next program, which is the… More sophisticated one.
+
+32
+00:03:02.660 --> 00:03:07.000
+Francisco.Ortin@cit.ie: Yes, if you prefer the one with a higher number of tokens.
+
+33
+00:03:07.860 --> 00:03:18.899
+Francisco.Ortin@cit.ie: It was this one here, which has a nested IF statement. So we have an if, and then inside of that if, another if, and then one else, right?
+
+34
+00:03:19.040 --> 00:03:21.630
+Francisco.Ortin@cit.ie: So we have two ifs and one else here.
+
+35
+00:03:22.130 --> 00:03:24.840
+Francisco.Ortin@cit.ie: It's a program similar to this one here.
+
+36
+00:03:25.030 --> 00:03:38.400
+Francisco.Ortin@cit.ie: All right, but instead of writing tokens here, I'm just writing the input, okay, the characters. Okay, so these are the characters, this is the actual input, so we have to perform lexical and then syntax analysis. And here, I'm just focusing, focusing,
+
+37
+00:03:38.630 --> 00:03:39.769
+Francisco.Ortin@cit.ie: on,
+
+38
+00:03:40.640 --> 00:03:46.200
+Francisco.Ortin@cit.ie: the tokens, okay? So it's just the input of the syntax analyzer, but, you know, it's exactly the same.
+
+39
+00:03:46.900 --> 00:03:56.819
+Francisco.Ortin@cit.ie: So here, in order to recognize this input, there were two possibilities. Of course, if we have it, we have to take this first protection, number one.
+
+40
+00:03:57.190 --> 00:04:01.869
+Francisco.Ortin@cit.ie: And then here, we may take… Production number 5 first.
+
+41
+00:04:02.170 --> 00:04:04.909
+Francisco.Ortin@cit.ie: And then we… we will have this one here.
+
+42
+00:04:05.250 --> 00:04:06.140
+Francisco.Ortin@cit.ie: All right?
+
+43
+00:04:06.330 --> 00:04:10.249
+Francisco.Ortin@cit.ie: This is exactly like, copied and pasted from a previous,
+
+44
+00:04:11.030 --> 00:04:13.630
+Francisco.Ortin@cit.ie: Some… from previous, lecture, right?
+
+45
+00:04:14.130 --> 00:04:19.259
+Francisco.Ortin@cit.ie: But we could also take first number 6 with the L's.
+
+46
+00:04:19.570 --> 00:04:25.679
+Francisco.Ortin@cit.ie: And then for this statement afterwards, take production number 5, all right?
+
+47
+00:04:25.820 --> 00:04:35.289
+Francisco.Ortin@cit.ie: So I repeat it. One option is starting with production number 5, and then this statement is going to be replaced with production number 6, which is
+
+48
+00:04:35.670 --> 00:04:36.889
+Francisco.Ortin@cit.ie: This one here.
+
+49
+00:04:37.950 --> 00:04:48.460
+Francisco.Ortin@cit.ie: And the other one is the opposite. So we start with production 6, and then this guy here is going to be replaced with the application of this, production number 5.
+
+50
+00:04:48.720 --> 00:04:49.470
+Francisco.Ortin@cit.ie: Okay.
+
+51
+00:04:50.340 --> 00:05:01.189
+Francisco.Ortin@cit.ie: So this is, what is defined as an American grammar, okay? So we'll see that in next activity, which is the one we're going to start with today, which is highly connected with the previous one, all right?
+
+52
+00:05:01.450 --> 00:05:06.019
+Francisco.Ortin@cit.ie: So it's exactly the same, the same grammar, so it defines the same language.
+
+53
+00:05:06.560 --> 00:05:19.449
+Francisco.Ortin@cit.ie: All right? And now it's asking us whether this program below here is valid for this grammar, or is recognized if we implement this with a push-down automaton, all right?
+
+54
+00:05:20.060 --> 00:05:30.219
+Francisco.Ortin@cit.ie: So in order to do that, we may apply one set of patients, okay? But I think we're fluent enough to go directly and write the parsing.
+
+55
+00:05:30.660 --> 00:05:35.090
+Francisco.Ortin@cit.ie: So I'm gonna, Apply one-step derivations.
+
+56
+00:05:35.580 --> 00:05:38.940
+Francisco.Ortin@cit.ie: Represent them in a parseray, okay?
+
+57
+00:05:39.310 --> 00:05:43.400
+Francisco.Ortin@cit.ie: So, we have to recognize this if here.
+
+58
+00:05:43.860 --> 00:05:51.129
+Francisco.Ortin@cit.ie: Obviously, the first projection is the one to be applied, because otherwise we only have one single segment statement, and that's not the input program.
+
+59
+00:05:51.460 --> 00:05:54.200
+Francisco.Ortin@cit.ie: So we start with statement.
+
+60
+00:05:54.710 --> 00:05:57.670
+Francisco.Ortin@cit.ie: implies if statement.
+
+61
+00:05:58.530 --> 00:06:01.340
+Francisco.Ortin@cit.ie: Okay, and this is production number one.
+
+62
+00:06:02.470 --> 00:06:05.799
+Francisco.Ortin@cit.ie: Alright? Then we have its statement here.
+
+63
+00:06:05.940 --> 00:06:14.499
+Francisco.Ortin@cit.ie: We can ask ourselves, okay, can we… can we produce first production, or can… or should we produce production number,
+
+64
+00:06:14.850 --> 00:06:15.810
+Francisco.Ortin@cit.ie: 6.
+
+65
+00:06:16.510 --> 00:06:30.610
+Francisco.Ortin@cit.ie: if you recall from the previous activity, it is supposed to be able to apply both, okay? So, let's start with the simplest one, which is applying first production number 5, and see if I'm able to find a tree.
+
+66
+00:06:30.750 --> 00:06:32.910
+Francisco.Ortin@cit.ie: And if I'm… if I'm…
+
+67
+00:06:33.320 --> 00:06:46.599
+Francisco.Ortin@cit.ie: finally, find a tree for data parse 3, then I'll try… I'll try with a different approach, applying first number 6, okay? Again, it's very similar to what we did in last lecture, so that's the idea.
+
+68
+00:06:47.570 --> 00:06:54.670
+Francisco.Ortin@cit.ie: So I'm going to apply, production number 5, and then here I have if, then… parentheses expression.
+
+69
+00:06:55.230 --> 00:07:00.080
+Francisco.Ortin@cit.ie: and then simply here, statement. Okay? So this is the tree.
+
+70
+00:07:00.610 --> 00:07:03.229
+Francisco.Ortin@cit.ie: And this production is production number 5.
+
+71
+00:07:04.020 --> 00:07:12.830
+Francisco.Ortin@cit.ie: Okay, so here, this expression is going to be just this identifier, so it's production number Three…
+
+72
+00:07:13.110 --> 00:07:15.669
+Francisco.Ortin@cit.ie: which is identifier A.
+
+73
+00:07:17.240 --> 00:07:29.070
+Francisco.Ortin@cit.ie: And then this statement here is going to be, as we can see in the input, this is going to be replaced with all this if-else part. So we must apply production number 1,
+
+74
+00:07:29.200 --> 00:07:31.570
+Francisco.Ortin@cit.ie: if… statement.
+
+75
+00:07:31.920 --> 00:07:32.730
+Francisco.Ortin@cit.ie: Okay?
+
+76
+00:07:33.220 --> 00:07:35.300
+Francisco.Ortin@cit.ie: Since we need an ALS here.
+
+77
+00:07:35.690 --> 00:07:49.760
+Francisco.Ortin@cit.ie: the question, which is the production that's going to be applied here, either 5 or 6, obviously it's going to be number 6, because we need L's here, and there's only one if, so this is the only chance we have. If we try to select another one, we'll never find a path.
+
+78
+00:07:50.280 --> 00:07:59.200
+Francisco.Ortin@cit.ie: Alright, so I'm gonna apply number 6 here, if expression… statement… pales.
+
+79
+00:08:00.900 --> 00:08:01.900
+Francisco.Ortin@cit.ie: Statement.
+
+80
+00:08:02.490 --> 00:08:06.490
+Francisco.Ortin@cit.ie: Okay, and this is production number… Six.
+
+81
+00:08:08.490 --> 00:08:20.980
+Francisco.Ortin@cit.ie: All right, so here we have B, which, again, is going to be production number 3 identifier, which is B. Then this statement after the second if is going to be this assignment here.
+
+82
+00:08:21.100 --> 00:08:24.870
+Francisco.Ortin@cit.ie: Which is, production number 2.
+
+83
+00:08:26.430 --> 00:08:31.450
+Francisco.Ortin@cit.ie: So this is ID… Assign expression semicolon.
+
+84
+00:08:33.669 --> 00:08:39.090
+Francisco.Ortin@cit.ie: Alright? Then this ID… Well, this is production number 2.
+
+85
+00:08:40.220 --> 00:08:47.940
+Francisco.Ortin@cit.ie: This ID is gonna be… Sorry, here, let me erase this one here.
+
+86
+00:08:50.190 --> 00:08:56.170
+Francisco.Ortin@cit.ie: This is not necessary here. This ID is… See?
+
+87
+00:08:56.770 --> 00:09:00.599
+Francisco.Ortin@cit.ie: And this… expression here is going to be replaced with 1.
+
+88
+00:09:00.750 --> 00:09:06.130
+Francisco.Ortin@cit.ie: Right, so it's production number 4. Integer constant, which is 1.
+
+89
+00:09:06.640 --> 00:09:08.139
+Francisco.Ortin@cit.ie: The last thing to be…
+
+90
+00:09:08.630 --> 00:09:15.479
+Francisco.Ortin@cit.ie: Derived here is this statement that is exactly the same as we did here, okay? It's C assigned 2.
+
+91
+00:09:15.900 --> 00:09:22.520
+Francisco.Ortin@cit.ie: So this is production number 2, ID assign expression, semicolon.
+
+92
+00:09:23.160 --> 00:09:25.100
+Francisco.Ortin@cit.ie: This production number 2.
+
+93
+00:09:25.850 --> 00:09:34.340
+Francisco.Ortin@cit.ie: This ID is C, and this expression is going to be inconstant with production number 4. In constant.
+
+94
+00:09:36.420 --> 00:09:38.230
+Francisco.Ortin@cit.ie: Which is… true.
+
+95
+00:09:38.670 --> 00:09:40.960
+Francisco.Ortin@cit.ie: Okay, again, if you traverse the tree.
+
+96
+00:09:41.270 --> 00:09:52.200
+Francisco.Ortin@cit.ie: you'll see that this is exactly the input, okay? So it's if, parentheses A, parentheses, If… B, parentheses…
+
+97
+00:09:52.710 --> 00:09:59.689
+Francisco.Ortin@cit.ie: C assigned 1, semicolon else, C, assigned to semicolon, okay, which is the input.
+
+98
+00:10:00.630 --> 00:10:05.430
+Francisco.Ortin@cit.ie: Alright, so this is… A purse tree for this input, and this is valid.
+
+99
+00:10:05.600 --> 00:10:09.499
+Francisco.Ortin@cit.ie: So now the question is, is this grammar ambiguous?
+
+100
+00:10:09.640 --> 00:10:14.939
+Francisco.Ortin@cit.ie: Or is there any other tree that could be created for the given input?
+
+101
+00:10:15.150 --> 00:10:21.190
+Francisco.Ortin@cit.ie: By just applying one-step derivations Over the given grammar.
+
+102
+00:10:21.660 --> 00:10:22.919
+Francisco.Ortin@cit.ie: So let's try it out.
+
+103
+00:10:23.020 --> 00:10:25.220
+Francisco.Ortin@cit.ie: So we start again with statement.
+
+104
+00:10:25.790 --> 00:10:30.219
+Francisco.Ortin@cit.ie: Okay, as the same reason, we have here if statement.
+
+105
+00:10:30.990 --> 00:10:32.600
+Francisco.Ortin@cit.ie: With production number one.
+
+106
+00:10:33.110 --> 00:10:41.039
+Francisco.Ortin@cit.ie: Then, remember here we took 5, okay? Let's try with 6, production number 6. So, production number 6 is if…
+
+107
+00:10:41.250 --> 00:10:51.520
+Francisco.Ortin@cit.ie: expression… Parentheses… statement… else… statement.
+
+108
+00:10:52.390 --> 00:10:55.050
+Francisco.Ortin@cit.ie: And this is production number 6.
+
+109
+00:10:56.360 --> 00:11:03.869
+Francisco.Ortin@cit.ie: Alright, so here is exactly the same as we have here. This is production number 3, ID, which is A.
+
+110
+00:11:04.490 --> 00:11:08.600
+Francisco.Ortin@cit.ie: This is… this statement seems we've already have here else.
+
+111
+00:11:09.250 --> 00:11:11.909
+Francisco.Ortin@cit.ie: Else, this statement is going to be just
+
+112
+00:11:14.150 --> 00:11:20.949
+Francisco.Ortin@cit.ie: this part here, all right? So we want it to be another if, okay, you see? Because here we have the else.
+
+113
+00:11:21.070 --> 00:11:25.790
+Francisco.Ortin@cit.ie: So here we have to apply production number 1, which is if statement.
+
+114
+00:11:27.010 --> 00:11:33.489
+Francisco.Ortin@cit.ie: And this… if a statement is going to be production number 5, because we already have the L's, so we don't need another L's here.
+
+115
+00:11:33.930 --> 00:11:41.250
+Francisco.Ortin@cit.ie: So it's… if… Expression statement. And this is production number 5.
+
+116
+00:11:42.310 --> 00:11:47.649
+Francisco.Ortin@cit.ie: Alright? This… is production number 3, ID, which is B,
+
+117
+00:11:50.060 --> 00:11:56.479
+Francisco.Ortin@cit.ie: This statement here is gonna be production number 2, which is the assignment here, C assigned 1.
+
+118
+00:11:57.070 --> 00:12:02.489
+Francisco.Ortin@cit.ie: So it's ID assigned expression, semicolon.
+
+119
+00:12:03.160 --> 00:12:05.619
+Francisco.Ortin@cit.ie: It is production number 2.
+
+120
+00:12:05.830 --> 00:12:11.349
+Francisco.Ortin@cit.ie: This ID is C, Sorry, I'll try to make it clearer.
+
+121
+00:12:12.940 --> 00:12:18.660
+Francisco.Ortin@cit.ie: This is C, and this expression derives in constant.
+
+122
+00:12:21.020 --> 00:12:24.860
+Francisco.Ortin@cit.ie: Number 1… is the input.
+
+123
+00:12:25.220 --> 00:12:32.819
+Francisco.Ortin@cit.ie: And this is production number 4. So what is left is this one here that is Z assigned 2.
+
+124
+00:12:33.080 --> 00:12:37.179
+Francisco.Ortin@cit.ie: All right, so the statement is produced, production number.
+
+125
+00:12:37.330 --> 00:12:41.399
+Francisco.Ortin@cit.ie: 2, that's the derivation that is chosen.
+
+126
+00:12:42.530 --> 00:12:50.110
+Francisco.Ortin@cit.ie: This is C, and this is production number for integer constant, semicolon…
+
+127
+00:12:50.240 --> 00:12:52.639
+Francisco.Ortin@cit.ie: And this integer constant is 2.
+
+128
+00:12:53.370 --> 00:12:54.250
+Francisco.Ortin@cit.ie: Alright?
+
+129
+00:12:54.770 --> 00:12:56.849
+Francisco.Ortin@cit.ie: So, hey, we have two trees here.
+
+130
+00:12:58.040 --> 00:13:02.510
+Francisco.Ortin@cit.ie: Well, probably you're asking yourself, Anne, is that actually important?
+
+131
+00:13:02.690 --> 00:13:05.350
+Francisco.Ortin@cit.ie: Well, actually, it's very, very important.
+
+132
+00:13:05.780 --> 00:13:10.370
+Francisco.Ortin@cit.ie: Because… These two trees represent two different programs.
+
+133
+00:13:11.350 --> 00:13:19.719
+Francisco.Ortin@cit.ie: let's analyze it. So… If we take this one here, for instance.
+
+134
+00:13:20.090 --> 00:13:23.350
+Francisco.Ortin@cit.ie: It says, if I… if A is true.
+
+135
+00:13:23.920 --> 00:13:26.289
+Francisco.Ortin@cit.ie: then this is evaluated. You see that?
+
+136
+00:13:28.410 --> 00:13:32.060
+Francisco.Ortin@cit.ie: So, if A is true, then I need to evaluate B.
+
+137
+00:13:32.700 --> 00:13:40.130
+Francisco.Ortin@cit.ie: Alright? So if B is… if A is true and B is false, then this assignment takes place.
+
+138
+00:13:40.290 --> 00:13:41.979
+Francisco.Ortin@cit.ie: Okay, because it's in the L's.
+
+139
+00:13:42.340 --> 00:13:51.069
+Francisco.Ortin@cit.ie: So here, C is going to be equals 2, when… A is true.
+
+140
+00:13:51.940 --> 00:13:54.739
+Francisco.Ortin@cit.ie: And… B is false.
+
+141
+00:13:54.880 --> 00:13:56.109
+Francisco.Ortin@cit.ie: Do you agree?
+
+142
+00:13:56.290 --> 00:13:59.479
+Francisco.Ortin@cit.ie: If A is true, then I go here. If
+
+143
+00:13:59.780 --> 00:14:07.720
+Francisco.Ortin@cit.ie: B is true, I go here, but in case it's false, I have C assigned to. Okay, so the… I'm looking for the execution of this one here.
+
+144
+00:14:08.570 --> 00:14:09.780
+Francisco.Ortin@cit.ie: What about this one?
+
+145
+00:14:10.090 --> 00:14:14.559
+Francisco.Ortin@cit.ie: Okay, this one is different, because here, I have this if…
+
+146
+00:14:14.670 --> 00:14:20.099
+Francisco.Ortin@cit.ie: if, part, so if A is true, then this is evaluated, okay?
+
+147
+00:14:22.660 --> 00:14:32.350
+Francisco.Ortin@cit.ie: But hey, the else is part of this E. Sorry, it's part of the A condition. So in this case, C is gonna be,
+
+148
+00:14:33.080 --> 00:14:39.369
+Francisco.Ortin@cit.ie: 2… when, simply, this A is not true.
+
+149
+00:14:40.820 --> 00:14:53.169
+Francisco.Ortin@cit.ie: Okay? When not A. So you can see how, depending on the tree, the execution flow of this program changes, and therefore, the value of C is going to be different.
+
+150
+00:14:53.460 --> 00:15:10.290
+Francisco.Ortin@cit.ie: And that… we don't want that to happen. It's the same as, you know, when you say something in English that could have two or three meanings, and there are some people thinking that you said something, and some other group of people, then they think that you said something different.
+
+151
+00:15:10.350 --> 00:15:19.300
+Francisco.Ortin@cit.ie: And that's why we don't want it to happen when we're programming. We just want our program to do exactly as suspected, and it should not be ambiguous, okay?
+
+152
+00:15:19.770 --> 00:15:23.399
+Francisco.Ortin@cit.ie: Do you… do you understand this? Do you want me to explain it further, or…
+
+153
+00:15:23.580 --> 00:15:25.319
+Francisco.Ortin@cit.ie: Do you have any questions?
+
+154
+00:15:25.580 --> 00:15:29.819
+Francisco.Ortin@cit.ie: So, ambiguity is our enemy. We don't want it
+
+155
+00:15:30.490 --> 00:15:39.349
+Francisco.Ortin@cit.ie: to happen at all, whatsoever. It cannot happen, okay? But this grammar you have here is ambiguous, by definition, okay?
+
+156
+00:15:40.000 --> 00:15:55.070
+Francisco.Ortin@cit.ie: Okay, now I can ask you the following, okay? And this is not very important, but there's something I want to go further to let you know that we have to say one of those trees is the correct one, and the other one should be forbidden.
+
+157
+00:15:55.450 --> 00:16:01.759
+Francisco.Ortin@cit.ie: Okay, that's part of the analysis. We don't know how to do it yet, okay? We'll see that in today's lecture.
+
+158
+00:16:01.980 --> 00:16:08.460
+Francisco.Ortin@cit.ie: But, hey, if we have two trees, and those are two different meanings, obviously one is correct, and one is wrong.
+
+159
+00:16:08.670 --> 00:16:24.689
+Francisco.Ortin@cit.ie: So the important thing here is not to know what's the correct or the wrong one right now, it's just to realize that there are two of them, and only one is the one that should be allowed, right? Or should be generated. So we have to do something to generate the correct tree.
+
+160
+00:16:25.060 --> 00:16:36.540
+Francisco.Ortin@cit.ie: So I'm asking you in Java. Many times I ask you to my students, and I think most of the time they always answer incorrectly, okay? So instead of asking that to you.
+
+161
+00:16:37.230 --> 00:16:47.060
+Francisco.Ortin@cit.ie: We're gonna try to analyze, okay? So this is a valid program in Java, well, a subprogram, you know, a served fragment, right? And…
+
+162
+00:16:47.210 --> 00:16:51.250
+Francisco.Ortin@cit.ie: if I'm asking you, okay, what of these two trees are,
+
+163
+00:16:52.080 --> 00:17:03.869
+Francisco.Ortin@cit.ie: is the chosen one by Java, you can rephrase that question, saying, okay, this else is executing when this if is false, or when this if is false.
+
+164
+00:17:03.980 --> 00:17:13.869
+Francisco.Ortin@cit.ie: All right? You see that? If you say, okay, if the else goes… this else goes with this if, then it's executed when A is false, so it's the one below.
+
+165
+00:17:14.160 --> 00:17:23.920
+Francisco.Ortin@cit.ie: But if this one goes with the one here, okay, it's executed when B is false, so actually it's the one above, all right?
+
+166
+00:17:24.210 --> 00:17:28.200
+Francisco.Ortin@cit.ie: Okay, so let's ask ourselves, with everything we learned.
+
+167
+00:17:29.090 --> 00:17:36.330
+Francisco.Ortin@cit.ie: what's going to happen in Java. Okay, so the first thing to be realized here, and I think it's so, so simple to understand, I don't know why…
+
+168
+00:17:36.640 --> 00:17:45.049
+Francisco.Ortin@cit.ie: most of the, you know, always the students say it's wrong. It's the lexical analyzer in Java, but it's going to happen with the tabulars.
+
+169
+00:17:45.230 --> 00:17:57.690
+Francisco.Ortin@cit.ie: Can you write that in the chat, or say it aloud? What happens with the lecture of Java, programming language if you write a tabular? You should know that already if you've done the labs and attended the lectures.
+
+170
+00:17:57.940 --> 00:18:01.429
+Francisco.Ortin@cit.ie: So what happens when we have a tabular, a blank, or a new line?
+
+171
+00:18:01.430 --> 00:18:18.910
+Francisco.Ortin@cit.ie: It's ignored very, very good. So it's ignored. So actually, in Java, doesn't matter if you write this or this, it's exactly the same. This is not a joke. It's exactly the same. I know in Python it's not, but in Java it's exactly the same. Okay, so in Python, tabulars are not deleted.
+
+172
+00:18:18.910 --> 00:18:23.050
+Francisco.Ortin@cit.ie: But there are in almost every programming language, and Java, of course.
+
+173
+00:18:23.050 --> 00:18:38.060
+Francisco.Ortin@cit.ie: So it doesn't really matter, all right? So if I'm asking like this, I guess you are saying, okay, this else goes with this if, but hey, the question must be exactly the same if I do this one here, or even this one, okay? Because in Java, everything is exactly the same here, nothing changes.
+
+174
+00:18:38.070 --> 00:18:39.809
+Francisco.Ortin@cit.ie: Okay? Do you agree?
+
+175
+00:18:40.290 --> 00:18:47.760
+Francisco.Ortin@cit.ie: Okay, if you agree, then this is ambiguous. So, if you go and take a look at the Java reference manual.
+
+176
+00:18:48.010 --> 00:18:56.940
+Francisco.Ortin@cit.ie: of the programming language and not the platform. You… you see that this is called a dangling elves problem, and they say, okay, if you have more, if
+
+177
+00:18:57.320 --> 00:19:09.689
+Francisco.Ortin@cit.ie: ifs than elsees, then the else goes with the most nested, unmatched or unpaired if. So this else goes with this one. No, with this one.
+
+178
+00:19:09.690 --> 00:19:17.790
+Francisco.Ortin@cit.ie: Okay? And this is a very famous ambiguity problem in programming languages, ever since long time ago, okay? Very, very long time ago.
+
+179
+00:19:18.110 --> 00:19:30.710
+Francisco.Ortin@cit.ie: So these L's, if you pass it to Java, if you try to compile this in Java, these L's go with this if. So actually, Java, the Java compiler selects these three here, okay, the one above.
+
+180
+00:19:31.750 --> 00:19:35.210
+Francisco.Ortin@cit.ie: Alright? And this one is not selected.
+
+181
+00:19:35.380 --> 00:19:41.709
+Francisco.Ortin@cit.ie: All right? So, it's… the parser does something to make this grammar
+
+182
+00:19:42.390 --> 00:19:54.540
+Francisco.Ortin@cit.ie: The grammar is ambiguous, but to create one parse tree deterministically, every… every time you do this, it's going to be created the same exact tree that is the one on the top, okay?
+
+183
+00:19:55.000 --> 00:19:56.879
+Francisco.Ortin@cit.ie: Any questions? Do you understand this?
+
+184
+00:19:56.880 --> 00:19:57.730
+Jose Rico Ramos: Disco.
+
+185
+00:19:58.110 --> 00:19:58.810
+Francisco.Ortin@cit.ie: Yes?
+
+186
+00:19:58.810 --> 00:20:04.300
+Jose Rico Ramos: Could you repeat why Java is choosing the… Second if?
+
+187
+00:20:04.300 --> 00:20:16.189
+Francisco.Ortin@cit.ie: Well, that's a very good question. It's a design decision. It's a design decision. So, it could have been the outer instead of the inner, but they decided the inner, okay, because probably…
+
+188
+00:20:16.220 --> 00:20:30.309
+Francisco.Ortin@cit.ie: they thought that most programmers, when they're doing something like this, doesn't matter the tabula, remember, all right? They're referring… the else could be referring to this one. If you want it to be the other one, then it's as simple as writing this one like this.
+
+189
+00:20:31.680 --> 00:20:46.980
+Francisco.Ortin@cit.ie: All right, and then you have a mechanism to break this ambiguity. So, that's why they decide to put it with the most nested one, okay? Because you have a way of breaking that and placing the else with the other… with the other if, okay?
+
+190
+00:20:47.190 --> 00:20:50.200
+Francisco.Ortin@cit.ie: But it's a design decision. It could have been the other one, okay?
+
+191
+00:20:50.350 --> 00:20:51.919
+Jose Rico Ramos: Okay, okay. Thank you.
+
+192
+00:20:51.920 --> 00:20:55.460
+Francisco.Ortin@cit.ie: The reason… the reason of the design decision is the one I've just mentioned.
+
+193
+00:20:55.660 --> 00:20:57.210
+Francisco.Ortin@cit.ie: Other… other questions?
+
+194
+00:20:58.580 --> 00:20:59.390
+Francisco.Ortin@cit.ie: Good.
+
+195
+00:21:00.690 --> 00:21:07.209
+Francisco.Ortin@cit.ie: Okay, so let's continue with this, and this is very important for you to understand, okay? So, that's something that is…
+
+196
+00:21:08.120 --> 00:21:11.350
+Francisco.Ortin@cit.ie: An important problem, ambiguity, and we have to get rid of it.
+
+197
+00:21:11.510 --> 00:21:12.350
+Francisco.Ortin@cit.ie: Okay?
+
+198
+00:21:12.630 --> 00:21:16.589
+Francisco.Ortin@cit.ie: on… We're gonna do that with Antwer.
+
+199
+00:21:17.280 --> 00:21:27.299
+Francisco.Ortin@cit.ie: every time we get rid of the ambiguity, we create the AST, the good one, the one on the top, not the one below, okay? The one above.
+
+200
+00:21:27.600 --> 00:21:35.190
+Francisco.Ortin@cit.ie: Okay, the ACT is going to be a reduction of, you know, it's not that verbose, all right? It's actually much…
+
+201
+00:21:36.230 --> 00:21:37.350
+Francisco.Ortin@cit.ie: Smaller?
+
+202
+00:21:37.800 --> 00:21:45.079
+Francisco.Ortin@cit.ie: And then you don't have that problem anymore, all right? So one of… another objective of syntax analysis
+
+203
+00:21:45.280 --> 00:22:00.710
+Francisco.Ortin@cit.ie: sub-objective is getting rid of ambiguity, okay? That's very important, because when we deal with ASTs, you realize that they're ambiguous. But that's not a problem, because parsing has already solved ambiguity problem.
+
+204
+00:22:00.710 --> 00:22:05.400
+Francisco.Ortin@cit.ie: So, ASTs being ambiguous, that's not a problem, because we've already
+
+205
+00:22:05.400 --> 00:22:09.540
+Francisco.Ortin@cit.ie: Got rid of that problem in a previous phase, okay, which is parsing.
+
+206
+00:22:09.930 --> 00:22:21.439
+Francisco.Ortin@cit.ie: Okay, so here is where I explain what an ambiguous grammar is, and why they're a serious problem, because they represent different semantics. Actually, if you prefer different
+
+207
+00:22:22.070 --> 00:22:24.610
+Francisco.Ortin@cit.ie: Different programs, actually, okay?
+
+208
+00:22:25.340 --> 00:22:43.800
+Francisco.Ortin@cit.ie: So, we must not use, ambiguous, grammars ever, okay, because the generated programs may be incorrect. So it's like, okay, I'm saying this, but probably you're understanding something different, you're the compiler, and I don't want that to happen. I want exactly to be,
+
+209
+00:22:43.960 --> 00:22:45.270
+Francisco.Ortin@cit.ie: precise.
+
+210
+00:22:45.680 --> 00:22:58.050
+Francisco.Ortin@cit.ie: And know that you're understanding exactly what I'm trying to say, okay? Knowing whether a grammar is ambiguous is a very hard problem. Actually, it's undecidable, okay? So there's no algorithm for solving that.
+
+211
+00:22:58.390 --> 00:23:02.510
+Francisco.Ortin@cit.ie: But humans being, we're supposed to be able to, you know, solve that.
+
+212
+00:23:02.920 --> 00:23:14.970
+Francisco.Ortin@cit.ie: But it's not… it's not simple, okay? We'll see, different, typical problems, and one is the if-else, dangling problem, okay? We'll see some others that are even more and more widespread.
+
+213
+00:23:15.130 --> 00:23:17.960
+Francisco.Ortin@cit.ie: Probably you're not right now aware of them, but you will.
+
+214
+00:23:18.210 --> 00:23:23.199
+Francisco.Ortin@cit.ie: Okay, before doing that, let's go to parsing strategies. This is kind of something…
+
+215
+00:23:24.250 --> 00:23:33.069
+Francisco.Ortin@cit.ie: for you to know that the Antler is not the only way of parsing, programs, okay? Even though you're going to use Antler, there are…
+
+216
+00:23:33.730 --> 00:23:35.200
+Francisco.Ortin@cit.ie: Different ways of doing that.
+
+217
+00:23:35.550 --> 00:23:41.960
+Francisco.Ortin@cit.ie: So there… when you're, parsing, applying, dairy patients,
+
+218
+00:23:42.790 --> 00:23:45.839
+Francisco.Ortin@cit.ie: You may apply those derivations in different ways.
+
+219
+00:23:46.070 --> 00:23:56.680
+Francisco.Ortin@cit.ie: And therefore, the tree, the parse tree, is gonna be created, M… In a different order, alright?
+
+220
+00:23:56.820 --> 00:24:02.290
+Francisco.Ortin@cit.ie: So, the one we've explained so far is called top-down.
+
+221
+00:24:02.560 --> 00:24:08.900
+Francisco.Ortin@cit.ie: Because parsing starts with the star non-terminal symbol, which is the root node here on the top.
+
+222
+00:24:09.910 --> 00:24:23.609
+Francisco.Ortin@cit.ie: a segment here for this, input program and this, grammar, starts creating this one, and then the first channel on the left, second, third, and goes directly top-down. Okay, so start creating the parent, and then the children.
+
+223
+00:24:23.890 --> 00:24:30.449
+Francisco.Ortin@cit.ie: That's a top-down partial strategy, which is the most intuitive. I think it's closer to the way we think humans.
+
+224
+00:24:30.810 --> 00:24:32.359
+Francisco.Ortin@cit.ie: But that's not the only way.
+
+225
+00:24:32.840 --> 00:24:40.560
+Francisco.Ortin@cit.ie: The other approach that was, actually, Most common, until…
+
+226
+00:24:41.230 --> 00:24:50.799
+Francisco.Ortin@cit.ie: you know, I think until the 90s, it was bottom-up, okay? So if you've ever heard about Jack or Bison, they are bottom-up tools, okay?
+
+227
+00:24:50.980 --> 00:24:56.210
+Francisco.Ortin@cit.ie: So in bottom-up tools, the… the parse-through is created the other way around.
+
+228
+00:24:56.350 --> 00:25:03.689
+Francisco.Ortin@cit.ie: So first, the leaf nodes are created, so you have here the ID, okay? The ID node created first.
+
+229
+00:25:03.870 --> 00:25:10.189
+Francisco.Ortin@cit.ie: Then, the assignment is graded, then another ID is created here.
+
+230
+00:25:10.410 --> 00:25:15.450
+Francisco.Ortin@cit.ie: And when the right-hand side of one protection, like this one here.
+
+231
+00:25:15.670 --> 00:25:17.849
+Francisco.Ortin@cit.ie: the right-hand side, which is just ID.
+
+232
+00:25:18.240 --> 00:25:26.640
+Francisco.Ortin@cit.ie: has been created, then sometimes, and I'm going to explain that later, the parent could also be created. So,
+
+233
+00:25:27.240 --> 00:25:36.310
+Francisco.Ortin@cit.ie: In this case, ID has been created, and value is created afterwards. So you can see how the parent is created just after the child. Okay, you see that?
+
+234
+00:25:36.910 --> 00:25:43.359
+Francisco.Ortin@cit.ie: This is… this mechanism, instead of saying that applies protections, because it produces from left to right.
+
+235
+00:25:43.510 --> 00:25:53.150
+Francisco.Ortin@cit.ie: It's said to apply reductions, because it reduces from right to left, okay? So it's the opposite direction, okay?
+
+236
+00:25:53.260 --> 00:26:00.199
+Francisco.Ortin@cit.ie: is not the way we think humans. It's kind of difficult to understand, and you'll see that later in one example, but
+
+237
+00:26:00.730 --> 00:26:10.120
+Francisco.Ortin@cit.ie: a long time ago, these tools were more expressive than these ones, until the Antler and Java CC techniques
+
+238
+00:26:10.320 --> 00:26:14.700
+Francisco.Ortin@cit.ie: broke that way of working, okay?
+
+239
+00:26:15.030 --> 00:26:25.129
+Francisco.Ortin@cit.ie: Okay, I'll see that… we'll see that later in a more, specific way. So I'm gonna zoom top-down and bottom-up, okay? Let's start with, top-down, which is the one you've already known.
+
+240
+00:26:25.440 --> 00:26:31.340
+Francisco.Ortin@cit.ie: So we start with the left-hand side of the first protection, the start symbol, aside.
+
+241
+00:26:31.570 --> 00:26:34.130
+Francisco.Ortin@cit.ie: And then we can apply in productions.
+
+242
+00:26:34.530 --> 00:26:48.229
+Francisco.Ortin@cit.ie: In this strategy, it's mandatory, and some of you asked me in a previous lecture, to apply it always, or to produce always, to derive always, the first non-terminent symbol. So here.
+
+243
+00:26:48.520 --> 00:27:00.780
+Francisco.Ortin@cit.ie: Theoretically, you may replace value and expression, but if you're doing top-down parsing, you must… you must, derive value first. So you can see how value has been substituted or replaced
+
+244
+00:27:01.070 --> 00:27:13.380
+Francisco.Ortin@cit.ie: with ID, and expression has not been replaced, okay? So those one-step derivations that always reduce the one on the left, or the leftmost non-terminal symbol.
+
+245
+00:27:13.470 --> 00:27:21.580
+Francisco.Ortin@cit.ie: That could be written like this one. So there are leftmost, derivations, right? And this is exactly how top-down parsing
+
+246
+00:27:21.940 --> 00:27:24.720
+Francisco.Ortin@cit.ie: systems work, okay?
+
+247
+00:27:25.630 --> 00:27:32.099
+Francisco.Ortin@cit.ie: Antler works in a sophistication, or with a sophistication of this algorithm.
+
+248
+00:27:32.400 --> 00:27:33.150
+Francisco.Ortin@cit.ie: Right?
+
+249
+00:27:36.410 --> 00:27:43.300
+Francisco.Ortin@cit.ie: you can see here the three days graded and the order, okay? It's very easy to understand, I think it's kind of obvious, okay?
+
+250
+00:27:43.580 --> 00:27:51.260
+Francisco.Ortin@cit.ie: So, top-down parsers have problems with left recursion, so they don't like these protections, okay?
+
+251
+00:27:51.650 --> 00:27:59.359
+Francisco.Ortin@cit.ie: Because a pure… top-down parsing, tools. There's that,
+
+252
+00:27:59.560 --> 00:28:17.480
+Francisco.Ortin@cit.ie: producing lift of IDs, and if you choose this one, then keep, applying this production again and again, and they may enter in an infinite loop, okay? So if you're, using traditional left recursion tools, Antler 4 doesn't have this problem anymore.
+
+253
+00:28:18.010 --> 00:28:23.520
+Francisco.Ortin@cit.ie: Then, you enter in that infinite loop, and parsing is never,
+
+254
+00:28:23.690 --> 00:28:27.909
+Francisco.Ortin@cit.ie: It's not convergent, it's never terminated, all right?
+
+255
+00:28:28.270 --> 00:28:32.589
+Francisco.Ortin@cit.ie: So, top-down parsing must avoid left recursion.
+
+256
+00:28:32.730 --> 00:28:33.560
+Francisco.Ortin@cit.ie: Alright?
+
+257
+00:28:34.360 --> 00:28:41.519
+Francisco.Ortin@cit.ie: we must write… write a curse instead. So with this, way of writing productions, there's no problem, okay?
+
+258
+00:28:41.860 --> 00:28:51.250
+Francisco.Ortin@cit.ie: Bottom-up parsers, they're exactly the opposite, okay? They work with both approaches, so they don't have the problem of infinite recursion, but they may,
+
+259
+00:28:51.410 --> 00:28:59.699
+Francisco.Ortin@cit.ie: not have… they may have not enough memory. So if you have top-down parsing, and you're applying right recursion.
+
+260
+00:29:00.150 --> 00:29:12.750
+Francisco.Ortin@cit.ie: the stack of the parser may not be sufficient, alright? So, in other words, right recursion must be used for top-down parsing, left recursion must be used for voter map parsing, all right?
+
+261
+00:29:13.120 --> 00:29:30.080
+Francisco.Ortin@cit.ie: We'll see that in a few minutes, that that's not a problem, actually, in Antler 4. If you have previous versions, then you have to stick to this slide, okay? But not in Antler 4. There's one important improvement for that.
+
+262
+00:29:30.960 --> 00:29:43.979
+Francisco.Ortin@cit.ie: Good. So now, let's revisit the bottom half portion strategy. I'm gonna just spend some minutes here, just for you to realize how difficult is this algorithm, or this algorithm is.
+
+263
+00:29:44.980 --> 00:29:50.580
+Francisco.Ortin@cit.ie: So, again, this is the parts tree that is created, and this is… these are the,
+
+264
+00:29:52.040 --> 00:29:54.820
+Francisco.Ortin@cit.ie: The order of execution, alright?
+
+265
+00:29:55.000 --> 00:29:57.930
+Francisco.Ortin@cit.ie: So… Remember that reduction?
+
+266
+00:29:58.160 --> 00:30:05.340
+Francisco.Ortin@cit.ie: always, apply… always works the following way. If you have already created all the children.
+
+267
+00:30:05.480 --> 00:30:17.330
+Francisco.Ortin@cit.ie: then the parent may be created and connected with the children, and I say maybe created, and this is the most difficult part, okay? So, here in this,
+
+268
+00:30:18.250 --> 00:30:21.189
+Francisco.Ortin@cit.ie: In this input, what happens is the following one.
+
+269
+00:30:21.430 --> 00:30:23.510
+Francisco.Ortin@cit.ie: I'm gonna take this draw apart here.
+
+270
+00:30:24.380 --> 00:30:28.330
+Francisco.Ortin@cit.ie: So, the system starts reading this one here, A.
+
+271
+00:30:28.720 --> 00:30:35.629
+Francisco.Ortin@cit.ie: Okay? And then creates this identifier node, which is this one here, alright? This is the first one.
+
+272
+00:30:35.880 --> 00:30:43.680
+Francisco.Ortin@cit.ie: And they say, okay, I'll go to the next one, because I've already created IDs, so this is what is called a look-ahead, is the next token that should be parsed.
+
+273
+00:30:43.830 --> 00:30:44.690
+Francisco.Ortin@cit.ie: Okay?
+
+274
+00:30:44.970 --> 00:30:52.630
+Francisco.Ortin@cit.ie: And then, the question is, is there any production that has as its unique tile this ID?
+
+275
+00:30:52.960 --> 00:30:58.150
+Francisco.Ortin@cit.ie: Because if so, then I could create the parent node and connect them.
+
+276
+00:30:58.560 --> 00:31:03.030
+Francisco.Ortin@cit.ie: Okay, so is there any production like that? Yes, it's this one here.
+
+277
+00:31:03.440 --> 00:31:07.239
+Francisco.Ortin@cit.ie: Okay, this production here has ID and value.
+
+278
+00:31:07.550 --> 00:31:11.739
+Francisco.Ortin@cit.ie: Okay, so probably I may have this value here and create it.
+
+279
+00:31:12.490 --> 00:31:16.680
+Francisco.Ortin@cit.ie: Well, if you do that, then here you will have value.
+
+280
+00:31:17.260 --> 00:31:25.769
+Francisco.Ortin@cit.ie: And after value, you have this look-ahead assignment. I mean, you take the look… a look at all the productions, there's no such production in the right-hand side.
+
+281
+00:31:26.130 --> 00:31:44.250
+Francisco.Ortin@cit.ie: So the only one that has a segment and something on the left is ID, so you should not reduce. And that's… that's a reasoning I've just done, is what makes this algorithm to be so complicated, because it has to implement that logic in the algorithm, okay?
+
+282
+00:31:44.250 --> 00:31:55.599
+Francisco.Ortin@cit.ie: So, even though this reduction could take place, because there's one production for that, it's not actually executed, because there's no… on the right-hand side of the productions, there's no value assignment.
+
+283
+00:31:55.700 --> 00:32:02.129
+Francisco.Ortin@cit.ie: So this is… the permit is not created, so I go back, Okay, this is not created.
+
+284
+00:32:02.360 --> 00:32:12.360
+Francisco.Ortin@cit.ie: Okay? And then moves, moves, moves forward, sorry. So, and then creates this, second, which is a segment.
+
+285
+00:32:12.480 --> 00:32:23.959
+Francisco.Ortin@cit.ie: There's no ID, a segment, or just a segment in the right-hand production, so keep… keep doing the same, and create this ID, okay? So, well, this ID, it's created, then we are in plus, all right?
+
+286
+00:32:24.200 --> 00:32:29.970
+Francisco.Ortin@cit.ie: So, now that this is created, again, we have the same problem as we had here, which is value.
+
+287
+00:32:30.400 --> 00:32:33.600
+Francisco.Ortin@cit.ie: So, hey, can we apply this production here?
+
+288
+00:32:33.880 --> 00:32:50.119
+Francisco.Ortin@cit.ie: If we do, then this 4 is going to be value, okay, so it seems to be correct, and then we search here, hey, look at that. There's value assignment, plus, sorry, there's a value plus, so it makes sense to create it. So that's why this is created here. Okay, do you see that?
+
+289
+00:32:50.130 --> 00:33:09.320
+Francisco.Ortin@cit.ie: again, I know it's kind of hard to implement this algorithm. If you're interested in knowing how this algorithm actually could be implemented, you go to the bibliography, and there's one book written by the author is, surname is Loden, okay? So this is the best book I've ever
+
+290
+00:33:09.320 --> 00:33:24.599
+Francisco.Ortin@cit.ie: read about this algorithm, okay? It's very well explained, but I tell you it's complicated. Of course, you don't need that to know that for this module, okay? But just in case you're interested. So the class is created, this here. I consume and go to the following one.
+
+291
+00:33:24.720 --> 00:33:42.479
+Francisco.Ortin@cit.ie: then there's no parent with, this has been recognized, so 6, which is in constant, is created. Okay, then we go to EOF, so nothing here to be recognized. Is there, is there in constant, just right-hand side of one production? Yes, this one here.
+
+292
+00:33:42.820 --> 00:33:45.429
+Francisco.Ortin@cit.ie: So we create the value parent here.
+
+293
+00:33:46.770 --> 00:33:52.999
+Francisco.Ortin@cit.ie: Then, is there any value on the right-hand side? Yes, this one here. So we create expression.
+
+294
+00:33:53.550 --> 00:33:59.780
+Francisco.Ortin@cit.ie: And now, is there any value plus expression on the right-hand side? Look at that, this one here.
+
+295
+00:34:00.070 --> 00:34:01.920
+Francisco.Ortin@cit.ie: So we create expression.
+
+296
+00:34:02.110 --> 00:34:10.819
+Francisco.Ortin@cit.ie: And finally, is there… is there any ID, a segment expression? Yes. The last production to be reduced, in this case.
+
+297
+00:34:10.960 --> 00:34:30.620
+Francisco.Ortin@cit.ie: which is this one here. The algorithm finishes when the look-ahead is in end of file, and you just created the start non-terminal symbol, which is this one here. And this is how bottom-up parsing works, okay? Again, it's just for you to notice that there are more alternatives, and this one was the most widespread one.
+
+298
+00:34:30.870 --> 00:34:38.570
+Francisco.Ortin@cit.ie: Long time ago, okay? So it's… it was… actually, there are many different languages implemented still with this technique, all right?
+
+299
+00:34:38.800 --> 00:34:43.740
+Francisco.Ortin@cit.ie: Using tools, of course, and doing this by hand is pretty, pretty difficult. All right, and questions?
+
+300
+00:34:44.230 --> 00:34:45.830
+Francisco.Ortin@cit.ie: Okay, let's continue.
+
+301
+00:34:46.920 --> 00:35:01.269
+Francisco.Ortin@cit.ie: So, now, as a summary of what I've just described here, this is, like, the big picture, and this is widely used in DLP, all right? And just giving you a summary of
+
+302
+00:35:01.790 --> 00:35:13.700
+Francisco.Ortin@cit.ie: how this, lexicon and jargon of LL, LLR, K, and no K works, right? So, top-down parsing tools are called LLK.
+
+303
+00:35:14.220 --> 00:35:30.230
+Francisco.Ortin@cit.ie: Why they use LL on this K here? Well, the first L means that the input text is read from left to right, okay? So when we have an input program here like this one, the text is analyzed like Occidental people would read from left to right.
+
+304
+00:35:30.230 --> 00:35:44.080
+Francisco.Ortin@cit.ie: Okay? There are some languages, like Arabic, that's written the other way, okay? So in this case, all the tools starts with an L, okay? Top down and bottom-up, they start with L, okay? That's an easy one.
+
+305
+00:35:44.260 --> 00:36:00.210
+Francisco.Ortin@cit.ie: Then the second L here means that the parser performs leftmost derivations. So remember, leftmost derivations, where this one here, that the derivation is always taken from the child, from the parent to the child, and it's taking the one on the left.
+
+306
+00:36:00.380 --> 00:36:02.500
+Francisco.Ortin@cit.ie: Alright, so that's the second L.
+
+307
+00:36:03.160 --> 00:36:12.580
+Francisco.Ortin@cit.ie: Alright, so top-down parsing tools are LL. And then this K here represents a number. It's always a number, and it's called look-ahead.
+
+308
+00:36:12.720 --> 00:36:17.760
+Francisco.Ortin@cit.ie: If you're paying attention, you probably remember that I mentioned this word, already.
+
+309
+00:36:18.210 --> 00:36:23.510
+Francisco.Ortin@cit.ie: Okay? And the look ahead is this arrow I drew here. It's how many tokens
+
+310
+00:36:23.790 --> 00:36:32.750
+Francisco.Ortin@cit.ie: do you analyze for making your decisions which application… which, production to be applied? You just really want token, which is the most
+
+311
+00:36:34.200 --> 00:36:43.950
+Francisco.Ortin@cit.ie: widespread case scenario, then you are LL instead of K1, LL1. That is the simplest implementation of a parser, LL1.
+
+312
+00:36:44.050 --> 00:36:53.109
+Francisco.Ortin@cit.ie: All right? So if you're taking, 3 tokens, the algorithm is more complicated, and it's LL3. All right?
+
+313
+00:36:53.240 --> 00:37:03.150
+Francisco.Ortin@cit.ie: And the same for about an app parsing. The first L is you read from left to right. This is rightmost derivations, or reductions, those that are explained here.
+
+314
+00:37:03.580 --> 00:37:10.109
+Francisco.Ortin@cit.ie: Okay? And then K is exactly the same, the number of look-aheads. Here in this, trace, it was
+
+315
+00:37:10.520 --> 00:37:12.490
+Francisco.Ortin@cit.ie: just 1K, alright?
+
+316
+00:37:12.660 --> 00:37:15.820
+Francisco.Ortin@cit.ie: Okay, so… important.
+
+317
+00:37:16.060 --> 00:37:22.629
+Francisco.Ortin@cit.ie: fixing 1K, okay, if you have, okay, I have a top-down parser for K3 or 1,
+
+318
+00:37:22.810 --> 00:37:35.399
+Francisco.Ortin@cit.ie: and I want to compare it with another LR parser with K3 or 1, then LR is more expressive than LIL. And that's why a long time ago, LR was more widespread.
+
+319
+00:37:35.740 --> 00:37:38.690
+Francisco.Ortin@cit.ie: Right? What's more powerful, actually.
+
+320
+00:37:39.140 --> 00:37:46.910
+Francisco.Ortin@cit.ie: Alright? So, Jack, or Bison, which is an open source implementation, is LR1, okay?
+
+321
+00:37:47.050 --> 00:37:52.870
+Francisco.Ortin@cit.ie: So, if you try to implement, inject one grammar LR1.
+
+322
+00:37:53.090 --> 00:37:54.270
+Francisco.Ortin@cit.ie: And then you…
+
+323
+00:37:54.440 --> 00:38:02.020
+Francisco.Ortin@cit.ie: achieve that, and you try to do it LL1, probably you're not able to do that, because LR1 is more expressive than LL1.
+
+324
+00:38:02.410 --> 00:38:17.270
+Francisco.Ortin@cit.ie: And now the big question is, how can it possibly Antler be better if it's LL? That's a very good question, because Antler provides variable and finite, but as big as you want.
+
+325
+00:38:17.870 --> 00:38:35.350
+Francisco.Ortin@cit.ie: K. And actually, in version 4, you don't have to specify K. It's selected automatically, and that's why Antler is so powerful, because it's more expressive than any LR and fixed K tool, and at the same time, it's so intuitive.
+
+326
+00:38:35.460 --> 00:38:47.369
+Francisco.Ortin@cit.ie: Intuitiveness here is a very important word, because when you're writing a grammar, if the tool is not intuitive, then what happens is that the parser is not doing what you expect it to do.
+
+327
+00:38:47.760 --> 00:38:53.639
+Francisco.Ortin@cit.ie: And that's a very common… thing that occurs when you're using Jack. You have to be kind of expert.
+
+328
+00:38:53.750 --> 00:38:56.460
+Francisco.Ortin@cit.ie: To… to write the productions, and…
+
+329
+00:38:57.020 --> 00:39:02.399
+Francisco.Ortin@cit.ie: know exactly what's going to happen, because the algorithm is complicated. But if you do it in an ampler.
+
+330
+00:39:02.520 --> 00:39:08.989
+Francisco.Ortin@cit.ie: you don't have many surprises, you know? Most of the time, these are suspected, once you're fluent enough, okay? It's, like, very intuitive.
+
+331
+00:39:09.120 --> 00:39:22.279
+Francisco.Ortin@cit.ie: And that's why Antler is so, so famous and widespread these days, right? So that's, you know, a kind of summary of all this theory. There are a lot of theory about this, okay? So I just want to give you the practical point of view.
+
+332
+00:39:22.280 --> 00:39:30.280
+Francisco.Ortin@cit.ie: All right, so now that we know, sufficient for implementing parsers in Antler, let's… well, in…
+
+333
+00:39:30.280 --> 00:39:37.000
+Francisco.Ortin@cit.ie: in any tool, let's go specifically into Antler and practice with different,
+
+334
+00:39:37.130 --> 00:39:40.130
+Francisco.Ortin@cit.ie: Problems we may have, and different activities, all right?
+
+335
+00:39:40.370 --> 00:39:41.070
+Francisco.Ortin@cit.ie: Good.
+
+336
+00:39:44.290 --> 00:39:46.170
+Francisco.Ortin@cit.ie: So remember, there are different tools.
+
+337
+00:39:46.630 --> 00:39:52.690
+Francisco.Ortin@cit.ie: And when it comes to, syntax analysis, I think…
+
+338
+00:39:53.000 --> 00:40:01.579
+Francisco.Ortin@cit.ie: the only approach to, could be implemented manually is LL1. And LL1 is for very tiny languages.
+
+339
+00:40:01.810 --> 00:40:06.400
+Francisco.Ortin@cit.ie: So it's… it's not… is… is… is not powerful at all, at all.
+
+340
+00:40:06.870 --> 00:40:10.469
+Francisco.Ortin@cit.ie: So if you want to do something kind of serious, then you need a tool.
+
+341
+00:40:10.630 --> 00:40:11.460
+Francisco.Ortin@cit.ie: All right.
+
+342
+00:40:11.760 --> 00:40:17.810
+Francisco.Ortin@cit.ie: So you need a parser generator, okay, that takes your syntax specification and generates the parser value.
+
+343
+00:40:17.990 --> 00:40:28.179
+Francisco.Ortin@cit.ie: So depending on the tool you use, it may be, top-down or burn-up. So if you use Bison, it's going to be, burn-up. If you use Antler or JavaCC, it's gonna be top-down. All right?
+
+344
+00:40:29.790 --> 00:40:38.909
+Francisco.Ortin@cit.ie: So, we're gonna use Antler. As I told you, it has, finite, bad, because, as necessary,
+
+345
+00:40:39.220 --> 00:40:42.259
+Francisco.Ortin@cit.ie: Okay? It's top-down, so it's intuitive.
+
+346
+00:40:42.370 --> 00:40:46.810
+Francisco.Ortin@cit.ie: Okay? It has a very high expressiveness thanks to these,
+
+347
+00:40:47.320 --> 00:40:50.000
+Francisco.Ortin@cit.ie: as, big as necessary K.
+
+348
+00:40:50.650 --> 00:40:53.319
+Francisco.Ortin@cit.ie: And it also allows some,
+
+349
+00:40:53.470 --> 00:40:59.949
+Francisco.Ortin@cit.ie: Sophisticated, decision-making when it comes to production, dairy patients.
+
+350
+00:41:00.070 --> 00:41:15.859
+Francisco.Ortin@cit.ie: like semantic predicates. This is something that could be, postponed at runtime, okay? So you may create a parser that, depending on dynamic conditions, takes this protection and this other protection. This was kind of important in Antler 3,
+
+351
+00:41:16.050 --> 00:41:19.250
+Francisco.Ortin@cit.ie: But now that Anthra 4 has many,
+
+352
+00:41:19.810 --> 00:41:29.420
+Francisco.Ortin@cit.ie: features that make this so powerful, then semantic predicates is no longer an important feature, so you won't need it at all, alright?
+
+353
+00:41:29.620 --> 00:41:42.369
+Francisco.Ortin@cit.ie: Well, Anthra 4 supports direct left recursion, and this is super powerful, okay? Because you may use left and right recursion as you wish, but very important, it must be always direct. So…
+
+354
+00:41:43.380 --> 00:41:48.680
+Francisco.Ortin@cit.ie: I'm gonna write here something, all right? So, if you have one production, like, it's expression.
+
+355
+00:41:48.950 --> 00:41:52.200
+Francisco.Ortin@cit.ie: In answer, remember, you write instead of arrow, semicolon.
+
+356
+00:41:52.950 --> 00:41:58.440
+Francisco.Ortin@cit.ie: an expression, then this operator I hear expression.
+
+357
+00:41:58.900 --> 00:42:01.130
+Francisco.Ortin@cit.ie: All right, well, let me… let me…
+
+358
+00:42:02.060 --> 00:42:05.950
+Francisco.Ortin@cit.ie: Yes, okay, let's… this… this is one, good example.
+
+359
+00:42:06.320 --> 00:42:13.629
+Francisco.Ortin@cit.ie: Okay? So this is direct left and actually right recursion. This is… this is, working for,
+
+360
+00:42:14.160 --> 00:42:22.869
+Francisco.Ortin@cit.ie: Ampler, right? But let's something… you're doing something like indexing here? That's something I see in your work. Well.
+
+361
+00:42:24.460 --> 00:42:30.120
+Francisco.Ortin@cit.ie: This is a common mistake, and then indexing… is expression.
+
+362
+00:42:36.280 --> 00:42:41.210
+Francisco.Ortin@cit.ie: Okay, this is array indexing. This is a very common, operation you use a lot.
+
+363
+00:42:41.520 --> 00:42:43.960
+Francisco.Ortin@cit.ie: Okay, so be careful with this one.
+
+364
+00:42:44.350 --> 00:42:52.310
+Francisco.Ortin@cit.ie: expression here is calling indexing, and indexing is calling expression. I think it's a very good thing
+
+365
+00:42:53.000 --> 00:43:11.729
+Francisco.Ortin@cit.ie: try to use the metaphor that non-terminal symbols are functions or methods, then you will be able to understand how this works, okay? So if you think that this function called this function, and this function called this function, this function is the one that was actually called before. So this is what is in programming called indirect recursion.
+
+366
+00:43:11.780 --> 00:43:28.890
+Francisco.Ortin@cit.ie: So this does… this is a problem in Antler, okay? Because enters in that infinite lobe, okay? Because this is indirect left recursion. So if you have protections like this one, be careful, because you may be doing this, okay? So I don't encourage to use
+
+367
+00:43:29.000 --> 00:43:37.030
+Francisco.Ortin@cit.ie: productions like A implies B, okay? This is… if B is, ABC,
+
+368
+00:43:37.340 --> 00:43:46.960
+Francisco.Ortin@cit.ie: Okay? It's better just to take this one here and move it here, because it's like when you write a function f that returns Z, it doesn't make any sense, okay?
+
+369
+00:43:47.290 --> 00:43:50.590
+Francisco.Ortin@cit.ie: So here, this is better to use this one.
+
+370
+00:43:50.970 --> 00:43:51.790
+Francisco.Ortin@cit.ie: Whoops.
+
+371
+00:43:52.770 --> 00:43:54.589
+Francisco.Ortin@cit.ie: One second, please, Admit.
+
+372
+00:43:55.690 --> 00:43:58.620
+Francisco.Ortin@cit.ie: Okay, so this one here is better to move it here.
+
+373
+00:43:59.340 --> 00:44:12.600
+Francisco.Ortin@cit.ie: Okay, so divide your pro… your grammar into sub-grammers, or your non-terminals into non-terminals, it's okay, but be careful with this A imply B. Sometimes you may have that error, okay? So be careful with that.
+
+374
+00:44:12.780 --> 00:44:14.850
+Francisco.Ortin@cit.ie: It's direct lipocursing.
+
+375
+00:44:15.220 --> 00:44:18.939
+Francisco.Ortin@cit.ie: It also provides you with free walkers, that is,
+
+376
+00:44:19.210 --> 00:44:34.939
+Francisco.Ortin@cit.ie: an implementation of the visitor design pattern. It supports different languages. If you go to their webpage, you have grammars that sometimes are used if you want to provide a greater partial for whatever language or data format you're interested in, and it's used in many.
+
+377
+00:44:34.990 --> 00:44:39.330
+Francisco.Ortin@cit.ie: real case scenarios, as I mentioned in my previous lecture. Okay.
+
+378
+00:44:39.720 --> 00:44:49.650
+Francisco.Ortin@cit.ie: Okay, so let's… let's go into the details and see how we can specify using antler parsers, okay? So remember, we've already did that
+
+379
+00:44:49.780 --> 00:44:55.099
+Francisco.Ortin@cit.ie: We've already, did that in… in lexical specification, so it's just…
+
+380
+00:44:55.210 --> 00:45:07.169
+Francisco.Ortin@cit.ie: providing the syntax and lexical specification in a G4 file, you pass it to Antler, and then you have the implementation for the Lexar and the parser. So now we're gonna work with this module here, this class, and see
+
+381
+00:45:07.170 --> 00:45:25.340
+Francisco.Ortin@cit.ie: how we can specify this one here to create the parser, and then afterwards, we're going to take a look at how this is implemented so that you don't think this is magic, okay? You'll realize that everything's connected. And what I mentioned about top-down parsing, it makes sense when you take a look at the code that Antler generates, right?
+
+382
+00:45:26.890 --> 00:45:32.740
+Francisco.Ortin@cit.ie: Let's start with the, specification, with the input, grammar specification file.
+
+383
+00:45:33.550 --> 00:45:42.200
+Francisco.Ortin@cit.ie: So, you may remember this structure we saw in lexical analysis. First, you specify the grammar name, for instance, C minus minus, and write semicolon.
+
+384
+00:45:42.640 --> 00:45:51.369
+Francisco.Ortin@cit.ie: Then you have the options section. This has a lot of options, but you don't need anything at all. The only thing you will gonna need in Lab 5
+
+385
+00:45:51.590 --> 00:46:03.310
+Francisco.Ortin@cit.ie: is to import your AST package you created in Lab 2, okay? So this is in Lab 5, it's going to… you're gonna create… you're gonna take your syntax grammar from Lab 4, which is this week's lab.
+
+386
+00:46:03.650 --> 00:46:17.430
+Francisco.Ortin@cit.ie: and then importing your, Lab2 ASD package, you will be able to create the AST nodes here. So I'll say it again. Lab 4 is just… you don't need to import anything, you just specify the syntax, all right?
+
+387
+00:46:17.470 --> 00:46:29.790
+Francisco.Ortin@cit.ie: And then lab 5, you import your AST package from Lab 2, and you add something to this grammar so that it creates the AST notes, okay? I think it's easy to understand. We'll see that, how to do that later.
+
+388
+00:46:30.760 --> 00:46:43.080
+Francisco.Ortin@cit.ie: All right, then you have the lexical protections at the end, as… oops, as you had in lap 3, this is done. And then, this week, we're gonna work in this part here, which is the syntaxification rules for protections.
+
+389
+00:46:43.530 --> 00:47:02.050
+Francisco.Ortin@cit.ie: Again, any questions you may have, just enable your mic or write in the chat. I'll take a look at the chat once in a while, okay? So, as you wish. Okay, this is one example. So, this is something I did, probably you don't remember in lexical specification, and I'm doing this again
+
+390
+00:47:02.200 --> 00:47:06.440
+Francisco.Ortin@cit.ie: In syntax specification, which is, please, take a look at this language.
+
+391
+00:47:06.740 --> 00:47:11.659
+Francisco.Ortin@cit.ie: Yes, think that ID has been defined in the lexical specification, that's not important.
+
+392
+00:47:11.890 --> 00:47:18.629
+Francisco.Ortin@cit.ie: And just tell me what this language is recognizing, okay? So tell me if you're able to know that. So I'm gonna write here…
+
+393
+00:47:19.020 --> 00:47:26.429
+Francisco.Ortin@cit.ie: This grammar is, C minus minus, or no, G, okay? And then by extension.
+
+394
+00:47:26.620 --> 00:47:40.369
+Francisco.Ortin@cit.ie: I want you to tell me example programs, the same as we did with if-else, if you remember. So what's the tiniest program with the fewest number of tokens that is, recognized by this grammar?
+
+395
+00:47:41.000 --> 00:47:50.109
+Francisco.Ortin@cit.ie: always, if we're thinking in the tiniest one, we have to think, is the DMT program allowed? Is Epstein allowed? What do you think? Yes or no?
+
+396
+00:47:52.090 --> 00:48:05.159
+Francisco.Ortin@cit.ie: Yes, very good, Jose. Very good, Rudolph. So here, this clean star allows zero. So if zero is allowed, then epsilon is allowed. So the empty program, I'm gonna just write epsilon here.
+
+397
+00:48:05.810 --> 00:48:17.169
+Francisco.Ortin@cit.ie: But this is the NT program. It's like, you have a Python, NT program, and you compile it, and everything's perfect, okay? It's doing nothing, of course, but there's no error, syntax error, in the…
+
+398
+00:48:18.140 --> 00:48:21.349
+Francisco.Ortin@cit.ie: Provided or are shown by the compiler.
+
+399
+00:48:21.480 --> 00:48:33.150
+Francisco.Ortin@cit.ie: Good. Then, another, another input program. Can you show me an example? Another one that is not as simple as epsilon, but is very, very simple. Very good, great, thank you very much. Int X, semicolon.
+
+400
+00:48:33.280 --> 00:48:43.399
+Francisco.Ortin@cit.ie: That is, int is this type int here, then variables is just one variable, nothing more, and then semicolon is mandatory, very good, because this is repeated.
+
+401
+00:48:43.540 --> 00:48:47.479
+Francisco.Ortin@cit.ie: Great! Any other programs? Yes, keep writing programs, and I put it there.
+
+402
+00:48:48.440 --> 00:48:53.990
+Francisco.Ortin@cit.ie: Very good. Then… and X, followed by… Chart.
+
+403
+00:48:54.170 --> 00:48:57.590
+Francisco.Ortin@cit.ie: Why? Here, I'm gonna… my char, if you don't mind.
+
+404
+00:48:57.930 --> 00:49:08.510
+Francisco.Ortin@cit.ie: Very good. And we can also do something like double, A comma B, comma… V2.
+
+405
+00:49:09.010 --> 00:49:13.890
+Francisco.Ortin@cit.ie: And… AA… B2. Okay?
+
+406
+00:49:14.110 --> 00:49:18.619
+Francisco.Ortin@cit.ie: So if you keep applying this, then you realize that that's what this
+
+407
+00:49:18.770 --> 00:49:21.469
+Francisco.Ortin@cit.ie: language is recognized. And so something like
+
+408
+00:49:22.260 --> 00:49:39.640
+Francisco.Ortin@cit.ie: variable definition. Very good. That's exactly what you're gonna do with C-. Great. So, again, it's very intuitive. I didn't explain anything at all on what we've just learned. You're able to tell me what this language is recognizing. It's good news. Okay, very good. That's the idea.
+
+409
+00:49:40.080 --> 00:49:44.950
+Francisco.Ortin@cit.ie: So, if we go here and specify this, alright?
+
+410
+00:49:45.470 --> 00:49:48.379
+Francisco.Ortin@cit.ie: Well, let me, let me see the example. Yes.
+
+411
+00:49:48.710 --> 00:50:00.359
+Francisco.Ortin@cit.ie: and then a parser is created. The question is, in lab 4, you're gonna do something like this. How can we possibly create a parser that reads the input, okay?
+
+412
+00:50:01.470 --> 00:50:04.710
+Francisco.Ortin@cit.ie: Okay, so these are the steps you, you may,
+
+413
+00:50:05.110 --> 00:50:07.879
+Francisco.Ortin@cit.ie: take when you're doing Lab 4.
+
+414
+00:50:09.010 --> 00:50:16.290
+Francisco.Ortin@cit.ie: So, as you did with the lecture, you create stream and then a lecture. These two lines were taken from Lab 3.
+
+415
+00:50:16.810 --> 00:50:22.410
+Francisco.Ortin@cit.ie: Then you, create a common strain, token lexer. This is a pipe.
+
+416
+00:50:22.600 --> 00:50:38.169
+Francisco.Ortin@cit.ie: that connects the lexer and the parser. The purpose of this common token stream that takes the lexer and then is passed to the parser constructor is working as a pipe. Probably remember the pipe and filters… pipes and filters architectural pattern.
+
+417
+00:50:38.350 --> 00:50:52.550
+Francisco.Ortin@cit.ie: So that the parser may, hey, okay, what's the next character? Next token, sorry, and Alexa returns the next token. Oh, the next token, you give me 3 of them. Then, with those 3 tokens, the parser makes the production.
+
+418
+00:50:52.550 --> 00:51:06.579
+Francisco.Ortin@cit.ie: selects the correct production, but puts these two tokens, the two less tokens, back to the lexor. So it goes in both directions. Because remember, if K is 1, every time you make a decision, you consume that one, but,
+
+419
+00:51:06.790 --> 00:51:18.279
+Francisco.Ortin@cit.ie: sometimes if you have read 10 or 3, then you need to pass them back to the lecture, okay? So that's the only purpose of Common Stream.
+
+420
+00:51:18.680 --> 00:51:35.520
+Francisco.Ortin@cit.ie: Once you have that, then it's… look how simple it is. You call the parser object you've created, and you call the non-terminal start symbol, okay? So, in your lab, it's going to be called program, but for instance, in this preview… oh, in this example, also, it's called program.
+
+421
+00:51:35.660 --> 00:51:47.390
+Francisco.Ortin@cit.ie: All right? So this is called, I don't know, definitions. Here you write definitions. All right? Any question? You understand this? I'm going to speak later about this here.
+
+422
+00:51:47.640 --> 00:51:49.550
+Francisco.Ortin@cit.ie: Right? Any, any questions so far?
+
+423
+00:51:51.290 --> 00:51:51.990
+Francisco.Ortin@cit.ie: Yeah.
+
+424
+00:51:52.830 --> 00:51:59.589
+Francisco.Ortin@cit.ie: So, remember, the objectives of, parse… of syntax analysis are two.
+
+425
+00:51:59.760 --> 00:52:04.569
+Francisco.Ortin@cit.ie: First one, what you're gonna do in Lab 4, which is language recognition.
+
+426
+00:52:05.010 --> 00:52:10.930
+Francisco.Ortin@cit.ie: So, when you call program here, language recognition, takes place.
+
+427
+00:52:11.460 --> 00:52:21.989
+Francisco.Ortin@cit.ie: if everything… if you have errors, then the parser's gonna stop, and it's gonna show you the errors, okay? So line whatever, column whatever,
+
+428
+00:52:22.400 --> 00:52:30.730
+Francisco.Ortin@cit.ie: this assignment is not correct, because I was expecting an identifier, and I got a constant, alright?
+
+429
+00:52:31.440 --> 00:52:32.130
+Francisco.Ortin@cit.ie: Good.
+
+430
+00:52:32.980 --> 00:52:44.960
+Francisco.Ortin@cit.ie: But what happens if everything's correct? What happens if we have an input program, and everything's perfect, everything's peachy, and we're supposed to do semantic analysis? Well, Antler, by default, returns
+
+431
+00:52:45.130 --> 00:52:55.609
+Francisco.Ortin@cit.ie: the parse tree, not the IST, the AST has to be done by ourselves, but returns the parse tree. Remember that the parse trees we, draw here?
+
+432
+00:52:56.130 --> 00:53:07.959
+Francisco.Ortin@cit.ie: these complicated parts trees, so those part trees are gonna be retrapped by, by, Antler. Obviously, this guy creates for its non-terminal.
+
+433
+00:53:08.010 --> 00:53:11.469
+Francisco.Ortin@cit.ie: A class that represents this node here.
+
+434
+00:53:11.510 --> 00:53:30.719
+Francisco.Ortin@cit.ie: So in this if-else statement dangliness problem, it's going to create statement node, if statement node, and so on and so forth. And in this previous example here, it's going to create a program node, and it's going to create a type node, and it's going to create a variables node, these three nodes.
+
+435
+00:53:30.820 --> 00:53:50.700
+Francisco.Ortin@cit.ie: Okay? This guy here is going to be connected first with this one, then with this one, and then with a token, okay? This is just a leave node. It has no child nodes, all right? And the same for here, okay? So that's going to be done automatically, and that's precisely what this execution returns.
+
+436
+00:53:50.780 --> 00:53:51.720
+Francisco.Ortin@cit.ie: Okay?
+
+437
+00:53:51.720 --> 00:53:57.640
+Rudolf Adamkovič: And, what happens when there are, like, two parse trees, like we have, with the dungling elves?
+
+438
+00:53:57.800 --> 00:54:01.969
+Francisco.Ortin@cit.ie: Exactly, we'll see that later. now,
+
+439
+00:54:02.200 --> 00:54:20.929
+Francisco.Ortin@cit.ie: We know… we know one of them is going to be returned, but for us, it's like a black box. So later, with next activities, we're going to be able to understand how it works, and if the parse tree that's going to be returned by default is not the one we want, we should be able to change it.
+
+440
+00:54:20.930 --> 00:54:21.640
+Rudolf Adamkovič: Alright?
+
+441
+00:54:21.640 --> 00:54:40.949
+Francisco.Ortin@cit.ie: But that's something we'll see later. Right now, one of these two is returned, and we have to analyze if that's correct or not. Obviously, we're not going to do that with these three objects. We know in the specification file, okay? But we'll see that later, because right now, it's… putting it all together is kind of complicated, all right? Gotcha. Very good question, very good question, by the way, Rudolph.
+
+442
+00:54:41.560 --> 00:54:49.130
+Francisco.Ortin@cit.ie: So this tree is going to be represented. Okay, so what's the type of this tree? Well, it's the type of the node program.
+
+443
+00:54:49.190 --> 00:55:05.710
+Francisco.Ortin@cit.ie: Right? Remember that, again, I'm gonna go back, there's gonna be a one node program, one node type, and one node variable. So these are classes that are automatically generated by Antler, you don't have to do anything. And what's the name of that class? Well, for program, it's program context.
+
+444
+00:55:06.320 --> 00:55:08.800
+Francisco.Ortin@cit.ie: Her type is Type Context.
+
+445
+00:55:09.070 --> 00:55:18.790
+Francisco.Ortin@cit.ie: And for variables, it's variables context. So if you're calling program, obviously what you get is the root node, it's a program context.
+
+446
+00:55:18.960 --> 00:55:29.760
+Francisco.Ortin@cit.ie: So if you open this tree and see how many fields you have, you realize that you have a list of these three, group of children, all right? So this is the…
+
+447
+00:55:29.950 --> 00:55:34.260
+Francisco.Ortin@cit.ie: Default return of the,
+
+448
+00:55:34.570 --> 00:55:39.789
+Francisco.Ortin@cit.ie: program invocation, all right? So remember, when you call a non-terminal method.
+
+449
+00:55:40.650 --> 00:55:54.140
+Francisco.Ortin@cit.ie: language recognition takes place, and if everything's pitchy, everything's correct, then the parse tree is returned. All right? And remember, the name is the name of the… of the non-terminal, followed by context. All right?
+
+450
+00:55:55.610 --> 00:56:08.059
+Francisco.Ortin@cit.ie: Okay, so this is a tool that exists that you may use if you don't… for some reasons, you're not using IntelliJ, okay? I encourage you to use IntelliJ because this tool is…
+
+451
+00:56:08.400 --> 00:56:25.350
+Francisco.Ortin@cit.ie: inside of it, all right? So, by using the IDE, you'll see the trees. So, you have a previous example, and the tree that is created, this context tree, program context tree, can be visualized in this way, which is very good when something's not
+
+452
+00:56:25.430 --> 00:56:33.570
+Francisco.Ortin@cit.ie: as suspected. When you have some mistake in your grammar, you will, because that's so common. It's exactly as doing, writing one program perfectly at
+
+453
+00:56:33.780 --> 00:56:47.410
+Francisco.Ortin@cit.ie: from scratch is almost impossible, so this is a very good tool for debugging. Again, if you're using IntelliJ, you don't need this, you just follow the PDF in the lab. Otherwise, take a look at this tool, right?
+
+454
+00:56:48.030 --> 00:56:52.559
+Francisco.Ortin@cit.ie: Good. So now, Let's answer Rudolph's question.
+
+455
+00:56:53.060 --> 00:56:55.860
+Francisco.Ortin@cit.ie: What happens if we have more than one tree?
+
+456
+00:56:56.810 --> 00:56:59.000
+Francisco.Ortin@cit.ie: Because the grammar is ambiguous.
+
+457
+00:56:59.740 --> 00:57:11.509
+Francisco.Ortin@cit.ie: And how can we possibly select the appropriate tree, which is this problem we had here. But instead of using this problem, I'm gonna, select another one, which is this one here. It's much more common.
+
+458
+00:57:11.660 --> 00:57:17.809
+Francisco.Ortin@cit.ie: And, well, the province is exactly the same one, all right? But it's easier to understand because you don't have
+
+459
+00:57:18.090 --> 00:57:19.510
+Francisco.Ortin@cit.ie: Such a big tree.
+
+460
+00:57:19.780 --> 00:57:26.999
+Francisco.Ortin@cit.ie: Okay? So let's go for it. This is an activity that's asking you to say, okay, this is an syntax specification.
+
+461
+00:57:27.500 --> 00:57:37.450
+Francisco.Ortin@cit.ie: Alright? And it's asking you to represent this input, 1 minus 2 times 3, When this grammar is parsed.
+
+462
+00:57:37.750 --> 00:57:38.560
+Francisco.Ortin@cit.ie: Alright?
+
+463
+00:57:38.940 --> 00:57:43.750
+Francisco.Ortin@cit.ie: So let's go for it. It's exactly the same as the previous activity we had for the e-fail.
+
+464
+00:57:43.900 --> 00:57:51.720
+Francisco.Ortin@cit.ie: So the only non-terminal is the root node here, expression, okay? There's no other non-terminal, so that's easy. I'm just gonna write X here.
+
+465
+00:57:52.890 --> 00:58:02.880
+Francisco.Ortin@cit.ie: So now here, we have this input, and I'm asking you, what's the production that is selected? Production number 2 that has minus, or production number 3 that has signs?
+
+466
+00:58:03.550 --> 00:58:05.460
+Francisco.Ortin@cit.ie: Well, that's a very, very…
+
+467
+00:58:06.590 --> 00:58:15.120
+Francisco.Ortin@cit.ie: hard question to answer, okay? So what I'm gonna do, if you don't mind, is select one and see if we're able to know what's the parts 3, and if
+
+468
+00:58:15.420 --> 00:58:19.630
+Francisco.Ortin@cit.ie: parsing is okay, right? So I'm going to select number 2 here.
+
+469
+00:58:19.950 --> 00:58:22.270
+Francisco.Ortin@cit.ie: Expression minus 2?
+
+470
+00:58:23.070 --> 00:58:30.109
+Francisco.Ortin@cit.ie: Minus expression, sorry. And this is production number two. Later, if you want me, I can… I can try the other one, which is times.
+
+471
+00:58:30.360 --> 00:58:42.000
+Francisco.Ortin@cit.ie: Okay? So if this is expression minus, then I'm going to recognize this min… this one here, okay? So here, obviously, the production that is going to be derived is this one here, ID, okay?
+
+472
+00:58:42.410 --> 00:58:45.029
+Francisco.Ortin@cit.ie: So here, this is ID, which is 1.
+
+473
+00:58:45.640 --> 00:58:52.419
+Francisco.Ortin@cit.ie: and then minus, ID minus, and then here I must have the multiplication. So here it's production number 3, no matter what.
+
+474
+00:58:52.650 --> 00:58:59.530
+Francisco.Ortin@cit.ie: I hope it's clear for you after… and those activities… all the activities and labs we've done, but I can…
+
+475
+00:58:59.660 --> 00:59:08.600
+Francisco.Ortin@cit.ie: repeat whatever you want me to repeat. Okay, well, by the way here, I say ID, and obviously I'm wrong, because this is not an identifier, it's an inconstant.
+
+476
+00:59:10.330 --> 00:59:27.329
+Francisco.Ortin@cit.ie: Then here is integer constant, the same as here, integer constant, this is 2, and this is 3. So if you read this, it's 1 minus 2 times 3. Well, that's the input. Good. So it seems that minus, as the first choice, production number 2, was correct.
+
+477
+00:59:27.520 --> 00:59:35.140
+Francisco.Ortin@cit.ie: Okay? But well, in order to do correctly this activity, let's try the other path and see if that's another attempting.
+
+478
+00:59:35.480 --> 00:59:40.249
+Francisco.Ortin@cit.ie: So, expression here, instead of minus, I'm gonna select times.
+
+479
+00:59:41.160 --> 00:59:45.270
+Francisco.Ortin@cit.ie: Some multiplication here, And this is production number 3.
+
+480
+00:59:45.900 --> 00:59:46.740
+Francisco.Ortin@cit.ie: Alright?
+
+481
+00:59:47.210 --> 01:00:00.800
+Francisco.Ortin@cit.ie: Then here, if I have multiplication here, then this expression must be the subtraction, okay? Because otherwise it's not recognized. So here must be expression minus expression.
+
+482
+01:00:03.230 --> 01:00:07.370
+Francisco.Ortin@cit.ie: Okay, this is production number 2, this is integer constant 1.
+
+483
+01:00:07.610 --> 01:00:12.119
+Francisco.Ortin@cit.ie: This is integer constant, 2… whoops, sorry.
+
+484
+01:00:14.110 --> 01:00:16.150
+Francisco.Ortin@cit.ie: And this is integer constant 3.
+
+485
+01:00:17.070 --> 01:00:26.019
+Francisco.Ortin@cit.ie: So let's take a look at it, but I think we've got it. 1 minus 2 times 3. Okay, so we have two trees for the same input. So what's happening here?
+
+486
+01:00:26.370 --> 01:00:27.780
+Francisco.Ortin@cit.ie: This is ambiguous.
+
+487
+01:00:28.110 --> 01:00:30.080
+Francisco.Ortin@cit.ie: And this is an important problem.
+
+488
+01:00:30.420 --> 01:00:32.620
+Francisco.Ortin@cit.ie: Why is this important problem? Well.
+
+489
+01:00:33.140 --> 01:00:39.700
+Francisco.Ortin@cit.ie: If you evaluate this tree here, remember, if you want to perform the subtraction, first you need to know this one here.
+
+490
+01:00:40.260 --> 01:00:41.139
+Francisco.Ortin@cit.ie: All right.
+
+491
+01:00:41.350 --> 01:00:46.420
+Francisco.Ortin@cit.ie: So, something very important taking from just this example is that in a parts tree.
+
+492
+01:00:46.930 --> 01:00:50.780
+Francisco.Ortin@cit.ie: Everything that is below is evaluated first.
+
+493
+01:00:51.120 --> 01:01:08.860
+Francisco.Ortin@cit.ie: Okay? Because I need to evaluate the multiplication before the subtraction, because the subtraction requires the multiplication of the second operand. So everything that's below is evaluated first. Or, if you prefer here, to evaluate this multiplication, you need to evaluate this one, and this one, and then perform the multiplication.
+
+494
+01:01:09.270 --> 01:01:16.870
+Francisco.Ortin@cit.ie: So, obviously, what is below is evaluated first, and what is above is evaluated last, okay? That… I hope it does make sense.
+
+495
+01:01:17.430 --> 01:01:30.489
+Francisco.Ortin@cit.ie: Okay? So here, this is… multiplication goes first, so this is 2 times 3 equals 6, and then 1 minus goes next. So 1 minus 6 equals…
+
+496
+01:01:30.700 --> 01:01:32.399
+Francisco.Ortin@cit.ie: Minus 5, right?
+
+497
+01:01:34.590 --> 01:01:42.570
+Francisco.Ortin@cit.ie: If we take a look at this tree here, this is evaluated first. So it's 1 minus 2 equals minus 1.
+
+498
+01:01:42.850 --> 01:01:47.860
+Francisco.Ortin@cit.ie: Minus 1 times 3, minus 3.
+
+499
+01:01:48.240 --> 01:01:57.050
+Francisco.Ortin@cit.ie: Okay? So, hey, this is definitely a problem. I hope you agree, because if I'd taken the first three, then…
+
+500
+01:01:58.120 --> 01:02:01.469
+Francisco.Ortin@cit.ie: Minus 5 is evaluated and taken the,
+
+501
+01:02:01.970 --> 01:02:04.419
+Francisco.Ortin@cit.ie: Second tree, minus 3 is evaluated.
+
+502
+01:02:04.760 --> 01:02:07.130
+Francisco.Ortin@cit.ie: Okay, so obviously we don't want that to happen.
+
+503
+01:02:07.610 --> 01:02:15.350
+Francisco.Ortin@cit.ie: Well, if I'm asking you what's the correct tree in Java or C or any language you know, I think the only,
+
+504
+01:02:16.430 --> 01:02:20.860
+Francisco.Ortin@cit.ie: Counter-example is small talk, it's the only language that doesn't implement it that way.
+
+505
+01:02:21.040 --> 01:02:26.170
+Francisco.Ortin@cit.ie: What's the tree that is a correct one? The one on the top, or the one… the one above, or the one below?
+
+506
+01:02:28.790 --> 01:02:29.959
+Francisco.Ortin@cit.ie: Top or bottom?
+
+507
+01:02:32.850 --> 01:02:37.940
+Francisco.Ortin@cit.ie: in this… Is 2 times 3 evaluated? Very good, the one on the top.
+
+508
+01:02:38.700 --> 01:02:46.730
+Francisco.Ortin@cit.ie: Good, so that's the one that must be selected. We don't know… we don't know yet if this grammar creates the one on the top, okay?
+
+509
+01:02:48.590 --> 01:02:52.789
+Francisco.Ortin@cit.ie: Well, that's a very good one, Rudolph. Yeah, there… this… this problem…
+
+510
+01:02:52.980 --> 01:03:01.750
+Francisco.Ortin@cit.ie: only comes from infixed syntax languages, all right? So when you have, this, this, juan…
+
+511
+01:03:02.900 --> 01:03:05.209
+Francisco.Ortin@cit.ie: Minus 2 times 3.
+
+512
+01:03:06.640 --> 01:03:10.289
+Francisco.Ortin@cit.ie: The language… this is called infixed notation, because you have
+
+513
+01:03:10.930 --> 01:03:18.239
+Francisco.Ortin@cit.ie: operand, operator, and operand. So the operator goes in the middle, okay? So this is in fixed notation. If you have
+
+514
+01:03:23.050 --> 01:03:24.840
+Francisco.Ortin@cit.ie: This notation here.
+
+515
+01:03:28.460 --> 01:03:30.530
+Francisco.Ortin@cit.ie: This is called prefix notation.
+
+516
+01:03:31.010 --> 01:03:43.849
+Francisco.Ortin@cit.ie: And if you have 1, 2, 3… I want multiplication, and then this one here, this is called post-fignotation. Believe it or not, in these two notations, you don't have that problem. The only problem we have.
+
+517
+01:03:43.850 --> 01:03:51.079
+Francisco.Ortin@cit.ie: It's in this one here. Yeah, I know in lists, you have to write here parentheses, okay, but I'm doing that in purpose to make it more readable, all right?
+
+518
+01:03:51.740 --> 01:04:03.469
+Francisco.Ortin@cit.ie: So the only problem… this problem only is in the mathematical human being way, which is the infix notation, but you're using prefix or not post-fix notation, you don't have that problem. Very good question.
+
+519
+01:04:03.820 --> 01:04:12.789
+Francisco.Ortin@cit.ie: So we go back to our problem, we know this is the correct one, this is not the one we know we have, sorry, but what's the one we actually wanted to be created?
+
+520
+01:04:14.110 --> 01:04:22.480
+Francisco.Ortin@cit.ie: Well, actually, here… The one that is created Is, this one here.
+
+521
+01:04:23.030 --> 01:04:24.969
+Francisco.Ortin@cit.ie: Okay? Is the… is the wrong one.
+
+522
+01:04:26.190 --> 01:04:34.019
+Francisco.Ortin@cit.ie: Okay, so… Can answer… can anyone please tell me… yeah, RPN is posted. Yeah, can anyone tell me here
+
+523
+01:04:34.420 --> 01:04:41.149
+Francisco.Ortin@cit.ie: Why 2 times 3 is executed Before the sub, subtraction?
+
+524
+01:04:41.760 --> 01:04:51.149
+Francisco.Ortin@cit.ie: What is the word we would use for that? Why, as programmers, we know that 2 times 3 is evaluated before the subtraction? Because of precedence. Very good, that's a word.
+
+525
+01:04:51.390 --> 01:04:57.740
+Francisco.Ortin@cit.ie: Because of precedence. Multiplication has higher or stronger precedence than subtraction.
+
+526
+01:04:57.980 --> 01:05:05.620
+Francisco.Ortin@cit.ie: So here, you may… to make it clearer, you can write this, but it's not necessary, because
+
+527
+01:05:06.170 --> 01:05:08.740
+Francisco.Ortin@cit.ie: The default behavior of the operands
+
+528
+01:05:09.170 --> 01:05:13.110
+Francisco.Ortin@cit.ie: It's defined so that this is stronger than this one.
+
+529
+01:05:13.530 --> 01:05:29.700
+Francisco.Ortin@cit.ie: All right? So, in antler, the precedence goes for stronger to weaker. So, if it's on the top, it's the stronger one, this is, below, is the weaker one. So, the order matters here.
+
+530
+01:05:29.980 --> 01:05:35.960
+Francisco.Ortin@cit.ie: Alright, do you understand that? So, this grammar creates the tree below, not the one we want.
+
+531
+01:05:36.640 --> 01:05:41.669
+Francisco.Ortin@cit.ie: Okay, so to make it be the one we're expecting, we have to swap these two.
+
+532
+01:05:43.000 --> 01:05:49.009
+Francisco.Ortin@cit.ie: Now, it's creating the one on the top, because this has stronger precedence than this one here.
+
+533
+01:05:49.690 --> 01:05:55.199
+Francisco.Ortin@cit.ie: This only… Yeah, it's so important. This only,
+
+534
+01:05:55.920 --> 01:06:01.749
+Francisco.Ortin@cit.ie: Takes place, this order matters rule, takes place when you have ambiguity.
+
+535
+01:06:02.970 --> 01:06:14.869
+Francisco.Ortin@cit.ie: And now let's think why we have ambiguity, because here you understand here that we do have ambiguity, all right? But probably you think, okay, this is kind of complicated. Do I have to perform this analysis
+
+536
+01:06:15.650 --> 01:06:21.129
+Francisco.Ortin@cit.ie: Always. Well, if you do have left and right recursion.
+
+537
+01:06:21.260 --> 01:06:28.329
+Francisco.Ortin@cit.ie: What you're telling me is you may iterate from the left and from the right, so you have, like, two options for repetition.
+
+538
+01:06:28.520 --> 01:06:37.079
+Francisco.Ortin@cit.ie: If you have both left and right recursion, that's always going to be ambiguous. These two productions are not ambiguous, because they don't have
+
+539
+01:06:37.250 --> 01:06:47.240
+Francisco.Ortin@cit.ie: recursion. These four protections are ambiguous, because they have left and right recursion. So in this case scenario, you must,
+
+540
+01:06:47.430 --> 01:06:50.859
+Francisco.Ortin@cit.ie: care about the order. You must specify the correct order.
+
+541
+01:06:51.040 --> 01:06:59.399
+Francisco.Ortin@cit.ie: Here, you must do it this way to make this tree the one that is created, and not the one below. Okay, is that clear? Do you have any questions?
+
+542
+01:07:00.770 --> 01:07:03.599
+Francisco.Ortin@cit.ie: Okay, so remember, On the top.
+
+543
+01:07:04.110 --> 01:07:12.139
+Francisco.Ortin@cit.ie: when you have ambiguity goes the one with the stronger precedence. So if there's ambiguity, the one that's going to be created goes above.
+
+544
+01:07:12.420 --> 01:07:13.200
+Francisco.Ortin@cit.ie: Okay?
+
+545
+01:07:13.350 --> 01:07:18.779
+Francisco.Ortin@cit.ie: Otherwise, the one below. That's great, I was worrying about guys implementing… oh, no, no, no, no.
+
+546
+01:07:18.860 --> 01:07:35.820
+Francisco.Ortin@cit.ie: That's much easier, Connor. That's a very good question, okay? That's much easier. So trying to solve this in Bison is much more complicated, and it is also complicated, very kind of complicated in answer 3, okay? But Antler 4 is… is… has a huge difference. Very good.
+
+547
+01:07:36.060 --> 01:07:40.109
+Francisco.Ortin@cit.ie: Shall I continue? Do you have any questions, or can I move forward?
+
+548
+01:07:40.830 --> 01:07:42.930
+Francisco.Ortin@cit.ie: Okay, so let's move forward.
+
+549
+01:07:43.760 --> 01:07:46.999
+Francisco.Ortin@cit.ie: So remember, we've changed this grammar, alright?
+
+550
+01:07:47.160 --> 01:07:51.410
+Francisco.Ortin@cit.ie: So, now we have this one here. We may replace these two if you want.
+
+551
+01:07:54.870 --> 01:07:59.500
+Francisco.Ortin@cit.ie: Okay? And now, this is the same question, but with a different input, okay?
+
+552
+01:07:59.780 --> 01:08:06.910
+Francisco.Ortin@cit.ie: So, well, let's do exactly the same. Expression is the one on the top. Obviously, we have minus, so it's gonna be minus here.
+
+553
+01:08:09.390 --> 01:08:13.740
+Francisco.Ortin@cit.ie: So if I'm asking you what's the production that could be applied here.
+
+554
+01:08:13.870 --> 01:08:20.019
+Francisco.Ortin@cit.ie: probably I'm… I'm creating a debate, okay? So there are two options here. So…
+
+555
+01:08:20.270 --> 01:08:30.450
+Francisco.Ortin@cit.ie: I'm gonna just take one of them, and later you'll see how it could be changed. So here this expression could be, inconstant again, and it could be 1.
+
+556
+01:08:30.899 --> 01:08:35.249
+Francisco.Ortin@cit.ie: Okay? And here, if we have just the first minus, we need another minus here.
+
+557
+01:08:35.580 --> 01:08:39.049
+Francisco.Ortin@cit.ie: Okay, so this is going to be expression minus expression.
+
+558
+01:08:39.979 --> 01:08:46.330
+Francisco.Ortin@cit.ie: integer constant, to… integer constant, 3.
+
+559
+01:08:47.350 --> 01:08:52.599
+Francisco.Ortin@cit.ie: And here, in this case, I… I… in the, in the tree on the top.
+
+560
+01:08:52.859 --> 01:08:58.010
+Francisco.Ortin@cit.ie: I thought that this minus was the first one, but it could have been the second one.
+
+561
+01:08:58.270 --> 01:09:04.129
+Francisco.Ortin@cit.ie: If that's the case, then the first operand is another minus, so it makes sense to have here another minus.
+
+562
+01:09:06.899 --> 01:09:10.290
+Francisco.Ortin@cit.ie: This is integer constant, Juan.
+
+563
+01:09:10.979 --> 01:09:13.390
+Francisco.Ortin@cit.ie: integer constant, True.
+
+564
+01:09:14.240 --> 01:09:23.519
+Francisco.Ortin@cit.ie: integer constant 3. So if you take a look at these two trees, it happens the same as before. 1 minus 2 minus 3, 1 minus 2 minus 3, they're both correct.
+
+565
+01:09:24.100 --> 01:09:41.939
+Francisco.Ortin@cit.ie: Okay? And again, they have different behavior. So we take this one here and evaluate it. This is 2 minus 1 minus, 2 minus 3 equals minus 1. So 1 minus… minus 1 equals 2.
+
+566
+01:09:43.290 --> 01:09:48.500
+Francisco.Ortin@cit.ie: However, this one here, 1 minus 2 is minus 1.
+
+567
+01:09:49.069 --> 01:09:54.169
+Francisco.Ortin@cit.ie: minus 1 minus 3 equals minus 4. So again.
+
+568
+01:09:54.530 --> 01:09:58.830
+Francisco.Ortin@cit.ie: Ambiguity here is not our friend. It's creating two different
+
+569
+01:10:00.010 --> 01:10:04.009
+Francisco.Ortin@cit.ie: values, okay? And actually, we don't want that to happen, absolutely not.
+
+570
+01:10:05.130 --> 01:10:10.660
+Francisco.Ortin@cit.ie: So, again, we have a problem here. So, first of all, do you know what's the tree that is?
+
+571
+01:10:10.820 --> 01:10:12.619
+Francisco.Ortin@cit.ie: Selected here.
+
+572
+01:10:13.080 --> 01:10:13.830
+Francisco.Ortin@cit.ie: Well.
+
+573
+01:10:16.970 --> 01:10:24.719
+Francisco.Ortin@cit.ie: Do you know, in Java, or C or any other languages, the one on the top and the one below? Do you… are we gonna have 2 or minus 4?
+
+574
+01:10:25.500 --> 01:10:28.150
+Francisco.Ortin@cit.ie: Yes, very good. It's the one on the bottom.
+
+575
+01:10:28.320 --> 01:10:30.980
+Francisco.Ortin@cit.ie: So this is correct, and this is wrong.
+
+576
+01:10:31.470 --> 01:10:36.370
+Francisco.Ortin@cit.ie: Okay, so I'm gonna explain why, and how can we select this, all right?
+
+577
+01:10:36.910 --> 01:10:40.040
+Francisco.Ortin@cit.ie: Okay, so… Well…
+
+578
+01:10:40.290 --> 01:10:54.220
+Francisco.Ortin@cit.ie: we've learned about… we've learned about precedence, right? So probably we may, solve these problems with precedence. So, we solved the previous one by saying this operator has stronger precedence than this one. So we'll do the same here.
+
+579
+01:10:54.220 --> 01:11:02.909
+Francisco.Ortin@cit.ie: Oh my gosh, we have the exact same operator, so obviously we cannot make this operator who has a stronger presence than this one, because they are exactly the same.
+
+580
+01:11:03.290 --> 01:11:07.879
+Francisco.Ortin@cit.ie: So, unfortunately, precedence is not the way we can solve this.
+
+581
+01:11:08.240 --> 01:11:09.140
+Francisco.Ortin@cit.ie: Alright?
+
+582
+01:11:09.300 --> 01:11:24.800
+Francisco.Ortin@cit.ie: So we're gonna have the same precedence, because in both cases, this was the production three, the one that was applied, both here and here, and here and here. So we cannot make one to be stronger precedence than the other one, all right?
+
+583
+01:11:24.950 --> 01:11:33.670
+Francisco.Ortin@cit.ie: So when we need to solve ambiguity, and we do have same precedence, we have to apply a different word that is called associativity.
+
+584
+01:11:33.730 --> 01:11:49.699
+Francisco.Ortin@cit.ie: Okay? And associativity takes place when precedence is the same, and that's precisely this case scenario. Okay? You may use it for every different operator of times on plus, you may have 1 times 2 times 3, okay? But I'm just using minors here.
+
+585
+01:11:50.840 --> 01:11:53.650
+Francisco.Ortin@cit.ie: So, there could be two ways.
+
+586
+01:11:53.770 --> 01:11:59.140
+Francisco.Ortin@cit.ie: left associative operator, or right associative operator?
+
+587
+01:11:59.400 --> 01:12:07.589
+Francisco.Ortin@cit.ie: So here, if you see the tree is created, it's evaluating from left to right. You can see how the first two operands aren't evaluated.
+
+588
+01:12:07.790 --> 01:12:10.079
+Francisco.Ortin@cit.ie: These two, and then the next one.
+
+589
+01:12:10.240 --> 01:12:15.619
+Francisco.Ortin@cit.ie: Okay? So this is left associativity. This is the tree on the bottom.
+
+590
+01:12:16.180 --> 01:12:25.829
+Francisco.Ortin@cit.ie: However, the one on the top is this tree here that evaluates first the two last operands, and then this subtraction.
+
+591
+01:12:26.030 --> 01:12:26.810
+Francisco.Ortin@cit.ie: Okay?
+
+592
+01:12:27.340 --> 01:12:39.610
+Francisco.Ortin@cit.ie: So, the same as language designers decide… mathematicians decide that in in-specs notation, product multiplication, or times, is stronger than minus.
+
+593
+01:12:39.970 --> 01:12:45.719
+Francisco.Ortin@cit.ie: For the same reason, they decide that minus is left associative.
+
+594
+01:12:46.140 --> 01:12:53.059
+Francisco.Ortin@cit.ie: All right? It's a design decision, and that's why they take this tree, below. Okay?
+
+595
+01:12:53.650 --> 01:12:54.760
+Francisco.Ortin@cit.ie: Any question?
+
+596
+01:12:55.560 --> 01:13:02.629
+Francisco.Ortin@cit.ie: Of course, there are operators that are right associative. There are two famous examples. Exponential.
+
+597
+01:13:02.850 --> 01:13:08.449
+Francisco.Ortin@cit.ie: Okay? Like, Python, for instance, is times times, so two asterisks.
+
+598
+01:13:08.880 --> 01:13:18.749
+Francisco.Ortin@cit.ie: or a segment. The segment operation is also from right to left, not from left to right. The other operators, they're always left associated, they go from left to right.
+
+599
+01:13:19.060 --> 01:13:24.339
+Francisco.Ortin@cit.ie: So, Antler knows, well, Terrence Power, which is the Antler designer.
+
+600
+01:13:24.450 --> 01:13:31.440
+Francisco.Ortin@cit.ie: Knows that, and he decided to, by default, make all the operands left associative.
+
+601
+01:13:31.620 --> 01:13:32.530
+Francisco.Ortin@cit.ie: Okay?
+
+602
+01:13:32.850 --> 01:13:41.959
+Francisco.Ortin@cit.ie: left associated. If you do want to change it, because there's… you need this tree to be the one on the top, that is not this case scenario. You write a SOC
+
+603
+01:13:42.450 --> 01:13:44.729
+Francisco.Ortin@cit.ie: right, like this. Okay?
+
+604
+01:13:45.500 --> 01:13:49.209
+Francisco.Ortin@cit.ie: Like this. And then, this minus operator here.
+
+605
+01:13:49.680 --> 01:14:00.460
+Francisco.Ortin@cit.ie: it's going to be rights associated, so in this case scenario, it's taking the other three, okay? Again, in this case scenario, the default is perfect here, the default behavior, okay?
+
+606
+01:14:00.740 --> 01:14:02.480
+Francisco.Ortin@cit.ie: So, with these two tools.
+
+607
+01:14:02.690 --> 01:14:13.829
+Francisco.Ortin@cit.ie: precedence and associativity, then you will be able to know when you have ambiguity, what's the correct tree, and to get rid of ambiguity, so that
+
+608
+01:14:14.320 --> 01:14:17.660
+Francisco.Ortin@cit.ie: After this decision, you no longer have that problem.
+
+609
+01:14:17.990 --> 01:14:27.160
+Francisco.Ortin@cit.ie: Is that correct? Do you understand that? I know there are many things together. I'll try to explain in a very clear way. I'm using exactly the same examples you have.
+
+610
+01:14:27.360 --> 01:14:30.429
+Francisco.Ortin@cit.ie: In the lab, so to make it as easier as possible.
+
+611
+01:14:30.650 --> 01:14:31.360
+Francisco.Ortin@cit.ie: Right?
+
+612
+01:14:32.160 --> 01:14:34.210
+Francisco.Ortin@cit.ie: Can I move forward with this example?
+
+613
+01:14:34.950 --> 01:14:38.899
+Francisco.Ortin@cit.ie: Okay, so, now this grammar here is solving this problem.
+
+614
+01:14:39.060 --> 01:14:44.150
+Francisco.Ortin@cit.ie: And the previous one, this one here, okay? Because I changed Oh, they,
+
+615
+01:14:45.090 --> 01:14:48.760
+Francisco.Ortin@cit.ie: the order of the productions. So let's keep asking questions.
+
+616
+01:14:48.950 --> 01:14:56.949
+Francisco.Ortin@cit.ie: Well, here, the ambiguity of different operators is solved with the highest to lowest precedence, order in Antler.
+
+617
+01:14:57.330 --> 01:15:06.489
+Francisco.Ortin@cit.ie: And if you do have the same precedence, then by default, it takes left-to-right associativity, but you can change it, as I mentioned.
+
+618
+01:15:06.700 --> 01:15:07.460
+Francisco.Ortin@cit.ie: All right.
+
+619
+01:15:08.070 --> 01:15:17.090
+Francisco.Ortin@cit.ie: So, now the question is, alright, so let's take the previous grammar, That this one works, for…
+
+620
+01:15:17.270 --> 01:15:25.280
+Francisco.Ortin@cit.ie: The two inputs, but obviously, it doesn't work for… all the operators.
+
+621
+01:15:25.960 --> 01:15:35.910
+Francisco.Ortin@cit.ie: Okay? Because, for instance, here, if I write, write 1 plus 2 times 3, this is wrong.
+
+622
+01:15:36.870 --> 01:15:47.339
+Francisco.Ortin@cit.ie: Because it's taking place as higher precedence than times, you see? So it's gonna interpret this as this, and obviously it's not correct. It should be like this.
+
+623
+01:15:47.940 --> 01:15:54.590
+Francisco.Ortin@cit.ie: So I want you to tell me how to change this grammar, this one here, so that it's correct.
+
+624
+01:15:54.900 --> 01:16:13.960
+Francisco.Ortin@cit.ie: Actually, you must do this in the labs, right? So in lab 4, you must answer this question. That's exactly… many times there are people that don't watch the videos and say, okay, how do I solve this? Okay, please watch the video. And later, if you have questions, I was so happy to answer those questions. But first, watch the video.
+
+625
+01:16:14.270 --> 01:16:16.150
+Francisco.Ortin@cit.ie: Okay, so how do we change that?
+
+626
+01:16:18.800 --> 01:16:29.689
+Francisco.Ortin@cit.ie: So what's the… what's the order of the productions? First, these two productions, you can write in whatever you want, doesn't really change, because there's no ambiguity, okay? So I'm going to leave that on top.
+
+627
+01:16:29.840 --> 01:16:31.160
+Francisco.Ortin@cit.ie: And I want you to tell me.
+
+628
+01:16:31.960 --> 01:16:37.490
+Francisco.Ortin@cit.ie: So, for instance, in order to solve that problem, is it gonna work if I do something like this?
+
+629
+01:16:40.380 --> 01:16:43.340
+Francisco.Ortin@cit.ie: Well, then I have this problem with the vision, right?
+
+630
+01:16:44.260 --> 01:16:46.799
+Francisco.Ortin@cit.ie: Division has,
+
+631
+01:16:49.830 --> 01:16:53.720
+Francisco.Ortin@cit.ie: Stronger precedence than… Is this correct? What do you think?
+
+632
+01:16:54.300 --> 01:16:55.560
+Rudolf Adamkovič: That looks correct.
+
+633
+01:16:56.100 --> 01:16:59.560
+Francisco.Ortin@cit.ie: Looks correct? Well, it's almost correct.
+
+634
+01:16:59.810 --> 01:17:11.639
+Francisco.Ortin@cit.ie: But there's something… I know, I know, it's difficult, yes, but there's something here that is not actually working, which is this one. Let me think, because I have to think of an example.
+
+635
+01:17:12.360 --> 01:17:16.889
+Francisco.Ortin@cit.ie: This is… multiplication goes first.
+
+636
+01:17:18.340 --> 01:17:29.629
+Francisco.Ortin@cit.ie: This one here… It's not correct, because it's doing this… And it should be… Actually, this one here.
+
+637
+01:17:29.790 --> 01:17:31.019
+Francisco.Ortin@cit.ie: Do you know why?
+
+638
+01:17:31.620 --> 01:17:35.809
+Francisco.Ortin@cit.ie: Why is the… do you know why it's the second one in any language?
+
+639
+01:17:36.200 --> 01:17:44.019
+Francisco.Ortin@cit.ie: What's the reason that… 1 divided 2 times 3 is this one here, this input.
+
+640
+01:17:45.140 --> 01:17:50.649
+Francisco.Ortin@cit.ie: She is taking this one, or it's interpreted as this one, and not like this one.
+
+641
+01:17:54.640 --> 01:17:56.059
+Francisco.Ortin@cit.ie: You know that answer.
+
+642
+01:17:56.910 --> 01:18:00.710
+Francisco.Ortin@cit.ie: It's not about associativity, because there are different operators.
+
+643
+01:18:01.220 --> 01:18:10.930
+Francisco.Ortin@cit.ie: If I change and write all the divisions and all the multiplications, some, then it's associativity. But I'm using division and multiplication, so in that case, it's precedence.
+
+644
+01:18:11.450 --> 01:18:15.740
+Francisco.Ortin@cit.ie: What happens with the precedence of division on multiplication? Are there…
+
+645
+01:18:16.000 --> 01:18:18.180
+Francisco.Ortin@cit.ie: Different, or are then the same?
+
+646
+01:18:20.340 --> 01:18:27.940
+Rudolf Adamkovič: Oh, that's, in mathematics, that's actually not, defined if, like, that's why we use fractions, right? We write.
+
+647
+01:18:28.310 --> 01:18:36.329
+Francisco.Ortin@cit.ie: Well, because you write, yeah, but you may write like this one if you want to, yeah, but we can stick just to programming languages if you wish, no worries.
+
+648
+01:18:36.680 --> 01:18:46.180
+Francisco.Ortin@cit.ie: Okay, that's okay. So in programming languages, do you know what's the difference between the precedence of division and multiplication? There's one that is stronger than the other one, or they're both the same?
+
+649
+01:18:46.180 --> 01:18:47.640
+Rudolf Adamkovič: I guess they are the same.
+
+650
+01:18:47.640 --> 01:18:48.860
+Francisco.Ortin@cit.ie: Exactly, they're the same.
+
+651
+01:18:48.860 --> 01:18:50.879
+Rudolf Adamkovič: So we go left to right, right?
+
+652
+01:18:50.880 --> 01:19:03.860
+Francisco.Ortin@cit.ie: So they're the same, but how can we possibly make the same? Because we have to write one protection after the other one. That's a good question, right? So look at this. Just use extender, extender BNF. You use, like, this…
+
+653
+01:19:04.200 --> 01:19:10.740
+Francisco.Ortin@cit.ie: And there you are. That's the same person… the same production, with the same precedence. You see that?
+
+654
+01:19:12.070 --> 01:19:17.820
+Francisco.Ortin@cit.ie: It's very easy when you see it, but you have to first ask about the problem. Then, you won't forget.
+
+655
+01:19:18.190 --> 01:19:31.560
+Francisco.Ortin@cit.ie: Now, with this one, this is actually working perfectly, because these two have the same precedence, and they're, as you mentioned, left associative. So, if you have this one, and it's left associative, then it's taking this one here. That was,
+
+656
+01:19:31.840 --> 01:19:37.099
+Francisco.Ortin@cit.ie: times… times answer. You see that? Does it make sense?
+
+657
+01:19:38.030 --> 01:19:44.930
+Francisco.Ortin@cit.ie: So you… what you're doing with this solution is making times of division the same precedence, and left associative.
+
+658
+01:19:45.120 --> 01:19:47.250
+Francisco.Ortin@cit.ie: And then, lower precedence.
+
+659
+01:19:47.360 --> 01:19:54.109
+Francisco.Ortin@cit.ie: plus and minus, with the same precedence, they both have the same precedence and lives associated. That's exactly how it works.
+
+660
+01:19:54.580 --> 01:19:56.570
+Francisco.Ortin@cit.ie: Okay, so far so good.
+
+661
+01:19:57.050 --> 01:20:02.730
+Francisco.Ortin@cit.ie: Can… can I move forward and just give another… add another operator?
+
+662
+01:20:03.160 --> 01:20:03.990
+Francisco.Ortin@cit.ie: Yes?
+
+663
+01:20:04.540 --> 01:20:07.470
+Francisco.Ortin@cit.ie: Okay, let's move forward and add another operator.
+
+664
+01:20:07.630 --> 01:20:23.100
+Francisco.Ortin@cit.ie: This, you don't have this in C-, okay? In C-, the assignment operator is for statements, not for expressions, so you cannot write this. In C-, you have to write one assignment, semicolon, and then the other assignment.
+
+665
+01:20:23.100 --> 01:20:31.949
+Francisco.Ortin@cit.ie: But in Java and in C programming language, you know this is possible, okay? So this is making a segment as part of expression.
+
+666
+01:20:32.260 --> 01:20:36.469
+Francisco.Ortin@cit.ie: So now this activity is telling you, okay, how do I modify
+
+667
+01:20:36.640 --> 01:20:48.319
+Francisco.Ortin@cit.ie: I'm gonna get rid of this one, because it's no longer necessary. So how do I modify this one here to add the segment operator? So I have to add one protection here with the segment operator.
+
+668
+01:20:48.650 --> 01:20:49.440
+Francisco.Ortin@cit.ie: Okay?
+
+669
+01:20:49.610 --> 01:20:52.650
+Francisco.Ortin@cit.ie: So the first question is, if I have this.
+
+670
+01:20:54.350 --> 01:21:00.029
+Francisco.Ortin@cit.ie: what's the correct evaluation? And you know the answer, okay? All the questions I'm asking you, you know the answer.
+
+671
+01:21:00.260 --> 01:21:01.060
+Francisco.Ortin@cit.ie: Okay.
+
+672
+01:21:01.580 --> 01:21:08.500
+Francisco.Ortin@cit.ie: So there are now, questions for you to, you know, think, and then you say, okay, it's impossible to be answered.
+
+673
+01:21:09.950 --> 01:21:20.250
+Francisco.Ortin@cit.ie: So, what do you think? When we say I assigned B, assigned 0, is this or is this? So, we first assigned B, or do we first assign A?
+
+674
+01:21:23.160 --> 01:21:28.419
+Francisco.Ortin@cit.ie: Very good. This one, of course, because otherwise, if we're doing this one here, then…
+
+675
+01:21:30.050 --> 01:21:32.789
+Francisco.Ortin@cit.ie: A is modified by the value of B,
+
+676
+01:21:33.230 --> 01:21:43.760
+Francisco.Ortin@cit.ie: And afterwards, A is modified with 0, so B is not 0. And with this order, B is 0, and then A is 0. So actually here, this…
+
+677
+01:21:44.020 --> 01:21:46.999
+Francisco.Ortin@cit.ie: is expected to be like this. So…
+
+678
+01:21:47.640 --> 01:21:50.249
+Francisco.Ortin@cit.ie: I'm gonna write here the expression.
+
+679
+01:21:50.360 --> 01:21:55.580
+Francisco.Ortin@cit.ie: All right? The expression is, left-hand side of the expression is another expression.
+
+680
+01:21:56.110 --> 01:21:56.960
+Francisco.Ortin@cit.ie: Okay?
+
+681
+01:21:58.080 --> 01:22:02.179
+Francisco.Ortin@cit.ie: And right-hand side of the expression is another expression. This is the syntax.
+
+682
+01:22:03.790 --> 01:22:07.289
+Francisco.Ortin@cit.ie: Okay, so first, about precedence.
+
+683
+01:22:07.830 --> 01:22:14.360
+Francisco.Ortin@cit.ie: What do you think? If I have here this, Or… this…
+
+684
+01:22:14.830 --> 01:22:19.989
+Francisco.Ortin@cit.ie: What is evaluated first, the assignment or the arithmetic operator?
+
+685
+01:22:20.520 --> 01:22:21.980
+Francisco.Ortin@cit.ie: What is evaluated first?
+
+686
+01:22:21.980 --> 01:22:25.060
+Rudolf Adamkovič: We want to move assignment first, no?
+
+687
+01:22:25.460 --> 01:22:36.009
+Francisco.Ortin@cit.ie: So we perform the assignment first and give it higher precedence, then A is going to be B, and then we perform the addition. Is that what we don't want?
+
+688
+01:22:36.010 --> 01:22:37.699
+Rudolf Adamkovič: Oh,
+
+689
+01:22:37.700 --> 01:22:40.640
+Francisco.Ortin@cit.ie: What we want, actually, is this one here, right?
+
+690
+01:22:41.180 --> 01:22:46.469
+Francisco.Ortin@cit.ie: So, what's the precedence of the assignment operator? The strongest or the weakest?
+
+691
+01:22:48.440 --> 01:22:54.660
+Francisco.Ortin@cit.ie: Assignment operation is performed always the weakest, very good. It's always performed the last.
+
+692
+01:22:54.990 --> 01:22:56.160
+Francisco.Ortin@cit.ie: I know!
+
+693
+01:22:56.370 --> 01:23:13.960
+Francisco.Ortin@cit.ie: Probably you've never asked this before, but when you come to DLP, it's very important. Then later, when you're programming, believe me, you're going to program in a much better way, okay? It's like, you know exactly what's going to happen. You're so fluent, it's like you know English very good, and you're able, not as doing myself, many times I'm explaining me myself.
+
+694
+01:23:13.960 --> 01:23:20.990
+Francisco.Ortin@cit.ie: not in the correct way, because it's not my native tongue, okay? So now you're an expert, and you know exactly how to say things.
+
+695
+01:23:20.990 --> 01:23:25.910
+Francisco.Ortin@cit.ie: They're not surprised, so you don't have to evaluate a program. You know exactly what's going to happen, all right?
+
+696
+01:23:26.060 --> 01:23:32.280
+Francisco.Ortin@cit.ie: So, assignment is the weakest one, alright? So, should it be on the top, or should it be on the bottom?
+
+697
+01:23:32.440 --> 01:23:37.810
+Francisco.Ortin@cit.ie: It should be on the bottom, because antler goes from high to low. Doesn't matter if you place it here.
+
+698
+01:23:38.100 --> 01:23:39.210
+Francisco.Ortin@cit.ie: or here.
+
+699
+01:23:39.650 --> 01:23:50.409
+Francisco.Ortin@cit.ie: or here, because these two are not ambiguous, all right? I'm gonna write it here, because I think they're kind of similar, but it doesn't matter where you place it, as long as you don't place it
+
+700
+01:23:50.690 --> 01:23:52.110
+Francisco.Ortin@cit.ie: Over these two.
+
+701
+01:23:52.380 --> 01:23:53.220
+Francisco.Ortin@cit.ie: Right?
+
+702
+01:23:54.760 --> 01:23:55.620
+Francisco.Ortin@cit.ie: Good.
+
+703
+01:23:55.990 --> 01:24:01.210
+Francisco.Ortin@cit.ie: So that's… that's regarding… precedence.
+
+704
+01:24:01.470 --> 01:24:09.440
+Francisco.Ortin@cit.ie: But what about associativity? You told me that this one here should be evaluated like this. So is the segment left or right associative?
+
+705
+01:24:13.750 --> 01:24:14.960
+Francisco.Ortin@cit.ie: This is left.
+
+706
+01:24:15.370 --> 01:24:16.609
+Francisco.Ortin@cit.ie: And this is right.
+
+707
+01:24:17.800 --> 01:24:21.729
+Francisco.Ortin@cit.ie: Do we want it to be left, or do we want it to be right associated?
+
+708
+01:24:22.010 --> 01:24:29.120
+Francisco.Ortin@cit.ie: Very good, right. So we're gonna… here, the default is left, doesn't work, I suck.
+
+709
+01:24:29.520 --> 01:24:30.220
+Francisco.Ortin@cit.ie: Right.
+
+710
+01:24:30.860 --> 01:24:31.650
+Francisco.Ortin@cit.ie: Okay?
+
+711
+01:24:32.730 --> 01:24:37.819
+Francisco.Ortin@cit.ie: So be careful, because when someone writes this, it's kind of easy to understand.
+
+712
+01:24:37.930 --> 01:24:45.269
+Francisco.Ortin@cit.ie: But if you think all the minutes we've invested for making sure that we do understand it perfectly.
+
+713
+01:24:45.420 --> 01:24:46.830
+Francisco.Ortin@cit.ie: It's not that simple.
+
+714
+01:24:47.030 --> 01:24:54.820
+Francisco.Ortin@cit.ie: is the same as programming. When you see a Python program that is doing whatever with Pandas or NumPy or
+
+715
+01:24:54.940 --> 01:24:59.909
+Francisco.Ortin@cit.ie: TensorFlow is like, oh, very easy to understand. Well, try to do it yourself.
+
+716
+01:25:00.330 --> 01:25:02.819
+Francisco.Ortin@cit.ie: All right? So this is exactly the same. Be careful.
+
+717
+01:25:03.060 --> 01:25:22.610
+Francisco.Ortin@cit.ie: is not copying and pasted and tried always, in DLP, you have to be very careful, okay? Because it's like, if you do something that is not correct, since it's formal, then it's going to change everything, and it's going to be highly coupled with the next of phases, because AST is going to be wrong, and what you're doing next is going to be wrong as well.
+
+718
+01:25:22.800 --> 01:25:42.260
+Francisco.Ortin@cit.ie: If you're not able to detect it in the correct phase, then when you have it all together, it's so hard to see where the error is, okay? If you have time, you can ask me, and I will give you hints, and it's going to be easier, but be careful with that. So, try to do incremental, step-by-step, okay? And also try to,
+
+719
+01:25:42.420 --> 01:25:47.429
+Francisco.Ortin@cit.ie: Make sure that it's correct, right? So test it, in other words.
+
+720
+01:25:47.700 --> 01:25:48.250
+Francisco.Ortin@cit.ie: Okay.
+
+721
+01:25:48.250 --> 01:25:53.579
+Rudolf Adamkovič: Speaking of testing, I wanted to ask… I wanted to ask this before,
+
+722
+01:25:54.040 --> 01:26:01.839
+Rudolf Adamkovič: So, do we have some kind of, like, a bigger… bigger program written in C-minus that we could write and check the answer and stuff?
+
+723
+01:26:01.840 --> 01:26:05.909
+Francisco.Ortin@cit.ie: Yes, if you go to Lab 4, you have that big… that big program, such.
+
+724
+01:26:05.910 --> 01:26:09.420
+Rudolf Adamkovič: So that will exercise all these, nuances, right?
+
+725
+01:26:09.420 --> 01:26:13.429
+Francisco.Ortin@cit.ie: Yeah, it's… what I'm doing in testing is giving you a kind of
+
+726
+01:26:14.040 --> 01:26:23.690
+Francisco.Ortin@cit.ie: a big program so that you can use it for testing, but be aware that it's not testing everything, because that's almost impossible. So,
+
+727
+01:26:23.800 --> 01:26:36.599
+Francisco.Ortin@cit.ie: what I encourage you to do is, while you're doing that, test it, okay? So, for instance, a very good question is, I'm gonna start with Lab 4, Francisco. Where do I start? So, many people start with program.
+
+728
+01:26:36.680 --> 01:26:45.029
+Francisco.Ortin@cit.ie: Okay, so if you start with program and you want to test it, you have to do it all. You have to finish your grammar. But, if you start with expression like this.
+
+729
+01:26:45.860 --> 01:26:51.479
+Francisco.Ortin@cit.ie: you go to… you go to Antler, and you right-click on Enter here, and you're gonna say,
+
+730
+01:26:51.730 --> 01:26:56.329
+Francisco.Ortin@cit.ie: test input, or something like that. It's just printed in the PDF. And then you can test expression.
+
+731
+01:26:56.520 --> 01:27:00.549
+Francisco.Ortin@cit.ie: Because expression is not coupled with other, constructions.
+
+732
+01:27:01.140 --> 01:27:10.869
+Francisco.Ortin@cit.ie: When you finish with inspection, and you see that all the inputs have been tested, and the tree is correctly graded, then you go and write, for instance, statement. Statement.
+
+733
+01:27:13.440 --> 01:27:17.379
+Francisco.Ortin@cit.ie: And say, statement, for instance, is expression.
+
+734
+01:27:17.520 --> 01:27:24.449
+Francisco.Ortin@cit.ie: a segment expression. Remember that this is an antler, an expression, and then here's semicolon, for instance.
+
+735
+01:27:24.580 --> 01:27:34.380
+Francisco.Ortin@cit.ie: This is not like this in the labs, you don't have this. And then again, you right-click, and you test, and then you write if, while, function invocation.
+
+736
+01:27:34.380 --> 01:27:44.850
+Francisco.Ortin@cit.ie: and you test it. Then, keep… keep making it bigger and bigger, and you test it. And again, the same as writing code. If you have one solution, but it's kind of…
+
+737
+01:27:45.870 --> 01:27:50.740
+Francisco.Ortin@cit.ie: difficult, or unnecessarily difficult.
+
+738
+01:27:50.920 --> 01:27:56.139
+Francisco.Ortin@cit.ie: And you may refactor to make it more compact and more readable. Please, do it.
+
+739
+01:27:56.280 --> 01:28:13.619
+Francisco.Ortin@cit.ie: Because in Lab 5, you're gonna add code to your grammar. And if you have 100 productions, you have to add code to 100 productions, writing 100… 100 pieces of code. But if you have… make it more compact and more readable, and you only have 20, you only have to write 20 pieces of chapter.
+
+740
+01:28:14.280 --> 01:28:32.520
+Francisco.Ortin@cit.ie: So, it's totally worth investing time in trying to make your grammar as good as possible, okay? It's the same as code. You've seen code when code is not refactored. Here, it's exactly the same. Actually, you'll see in some feature slides that it's actually code, what you're doing, because your productions are going to be translated into code.
+
+741
+01:28:32.640 --> 01:28:34.160
+Francisco.Ortin@cit.ie: Okay, any other questions?
+
+742
+01:28:36.460 --> 01:28:37.260
+Francisco.Ortin@cit.ie: Good.
+
+743
+01:28:37.720 --> 01:28:46.959
+Francisco.Ortin@cit.ie: So this is an autonomous activity you may do before the lab, if you want to do it, as I mentioned with the lecture, okay, to practice writing answers for this.
+
+744
+01:28:47.280 --> 01:28:49.089
+Francisco.Ortin@cit.ie: That you're gonna need in the lab.
+
+745
+01:28:49.250 --> 01:28:49.990
+Francisco.Ortin@cit.ie: All right.
+
+746
+01:28:51.510 --> 01:28:56.290
+Francisco.Ortin@cit.ie: Good. So, now we have here, about AST creation.
+
+747
+01:28:56.310 --> 01:29:14.130
+Francisco.Ortin@cit.ie: AST creation, is for Lab 5, okay? So that's part of next week's lab, but it takes some time, so I'm going to start today. Since something that, is related to what I've just explained, but is for next week, I think it's a very good point to have a short break of 5 minutes time.
+
+748
+01:29:14.180 --> 01:29:21.599
+Francisco.Ortin@cit.ie: And see you, if you don't mind, at, 35 past 7, and we continue with this, topic here. Thank you.
+
+749
+01:29:31.570 --> 01:29:37.159
+Francisco.Ortin@cit.ie: Okay, so let's continue. Remember from the introduction of this unit.
+
+750
+01:29:37.350 --> 01:29:39.659
+Francisco.Ortin@cit.ie: That there were two objectives.
+
+751
+01:29:39.850 --> 01:29:49.000
+Francisco.Ortin@cit.ie: First checking, whether the tokens represent a valid sequence. That is also called parsing, or language recognition. Again, this is Lab 4.
+
+752
+01:29:49.260 --> 01:30:01.629
+Francisco.Ortin@cit.ie: And then, if the input is validated, then we have to build the AST. By default, we have the parse tree, but in a real language processor, it consumes a lot of memory.
+
+753
+01:30:01.760 --> 01:30:15.749
+Francisco.Ortin@cit.ie: So, since we're going to traverse the AST many different ways, for semantic analysis and code generation, then it's worth reducing that tree to the minimum, and that is what is called an abstracts industry.
+
+754
+01:30:17.560 --> 01:30:21.490
+Francisco.Ortin@cit.ie: This is one example of a very stupid and,
+
+755
+01:30:21.710 --> 01:30:27.239
+Francisco.Ortin@cit.ie: Easy to understand grammar than just one repetition of three identifiers in a parse tree.
+
+756
+01:30:27.350 --> 01:30:31.289
+Francisco.Ortin@cit.ie: Creates this, huge, data structure.
+
+757
+01:30:31.440 --> 01:30:42.319
+Francisco.Ortin@cit.ie: And this is as simple as just taking one list of identifiers, okay? So the AST is as simple as taking this list, and you don't need to have this complicated data structure.
+
+758
+01:30:42.510 --> 01:30:58.599
+Francisco.Ortin@cit.ie: Right, so there are too many nodes, and then what we're going to do is… what you actually have done in Lab 2 is, by using object-oriented design, you have, designed a set of classes and interfaces that
+
+759
+01:30:58.820 --> 01:31:03.469
+Francisco.Ortin@cit.ie: Are able to model the input program in the
+
+760
+01:31:03.820 --> 01:31:15.909
+Francisco.Ortin@cit.ie: more efficient way, all right? So once we've just gotten rid of, ambiguity, and you no longer need, elements like if
+
+761
+01:31:15.920 --> 01:31:34.360
+Francisco.Ortin@cit.ie: comma, semicolon, those are things that are required to make the grammar not being ambiguous, then you just create AST with those pieces of information, because they are not actually necessary. You don't need tokens in an AST. If you know that this is a, for instance, if statement.
+
+762
+01:31:34.360 --> 01:31:42.499
+Francisco.Ortin@cit.ie: You don't need the if keyword at the parentheses, you just need, okay, that's the condition, that's one expression, and then you need a list of the
+
+763
+01:31:42.560 --> 01:31:51.870
+Francisco.Ortin@cit.ie: statements in the if body, and another list of statements in the else part… block, if you prefer, alright? So that's the simplification you've done.
+
+764
+01:31:52.270 --> 01:31:57.550
+Francisco.Ortin@cit.ie: Okay, so this slide is kind of, important.
+
+765
+01:31:57.750 --> 01:32:03.879
+Francisco.Ortin@cit.ie: And sometimes kind of hard to understand, so I've used 3 different colors to try to,
+
+766
+01:32:04.220 --> 01:32:11.280
+Francisco.Ortin@cit.ie: illustrate my idea, alright, of what I'm trying to, represent here,
+
+767
+01:32:12.120 --> 01:32:18.399
+Francisco.Ortin@cit.ie: So, you've already known that there are 3 elements that are highly connected when it comes to parsing.
+
+768
+01:32:18.540 --> 01:32:27.120
+Francisco.Ortin@cit.ie: So, context-free grammar is a way of specifying a language in a formal way, and it's able to recognize a program.
+
+769
+01:32:27.480 --> 01:32:41.689
+Francisco.Ortin@cit.ie: And if the program is recognized, then the parse trees automatically… could be automatically created for that program. So these three elements are highly connected. So you specify this in a G4 file, for instance, you pass an input, and then you get the parse tree.
+
+770
+01:32:41.920 --> 01:32:42.740
+Francisco.Ortin@cit.ie: Okay?
+
+771
+01:32:42.870 --> 01:32:50.650
+Francisco.Ortin@cit.ie: That's so far so good, but if you're thinking objective number two, then we need the ASD. We're not actually interested in on the part 3.
+
+772
+01:32:50.770 --> 01:32:56.010
+Francisco.Ortin@cit.ie: So try to, rephrase these three elements, saying, okay.
+
+773
+01:32:56.160 --> 01:32:59.140
+Francisco.Ortin@cit.ie: If we have, instead of the parse 3DAST,
+
+774
+01:32:59.410 --> 01:33:01.340
+Francisco.Ortin@cit.ie: And we keep the same program.
+
+775
+01:33:01.800 --> 01:33:03.930
+Francisco.Ortin@cit.ie: Is there any grammar?
+
+776
+01:33:04.210 --> 01:33:05.200
+Francisco.Ortin@cit.ie: that…
+
+777
+01:33:05.490 --> 01:33:13.580
+Francisco.Ortin@cit.ie: is similar to a context-free grammar we use in Antler to specify the language that could be used for the AST.
+
+778
+01:33:13.800 --> 01:33:23.950
+Francisco.Ortin@cit.ie: So, is there any grammar associated to the AST that could specify in some way, the structure of that tree, the same as this grammar in some,
+
+779
+01:33:24.140 --> 01:33:35.550
+Francisco.Ortin@cit.ie: from some point of view, specifies the structure of this parse tree? Well, the answer is yes, all right? So that grammar is called ASTOC syntax grammar. Most of the times, we just say ASTOC grammar.
+
+780
+01:33:35.820 --> 01:33:44.770
+Francisco.Ortin@cit.ie: And apps and grammars are so, so important, because lexing and parsing is… these days has been, yes,
+
+781
+01:33:44.940 --> 01:33:51.069
+Francisco.Ortin@cit.ie: once you know tools like Antler, it's completely an easy problem to be solved, alright?
+
+782
+01:33:51.340 --> 01:33:58.280
+Francisco.Ortin@cit.ie: You got to practice and get fluent with that, but once you've got the skills, then it's very easy. But…
+
+783
+01:33:58.660 --> 01:34:11.960
+Francisco.Ortin@cit.ie: Almost every research and new elements related to new programming languages research is referred to semantic analysis, And,
+
+784
+01:34:12.190 --> 01:34:15.520
+Francisco.Ortin@cit.ie: code generation, right? So…
+
+785
+01:34:15.520 --> 01:34:35.390
+Francisco.Ortin@cit.ie: you may have new languages like Rust, for instance, that they're very efficient because they generate code in a very efficient way to binary code, and they all have a type system, which is part of the semantic analysis, that somehow gives you, in a type-safe way, the possibility to parallelize applications, all right?
+
+786
+01:34:35.390 --> 01:34:41.630
+Francisco.Ortin@cit.ie: So those things are evolving, and it's always related to semantic analysis and… on,
+
+787
+01:34:41.800 --> 01:34:53.540
+Francisco.Ortin@cit.ie: code generation. So, syntax, concrete syntax, the syntax you specify in Antler, is kind of, you know, something that it may… you may like it or not, but it's not something that gives you more
+
+788
+01:34:54.010 --> 01:35:01.170
+Francisco.Ortin@cit.ie: It's not more powerful, because instead of using blocks, it uses indentation, all right? Something you like it better are…
+
+789
+01:35:03.150 --> 01:35:23.019
+Francisco.Ortin@cit.ie: or not… you don't like it, but it's something that is a matter of taste, I would say, all right? So absolute grammars are so important because those are the grammars you will use for semantic analysis and code generation. So once you finish with Antler, you don't… you just forget about that grammar. You wrote it, you get… you got rid of,
+
+790
+01:35:24.160 --> 01:35:33.219
+Francisco.Ortin@cit.ie: ambiguity, and that's it, okay? So, ASTs can be seen as the data structure that represents an input program.
+
+791
+01:35:33.820 --> 01:35:46.290
+Francisco.Ortin@cit.ie: Given an abstract grammar, all right? So now what we're gonna… we are about to see is what an abstract grammar is, and how to specify it, all right? Remember, abstract grammars are used after
+
+792
+01:35:46.290 --> 01:36:00.089
+Francisco.Ortin@cit.ie: concrete grammars, right? So you need a concrete grammar, for instance, an ampler, and then to create the AST, you use an abstract grammar, and to traverse the AST, you use the abstract grammar, okay? And abstract grammars are, of course.
+
+793
+01:36:00.230 --> 01:36:13.409
+Francisco.Ortin@cit.ie: ambiguous, because I mentioned that previously in this lecture, that you got rid of ambiguity by using antler. Then it's not a problem that an absolute grammar is
+
+794
+01:36:13.550 --> 01:36:27.489
+Francisco.Ortin@cit.ie: ambiguous, all right? So an Astral grammar is similar to a concrete grammar in the sense that you will have a parent symbol, a parent node, that is connected with children, with child symbol.
+
+795
+01:36:27.600 --> 01:36:32.440
+Francisco.Ortin@cit.ie: And, that's gonna be specified in the grammar, in the abstract grammar.
+
+796
+01:36:32.600 --> 01:36:41.429
+Francisco.Ortin@cit.ie: And the… this is gonna be a highly, stronger connection with what you've done in Lab 2.
+
+797
+01:36:41.610 --> 01:37:00.460
+Francisco.Ortin@cit.ie: In Lab 2, instead of using a grammar, you've used UML class diagrams, and you will see in some minutes that what we're going to do here is another notation for exactly the same as you did in Lab 2, okay? Lab 2 is very important. I know it's difficult, it's the most difficult one.
+
+798
+01:37:00.480 --> 01:37:08.490
+Francisco.Ortin@cit.ie: But it's very important, okay? So right now, we're going to see, as programmers, it's a different view of the model you already have in Lab 2.
+
+799
+01:37:08.640 --> 01:37:10.010
+Francisco.Ortin@cit.ie: Okay, let's go for it.
+
+800
+01:37:10.720 --> 01:37:24.520
+Francisco.Ortin@cit.ie: So, there are different notations for representing, abstract grammars. I'm going to use the one defined by this guy, Michael Scott, that adds this part to the productions, okay? So many offers, they don't include this,
+
+801
+01:37:24.520 --> 01:37:35.829
+Francisco.Ortin@cit.ie: Piece of information here, but it's very useful for a software engineer, and if you're going to implement this in object-oriented language, and that's why we use this notation here.
+
+802
+01:37:35.950 --> 01:37:49.849
+Francisco.Ortin@cit.ie: Okay, so the productions are going to be this way. It has three elements, this A, then column, and then one production, as we… we've done so many times. Okay, so let's start with this new element here, which is this A.
+
+803
+01:37:50.300 --> 01:37:58.399
+Francisco.Ortin@cit.ie: So this A element in a production, and think that this is an abstract production, so we're gonna represent an abstract tree, and therefore.
+
+804
+01:37:58.990 --> 01:38:08.400
+Francisco.Ortin@cit.ie: We're gonna use your lap 2, is the concrete class you use, To represent that Parent note.
+
+805
+01:38:08.600 --> 01:38:09.560
+Francisco.Ortin@cit.ie: Okay?
+
+806
+01:38:09.800 --> 01:38:14.570
+Francisco.Ortin@cit.ie: So, for instance, if you have this expression, Production.
+
+807
+01:38:15.320 --> 01:38:22.399
+Francisco.Ortin@cit.ie: You've already modeled this in your Lab 2. This class, arithmetic, has 3 children.
+
+808
+01:38:22.590 --> 01:38:25.559
+Francisco.Ortin@cit.ie: The first expression here, this is 1,
+
+809
+01:38:25.560 --> 01:38:44.279
+Francisco.Ortin@cit.ie: Then the operator, since the operator is string, then you don't have an association or aggregation, you just have one field here, because it's a built-in type. And then the second expression, that's why you have here this multiplicity. It's very important in Lab 2 you have the multiplicities in your class diagram. This is very important information here.
+
+810
+01:38:44.550 --> 01:39:00.279
+Francisco.Ortin@cit.ie: Okay? So, what's… if you're thinking about the node you're creating with arithmetic, it cannot be expression, because expression is an abstract… it's an abstract concept, it's an abstract type. At runtime, you don't have expression. What you do have is arithmetic.
+
+811
+01:39:00.290 --> 01:39:12.790
+Francisco.Ortin@cit.ie: So that's what you place, in the left-hand side of the… this app store grammar notation, okay? So this class. It's the dynamic type, or if you prefer the concrete type.
+
+812
+01:39:12.890 --> 01:39:15.680
+Francisco.Ortin@cit.ie: Of the object you used to represent the parent node.
+
+813
+01:39:15.930 --> 01:39:33.599
+Francisco.Ortin@cit.ie: Okay? You may think the whole production, because once you have the parent, you can go to the children, all right? But, well, you just think in the parent, and that's okay. Okay? So this is the new element. So in this UML class diagram, I'm writing, in this production, arithmetic, all right?
+
+814
+01:39:33.850 --> 01:39:40.800
+Francisco.Ortin@cit.ie: Okay, let's continue with the alpha part here, these children of the protection, which are the children.
+
+815
+01:39:41.230 --> 01:39:46.480
+Francisco.Ortin@cit.ie: So, this is very simple. It's the collection of child nodes for a given parent.
+
+816
+01:39:46.520 --> 01:40:04.879
+Francisco.Ortin@cit.ie: So if you're speaking about arithmetic, which is the one I wrote here, then you have 3 children, okay? The same as in your class diagram, you have 3 children. If you think in one arithmetic instance object, it has two expressions and one operator, right? You may visualize that with introspector.
+
+817
+01:40:05.180 --> 01:40:24.630
+Francisco.Ortin@cit.ie: Okay? If you're thinking in variable, variable is just a leaf node, it has no child. So variable, it only has its name, okay? Which is this string here, name. And that's it, nothing else. So it's… this one here is the concrete type, or the dynamic type.
+
+818
+01:40:24.750 --> 01:40:25.940
+Francisco.Ortin@cit.ie: Of the object.
+
+819
+01:40:26.240 --> 01:40:31.029
+Francisco.Ortin@cit.ie: And it has just one string as a field, okay? So it has no child.
+
+820
+01:40:31.640 --> 01:40:40.719
+Francisco.Ortin@cit.ie: Or no children. And here, the same is in literal. In literal has just one value, which is this int, which is this int constant. Okay, so this is for all.
+
+821
+01:40:41.330 --> 01:40:46.049
+Francisco.Ortin@cit.ie: All right? And let's go to the most difficult part, which is the…
+
+822
+01:40:46.330 --> 01:40:50.550
+Francisco.Ortin@cit.ie: This B here is the non-terminal left-hand side.
+
+823
+01:40:50.680 --> 01:40:55.100
+Francisco.Ortin@cit.ie: Okay? So, this symbol is,
+
+824
+01:40:55.490 --> 01:41:05.379
+Francisco.Ortin@cit.ie: The type is not actually the dynamic type, the dynamic type is this one. It's the type of the non-terminal, symbol you use in the production.
+
+825
+01:41:05.610 --> 01:41:08.739
+Francisco.Ortin@cit.ie: Alright? And it must be reachable.
+
+826
+01:41:09.230 --> 01:41:13.220
+Francisco.Ortin@cit.ie: Okay? It must be reachable. Remember what, reachable is?
+
+827
+01:41:13.470 --> 01:41:27.549
+Francisco.Ortin@cit.ie: A reachable symbol is the one you may derive from the start non-terminal symbol. So you start in program, program derives to a list of statements, and in statements derived into expression, then expression is reachable.
+
+828
+01:41:27.760 --> 01:41:33.910
+Francisco.Ortin@cit.ie: But if you go to this program and you can never derive into non-terminal symbol
+
+829
+01:41:34.070 --> 01:41:45.619
+Francisco.Ortin@cit.ie: let's say, E, then E is… cannot be used as… as… as here, all right? So if B is not reachable from program, that's going to be wrong. Okay, so…
+
+830
+01:41:45.760 --> 01:41:48.779
+Francisco.Ortin@cit.ie: Arithmetic is the number… is the name of the…
+
+831
+01:41:49.140 --> 01:41:56.670
+Francisco.Ortin@cit.ie: concrete class, then it has 3 children, expression, operator, and expression. And here, what happens if I write arithmetic?
+
+832
+01:41:56.890 --> 01:42:06.470
+Francisco.Ortin@cit.ie: If I write arithmetic here, this symbol is never going to be used by any production. No production has, on the right-hand side, arithmetic. It's
+
+833
+01:42:06.690 --> 01:42:08.090
+Francisco.Ortin@cit.ie: non-reachable.
+
+834
+01:42:08.320 --> 01:42:16.790
+Francisco.Ortin@cit.ie: So you can see how unary node has expression as its child, and these are two expressions. So here, I must write expression itself.
+
+835
+01:42:17.250 --> 01:42:30.099
+Francisco.Ortin@cit.ie: So, this is a concrete class, but this is sometimes a generalization of this arithmetic. In other words, this is this line you've expressed here with this implementation.
+
+836
+01:42:30.380 --> 01:42:36.690
+Francisco.Ortin@cit.ie: Alright, can you see that? So this is telling that arithmetic, you cannot use it here because it's non-reachable.
+
+837
+01:42:36.790 --> 01:42:45.519
+Francisco.Ortin@cit.ie: Okay, but since arithmetic is expression, and expression is reachable, because it's used here and here, then you write expression instead.
+
+838
+01:42:45.630 --> 01:42:49.100
+Francisco.Ortin@cit.ie: Okay, so now you have the three parts, and take a look at this.
+
+839
+01:42:49.610 --> 01:42:52.199
+Francisco.Ortin@cit.ie: This part here is the box, arithmetic.
+
+840
+01:42:52.540 --> 01:42:57.740
+Francisco.Ortin@cit.ie: These three here are the children, so those are the associations and the fields.
+
+841
+01:42:58.060 --> 01:42:59.600
+Francisco.Ortin@cit.ie: And this is here.
+
+842
+01:42:59.730 --> 01:43:04.030
+Francisco.Ortin@cit.ie: implementation or generalization relationship, all right?
+
+843
+01:43:04.300 --> 01:43:15.850
+Francisco.Ortin@cit.ie: In other words, everything you have in Lab 2, everything could be expressed with this notation, abstract syntax. And actually, people that are language designers, they don't use UML, they use this here.
+
+844
+01:43:16.020 --> 01:43:24.460
+Francisco.Ortin@cit.ie: Okay? But when you have to implement it, of course you need UML and Java implementation, or any other language, but there are exactly different views of the same model.
+
+845
+01:43:24.650 --> 01:43:30.289
+Francisco.Ortin@cit.ie: All right? So, so far, I'm gonna use abstract grammars instead of the UML.
+
+846
+01:43:30.420 --> 01:43:42.620
+Francisco.Ortin@cit.ie: Okay? But UML diagrams you used in Lab 2, they're very useful for getting, skillful with this, abstract syntax notation. All right? Any questions?
+
+847
+01:43:43.070 --> 01:43:45.140
+Francisco.Ortin@cit.ie: We're gonna practice with that. Okay.
+
+848
+01:43:46.200 --> 01:43:50.949
+Francisco.Ortin@cit.ie: So, given this, this, oops, sorry. Given this grammar here.
+
+849
+01:43:51.980 --> 01:43:59.550
+Francisco.Ortin@cit.ie: Okay? This, concrete grammar, taken from Antler, remember, this is an Antler notation, and we've practiced a lot with it.
+
+850
+01:43:59.830 --> 01:44:07.139
+Francisco.Ortin@cit.ie: Okay? Could be represented in Lab 2, and probably, I hope you have it like this, in this UML class diagram.
+
+851
+01:44:07.290 --> 01:44:12.830
+Francisco.Ortin@cit.ie: So we have 3 classes here, arithmetic, variable, and interliteral.
+
+852
+01:44:13.050 --> 01:44:25.339
+Francisco.Ortin@cit.ie: Here, we've placed these two together here, because they have the same structure behavior. Arithmetic has one operator, it could be one of those four, and two expression children, right?
+
+853
+01:44:25.500 --> 01:44:28.070
+Francisco.Ortin@cit.ie: So, they have the same structure and behavior.
+
+854
+01:44:28.340 --> 01:44:34.050
+Francisco.Ortin@cit.ie: So here, these two are merged into this class here. So if you're writing this into a
+
+855
+01:44:34.220 --> 01:44:46.050
+Francisco.Ortin@cit.ie: this UML class diagram into an abstract syntax notation, it's as simple as saying, okay, arithmetic is a binary expression with one operator, it could be one of these four.
+
+856
+01:44:46.330 --> 01:44:53.019
+Francisco.Ortin@cit.ie: And then, since arithmetic is not used, I must use expression instead, because this expression is reachable.
+
+857
+01:44:53.440 --> 01:45:08.529
+Francisco.Ortin@cit.ie: Then, as I told you, variable, this one here, expression implies ID. I call this node variable in lab 2, so I write here, like, a variable, that it's only filled, no more children is string, so it's a live node.
+
+858
+01:45:08.530 --> 01:45:18.880
+Francisco.Ortin@cit.ie: And then variable, if I write variable here, lowercase, no one's ever going to use variable, so I have to go up and generalize and use pressure that is widely used. And the same with inlet.
+
+859
+01:45:19.410 --> 01:45:20.189
+Francisco.Ortin@cit.ie: All right?
+
+860
+01:45:21.160 --> 01:45:28.419
+Francisco.Ortin@cit.ie: Why… why is it okay to have this astro grammar to be ambiguous? Why is it okay that this astrogrammer is ambiguous?
+
+861
+01:45:28.810 --> 01:45:31.789
+Francisco.Ortin@cit.ie: Well, we've seen… we've seen it today.
+
+862
+01:45:31.950 --> 01:45:47.920
+Francisco.Ortin@cit.ie: Remember that everything we did here with those trees, and this is wrong, and this is right, and then we moved these productions up and down, and then we merged these two operators because they have the same con… the same precedence, and then for a segment, we write
+
+863
+01:45:47.920 --> 01:45:59.870
+Francisco.Ortin@cit.ie: a SOC equals right, because that is not a left associative. Those things were just for getting rid of ambiguity and creating the correct… the correct par… parse tree.
+
+864
+01:46:00.070 --> 01:46:15.789
+Francisco.Ortin@cit.ie: the correct parse 3 means that the AST you're going to create is also correct, because it's a simplification of the parse 3. So, right now, it's no longer a problem, an issue, that this is ambiguous, because ambiguity has already been solved. In other ways.
+
+865
+01:46:16.160 --> 01:46:23.990
+Francisco.Ortin@cit.ie: If you don't see it, it's like, if you take this, input here that was 1 minus 2 minus 3,
+
+866
+01:46:24.580 --> 01:46:27.270
+Francisco.Ortin@cit.ie: The AST you're gonna create is this one.
+
+867
+01:46:30.530 --> 01:46:32.640
+Francisco.Ortin@cit.ie: 1 minus 2…
+
+868
+01:46:33.360 --> 01:46:39.080
+Francisco.Ortin@cit.ie: minus 3. That is equivalent to this one on the right. This is the parse 3, and this is the AST.
+
+869
+01:46:39.630 --> 01:46:50.279
+Francisco.Ortin@cit.ie: So, it doesn't really matter that this grammar is ambiguous, because the mechanism you use for creating the AST is no longer ambiguous, okay? That's very important.
+
+870
+01:46:52.200 --> 01:47:00.509
+Francisco.Ortin@cit.ie: Okay, this is the last activity I want you to answer, all right? Later, we'll see how to use Anthro to create AST nodes.
+
+871
+01:47:00.760 --> 01:47:17.360
+Francisco.Ortin@cit.ie: Okay, so regarding abstract syntax, do you see any mistake here? There are different mistakes here. You tell me, and I modify that. If you understood what I've just explained about abstract syntax, can you tell me what is wrong here? So this… the UML class diagram here is perfect.
+
+872
+01:47:17.640 --> 01:47:20.289
+Francisco.Ortin@cit.ie: And it should be similar to what you have in the labs.
+
+873
+01:47:20.410 --> 01:47:26.600
+Francisco.Ortin@cit.ie: But the abstract grammar is not perfect, so the way I translated this UML diagram into the abstract grammar.
+
+874
+01:47:26.720 --> 01:47:31.560
+Francisco.Ortin@cit.ie: has been mistaken. So you have to tell me, errors here.
+
+875
+01:47:40.180 --> 01:47:47.699
+Francisco.Ortin@cit.ie: So, a segment is… or arithmetic is not reachable, so is reachable arithmetic? Is anyone using arithmetic?
+
+876
+01:47:48.010 --> 01:47:55.389
+Francisco.Ortin@cit.ie: No, it's not. So, very good, this is wrong. What should I use… what should I write instead of arithmetic here?
+
+877
+01:47:55.990 --> 01:47:57.059
+Francisco.Ortin@cit.ie: Very good time.
+
+878
+01:48:01.340 --> 01:48:07.190
+Francisco.Ortin@cit.ie: If arithmetic is not correct, and this is the plus arithmetic, I have to go up in the hierarchy.
+
+879
+01:48:07.330 --> 01:48:18.420
+Francisco.Ortin@cit.ie: Okay? Yes, so I could write expression, or trying to go up, but expression is actually the level you have to write. So expression here is actually the solution. Very good.
+
+880
+01:48:18.850 --> 01:48:26.039
+Francisco.Ortin@cit.ie: Since it is ambiguous, you may write here expression and a subindex. Here, not to modify the other one. I'm just going to write 0.
+
+881
+01:48:26.430 --> 01:48:27.200
+Francisco.Ortin@cit.ie: Good.
+
+882
+01:48:27.530 --> 01:48:29.000
+Francisco.Ortin@cit.ie: Is there something else?
+
+883
+01:48:30.390 --> 01:48:32.069
+Francisco.Ortin@cit.ie: Something else here?
+
+884
+01:48:38.140 --> 01:48:40.169
+Francisco.Ortin@cit.ie: Some… some other errors?
+
+885
+01:48:40.400 --> 01:48:44.340
+Francisco.Ortin@cit.ie: What about this? Are these four elements correct here?
+
+886
+01:48:46.990 --> 01:48:50.619
+Francisco.Ortin@cit.ie: What is the requirement of these elements here? There must be what?
+
+887
+01:48:50.880 --> 01:48:54.990
+Francisco.Ortin@cit.ie: They must be concrete classes, not abstract or interfaces.
+
+888
+01:48:55.530 --> 01:49:00.179
+Francisco.Ortin@cit.ie: So they must be able to create an object. Is that correct, or is something wrong here?
+
+889
+01:49:00.840 --> 01:49:03.479
+Rudolf Adamkovič: Yeah, that statement is an interface, right?
+
+890
+01:49:04.460 --> 01:49:05.329
+Francisco.Ortin@cit.ie: Say it again, please?
+
+891
+01:49:05.330 --> 01:49:07.039
+Rudolf Adamkovič: The statement is the…
+
+892
+01:49:07.040 --> 01:49:11.709
+Francisco.Ortin@cit.ie: Exactly. Statement is an interface, so I must write here instead, statement, what should I write?
+
+893
+01:49:13.170 --> 01:49:14.390
+Rudolf Adamkovič: The favourite?
+
+894
+01:49:14.390 --> 01:49:15.850
+Francisco.Ortin@cit.ie: excitement, very good.
+
+895
+01:49:16.780 --> 01:49:28.030
+Francisco.Ortin@cit.ie: segment. So this segment is a concrete class, and that object is able to give me the whole protection. This, and then the children, which are two expressions. Very good. Anything else, or it's… now it's perfect.
+
+896
+01:49:30.360 --> 01:49:34.730
+Francisco.Ortin@cit.ie: again, if I'm saying that arithmetic, here.
+
+897
+01:49:35.420 --> 01:49:38.519
+Francisco.Ortin@cit.ie: is not correct, and I use expression.
+
+898
+01:49:38.780 --> 01:49:43.590
+Francisco.Ortin@cit.ie: Okay? So, assignment here, no one's gonna use a segment, because
+
+899
+01:49:44.750 --> 01:49:59.459
+Francisco.Ortin@cit.ie: I know this is not part of the slide here, because if you think, for instance, in a… where segments are used inside of functions, right? And a function is a list of what? It's not a list of segments, it's a list of statements.
+
+900
+01:49:59.590 --> 01:50:17.139
+Francisco.Ortin@cit.ie: So, assignment is a statement, and no one's gonna use a segment. It's gonna… the rest of the grammar is gonna use statement, okay? So, probably it's not easy to see that, because I don't have the whole language, otherwise it's gonna be huge. But here I must write statement.
+
+901
+01:50:17.270 --> 01:50:36.219
+Francisco.Ortin@cit.ie: Because, again, a function is a list of statements. We don't know if it's just a list of assignments. It could be any statement. So you may write if, while, return, or a segment, all right? So that's why, again, statement is not reachable. Pan mentioned that before in the chat, but the important thing is always
+
+902
+01:50:36.220 --> 01:50:58.550
+Francisco.Ortin@cit.ie: try to go further and see why, right? So now this is exactly the same as… this is exactly the same as this one. So instead of the UML class diagram, you may use this one without any trouble, okay? In semantic analysis and code generation, I'm going to use this one, but I think it's so useful to have this as well in your mind, because now you're able to translate and get ideas
+
+903
+01:50:58.550 --> 01:51:00.040
+Francisco.Ortin@cit.ie: Perfectly, alright?
+
+904
+01:51:00.630 --> 01:51:01.700
+Francisco.Ortin@cit.ie: Any questions?
+
+905
+01:51:03.850 --> 01:51:13.150
+Francisco.Ortin@cit.ie: Okay, so let's move forward and, remember that now we have already the grammar, Lab 4,
+
+906
+01:51:13.430 --> 01:51:20.880
+Francisco.Ortin@cit.ie: We have the AST classes and interfaces, Lab 2, but we don't… But we don't know yet.
+
+907
+01:51:21.020 --> 01:51:26.299
+Francisco.Ortin@cit.ie: how to… create the objects so that the AST is built.
+
+908
+01:51:26.800 --> 01:51:37.009
+Francisco.Ortin@cit.ie: So what is left is, how do we call the constructor of the classes so that one given input, we call those classes you created in Lab 2.
+
+909
+01:51:37.200 --> 01:51:38.030
+Francisco.Ortin@cit.ie: Okay?
+
+910
+01:51:38.310 --> 01:51:41.370
+Francisco.Ortin@cit.ie: And that's, that's gonna be used
+
+911
+01:51:41.660 --> 01:51:45.650
+Francisco.Ortin@cit.ie: that's gonna be done using embedded actions in Antler.
+
+912
+01:51:46.120 --> 01:51:56.310
+Francisco.Ortin@cit.ie: So in Antler, you can not only recognize the language, but also perform actions upon language recognition. Yes?
+
+913
+01:51:56.460 --> 01:51:57.710
+Francisco.Ortin@cit.ie: Jose, ask.
+
+914
+01:51:58.090 --> 01:52:00.660
+Francisco.Ortin@cit.ie: Variable and expressions are not reachable.
+
+915
+01:52:00.860 --> 01:52:02.889
+Francisco.Ortin@cit.ie: Before, right? Yes? Yes.
+
+916
+01:52:03.180 --> 01:52:06.569
+Francisco.Ortin@cit.ie: Variable is not reachable, expression is.
+
+917
+01:52:08.260 --> 01:52:15.010
+Francisco.Ortin@cit.ie: Okay? Expression is because you're using it here, and here, and here, and here. So you can use
+
+918
+01:52:15.220 --> 01:52:16.390
+Francisco.Ortin@cit.ie: expression here.
+
+919
+01:52:18.030 --> 01:52:36.550
+Francisco.Ortin@cit.ie: Oh, yeah, this is… this is wrong, yes, my mistake, sorry, this is, again, expression, yes, it was not over. Thank you, yes, I didn't get… I didn't get your question, yes, exactly. It must be expression here, not variable, yes. So, we have to change this one, this one, and this one, because variable was not… yeah, thank you very much.
+
+920
+01:52:36.640 --> 01:52:38.569
+Francisco.Ortin@cit.ie: My mistake, yes, thank you.
+
+921
+01:52:39.170 --> 01:52:40.949
+Francisco.Ortin@cit.ie: You're paying attention. That's good.
+
+922
+01:52:41.740 --> 01:52:50.500
+Francisco.Ortin@cit.ie: Good. So, with embedded actions, we… we may add code to… to Antler grammar, so that
+
+923
+01:52:50.630 --> 01:52:56.869
+Francisco.Ortin@cit.ie: When something is recognized, That piece of code is going to be triggered in embedded action.
+
+924
+01:52:56.970 --> 01:53:15.030
+Francisco.Ortin@cit.ie: And what we're going to place in those embedded actions are just mostly our construction invocation, so that within the grammar, we will be able to create the AST, and that's precisely what we want to do in Lab 5, okay? So this is how embedded actions work.
+
+925
+01:53:15.270 --> 01:53:19.600
+Francisco.Ortin@cit.ie: Varied actions are code you write between curly braces.
+
+926
+01:53:19.910 --> 01:53:25.730
+Francisco.Ortin@cit.ie: Okay? So you have in black here, the original grammar is list, ID.
+
+927
+01:53:25.860 --> 01:53:28.599
+Francisco.Ortin@cit.ie: and then comma, ID, star.
+
+928
+01:53:28.750 --> 01:53:29.619
+Francisco.Ortin@cit.ie: All right.
+
+929
+01:53:29.780 --> 01:53:34.240
+Francisco.Ortin@cit.ie: But I'm just doing something here that is adding stupid embedded actions here.
+
+930
+01:53:35.180 --> 01:53:43.480
+Francisco.Ortin@cit.ie: within the production, okay? So you can write in… you can see how I wrote in blue these embedded actions that are just printing something.
+
+931
+01:53:43.910 --> 01:53:49.479
+Francisco.Ortin@cit.ie: Okay? So, if you remember, Antler is a top-down parser.
+
+932
+01:53:49.590 --> 01:53:53.070
+Francisco.Ortin@cit.ie: So it starts all with the left, and then goes
+
+933
+01:53:53.360 --> 01:54:05.349
+Francisco.Ortin@cit.ie: evaluating or recognizing from left to right. So, if someone calls list, or asks Antler to recognize list, then the first thing that is done is triggering this action.
+
+934
+01:54:05.850 --> 01:54:08.990
+Francisco.Ortin@cit.ie: Then, recognizing this ID.
+
+935
+01:54:09.650 --> 01:54:12.179
+Francisco.Ortin@cit.ie: Then, triggering this action.
+
+936
+01:54:12.660 --> 01:54:19.109
+Francisco.Ortin@cit.ie: Then… If… A comma is here, it enters in a loop, because this is a loop.
+
+937
+01:54:19.330 --> 01:54:21.690
+Francisco.Ortin@cit.ie: Okay? It enters in a loop.
+
+938
+01:54:21.800 --> 01:54:31.290
+Francisco.Ortin@cit.ie: So, if comma is here, comma is checked or recognized, then ID must be there, otherwise it's a syntax error. And later.
+
+939
+01:54:31.420 --> 01:54:33.000
+Francisco.Ortin@cit.ie: 3 is printed.
+
+940
+01:54:33.390 --> 01:54:44.870
+Francisco.Ortin@cit.ie: Okay, and this is repeated. Including the print three, it's included in a loop, because you can see how I'm using parentheses here, not only for these two symbols, but also for the embedded action. This is super powerful.
+
+941
+01:54:45.190 --> 01:54:49.269
+Francisco.Ortin@cit.ie: All right? And finally, no matter what, this 4 is printed.
+
+942
+01:54:49.670 --> 01:54:51.129
+Francisco.Ortin@cit.ie: Okay, you understand that?
+
+943
+01:54:51.490 --> 01:54:58.410
+Francisco.Ortin@cit.ie: Okay, so given this, production, if the input program is A comma, B, C,
+
+944
+01:54:58.530 --> 01:55:03.109
+Francisco.Ortin@cit.ie: Which are… which are the, which is printed on the console.
+
+945
+01:55:03.380 --> 01:55:06.019
+Francisco.Ortin@cit.ie: Can you write it in the chat? So it said again.
+
+946
+01:55:06.500 --> 01:55:09.250
+Francisco.Ortin@cit.ie: Given this, unclear production.
+
+947
+01:55:09.350 --> 01:55:13.990
+Francisco.Ortin@cit.ie: and the input is A comma, B comma C, what is printed in the output?
+
+948
+01:55:14.440 --> 01:55:17.949
+Francisco.Ortin@cit.ie: What do you think is going to be printed? Can you write it in the chat, please?
+
+949
+01:55:22.300 --> 01:55:32.699
+Francisco.Ortin@cit.ie: 1, 2, 3, 1, 2, 3, 1, 2, 3, 4. Okay, let's take a look at it. So, if you call list, the first thing that is printing is 1. So far, so good. Good.
+
+950
+01:55:33.610 --> 01:55:40.150
+Francisco.Ortin@cit.ie: And here… I go and check ID.
+
+951
+01:55:42.210 --> 01:55:44.490
+Francisco.Ortin@cit.ie: I'm… I'm just here at the beginning.
+
+952
+01:55:44.860 --> 01:55:45.690
+Francisco.Ortin@cit.ie: Alright?
+
+953
+01:55:46.950 --> 01:55:47.720
+Francisco.Ortin@cit.ie: So…
+
+954
+01:55:47.930 --> 01:55:56.749
+Francisco.Ortin@cit.ie: Then, I check ID. So, ID is check, I go to the comma, and then system printout 2 is printed. So here I have 2.
+
+955
+01:55:58.150 --> 01:56:03.710
+Francisco.Ortin@cit.ie: Then, next thing is, is common next token in a loop? Yes, it is.
+
+956
+01:56:03.950 --> 01:56:10.950
+Francisco.Ortin@cit.ie: So I check comma, I check ID, and go to the following comma. And then here, 3 is printed.
+
+957
+01:56:11.910 --> 01:56:12.770
+Francisco.Ortin@cit.ie: Alright?
+
+958
+01:56:13.060 --> 01:56:21.029
+Francisco.Ortin@cit.ie: Then, star is taken, and then re-evaluate. Do I have comma in the next token? Yes, I do. So, comma is consumed.
+
+959
+01:56:22.240 --> 01:56:25.630
+Francisco.Ortin@cit.ie: so is ID, and then 3 is printed again.
+
+960
+01:56:26.780 --> 01:56:28.919
+Francisco.Ortin@cit.ie: Then here, I have AOF.
+
+961
+01:56:30.060 --> 01:56:31.440
+Francisco.Ortin@cit.ie: Which is the next token.
+
+962
+01:56:31.550 --> 01:56:37.400
+Francisco.Ortin@cit.ie: It's come on the next token. No, it's not. So this loop is over. And finally, 4 is printed.
+
+963
+01:56:38.920 --> 01:56:46.119
+Francisco.Ortin@cit.ie: All right? So that is how it works. These embedded actions are like new node terminals that are executed every time
+
+964
+01:56:46.250 --> 01:56:49.110
+Francisco.Ortin@cit.ie: Antler reaches this evaluation point.
+
+965
+01:56:49.340 --> 01:56:51.180
+Francisco.Ortin@cit.ie: Okay? Is it clear?
+
+966
+01:56:51.880 --> 01:57:00.149
+Francisco.Ortin@cit.ie: Yes? So, next week we'll continue with that, and we'll see how we can make this more sophisticated and
+
+967
+01:57:00.350 --> 01:57:03.630
+Francisco.Ortin@cit.ie: we can use this technique to create the ASD.
+
+968
+01:57:03.750 --> 01:57:11.800
+Francisco.Ortin@cit.ie: Okay? That's exactly what you need to do in Lab 5. That is what is going to be evaluated, okay? Thank you very much. Any questions you may have, remember to…
+
+969
+01:57:13.190 --> 01:57:17.339
+Francisco.Ortin@cit.ie: Come by inbox, and I'll be happy to answer them. See you next week, thank you.
+
+970
+01:57:17.750 --> 01:57:19.259
+Jose Rico Ramos: See you. Ciao.
+
+971
+01:57:19.260 --> 01:57:20.460
+Rudolf Adamkovič: Thank you very much.
+
+972
+01:57:20.650 --> 01:57:21.500
+Remek Pietrzak: Thank you.
+
+973
+01:57:24.110 --> 01:57:24.920
+Francisco.Ortin@cit.ie: Thank you.
+

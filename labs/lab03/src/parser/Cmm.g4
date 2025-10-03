@@ -5,11 +5,13 @@ grammar Cmm;
 Main program
 */
 
-program: CHAR_CONSTANT
-    | ID
-    | REAL_CONSTANT
-    | INT_CONSTANT
-    | comment
+program: (
+    CHAR_CONSTANT
+        | ID
+        | REAL_CONSTANT
+        | INT_CONSTANT
+        | comment
+    )+
     ;
 
 comment: SINGLE_LINE_COMMENT
@@ -29,7 +31,7 @@ CHAR_CONSTANT: '\'' (SAFE_CHAR  | ESCAPE_SEQUENCE) '\''
 fragment SAFE_CHAR: ~['\\\r\n]          // or '\'' | '\' | '\r' | '\n'
     ;
 
-// \n  \t  \'  \
+// '\n'  '\t'  '\''  '\\'  '\0'  '\126'
 fragment ESCAPE_SEQUENCE: '\\' ( [nt'\\]  | [0-9]+ )
     ;
 
@@ -44,14 +46,10 @@ ID: [_A-Za-z]+[_A-Za-z0-9]*
 /*
 Real constants
 */
-// YES: 0.0 | 12.54 | 987.2
-// NO : .0 | 00.5 | 9.
-//REAL_CONSTANT: ([1-9][0-9]* | '0') '.' DIGIT+
-//    ;
-// do later
-//INVALID_REAL:
 
-REAL_CONSTANT: [0-9]* '.' ( [0-9]* | [0-9]+ 'E-' [1-9]+ )
+REAL_CONSTANT: [0-9]* '.' [0-9]*  // 12.3, 2. , .34
+    | [0-9]* '.' [0-9]* [Ee] '-'?  [0-9]+ // 34.12E-3  34.2e-3  .3e-4  .3e4
+    | [0-9]* [Ee] '-'? [0-9]+  // 4e-32 4e3
     ;
 
 /*
@@ -86,9 +84,6 @@ SINGLE_LINE_COMMENT: '//' ~[\n\r]*
 WHITE_SPACE: [ \t\n\r]+ -> skip
     ;
 
-
-fragment DIGIT: [0-9]
-    ;
 
 
 

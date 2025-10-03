@@ -20,10 +20,10 @@ public class CmmParser extends Parser {
 		CHAR_CONSTANT=1, ID=2, REAL_CONSTANT=3, INT_CONSTANT=4, MULTI_LINE_COMMENT=5, 
 		SINGLE_LINE_COMMENT=6, WHITE_SPACE=7;
 	public static final int
-		RULE_program = 0, RULE_comment = 1;
+		RULE_program = 0;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "comment"
+			"program"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -108,12 +108,6 @@ public class CmmParser extends Parser {
 		public TerminalNode INT_CONSTANT(int i) {
 			return getToken(CmmParser.INT_CONSTANT, i);
 		}
-		public List<CommentContext> comment() {
-			return getRuleContexts(CommentContext.class);
-		}
-		public CommentContext comment(int i) {
-			return getRuleContext(CommentContext.class,i);
-		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -127,93 +121,28 @@ public class CmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(9); 
+			setState(3); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(9);
-				_errHandler.sync(this);
-				switch (_input.LA(1)) {
-				case CHAR_CONSTANT:
-					{
-					setState(4);
-					match(CHAR_CONSTANT);
-					}
-					break;
-				case ID:
-					{
-					setState(5);
-					match(ID);
-					}
-					break;
-				case REAL_CONSTANT:
-					{
-					setState(6);
-					match(REAL_CONSTANT);
-					}
-					break;
-				case INT_CONSTANT:
-					{
-					setState(7);
-					match(INT_CONSTANT);
-					}
-					break;
-				case MULTI_LINE_COMMENT:
-				case SINGLE_LINE_COMMENT:
-					{
-					setState(8);
-					comment();
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
+				{
+				setState(2);
+				_la = _input.LA(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 30L) != 0)) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
 				}
 				}
-				setState(11); 
+				}
+				setState(5); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 126L) != 0) );
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class CommentContext extends ParserRuleContext {
-		public TerminalNode SINGLE_LINE_COMMENT() { return getToken(CmmParser.SINGLE_LINE_COMMENT, 0); }
-		public TerminalNode MULTI_LINE_COMMENT() { return getToken(CmmParser.MULTI_LINE_COMMENT, 0); }
-		public CommentContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_comment; }
-	}
-
-	public final CommentContext comment() throws RecognitionException {
-		CommentContext _localctx = new CommentContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_comment);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(13);
-			_la = _input.LA(1);
-			if ( !(_la==MULTI_LINE_COMMENT || _la==SINGLE_LINE_COMMENT) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 30L) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -228,19 +157,13 @@ public class CmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0007\u0010\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
-		"\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0004\u0000"+
-		"\n\b\u0000\u000b\u0000\f\u0000\u000b\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0000\u0000\u0002\u0000\u0002\u0000\u0001\u0001\u0000\u0005\u0006\u0012"+
-		"\u0000\t\u0001\u0000\u0000\u0000\u0002\r\u0001\u0000\u0000\u0000\u0004"+
-		"\n\u0005\u0001\u0000\u0000\u0005\n\u0005\u0002\u0000\u0000\u0006\n\u0005"+
-		"\u0003\u0000\u0000\u0007\n\u0005\u0004\u0000\u0000\b\n\u0003\u0002\u0001"+
-		"\u0000\t\u0004\u0001\u0000\u0000\u0000\t\u0005\u0001\u0000\u0000\u0000"+
-		"\t\u0006\u0001\u0000\u0000\u0000\t\u0007\u0001\u0000\u0000\u0000\t\b\u0001"+
-		"\u0000\u0000\u0000\n\u000b\u0001\u0000\u0000\u0000\u000b\t\u0001\u0000"+
-		"\u0000\u0000\u000b\f\u0001\u0000\u0000\u0000\f\u0001\u0001\u0000\u0000"+
-		"\u0000\r\u000e\u0007\u0000\u0000\u0000\u000e\u0003\u0001\u0000\u0000\u0000"+
-		"\u0002\t\u000b";
+		"\u0004\u0001\u0007\b\u0002\u0000\u0007\u0000\u0001\u0000\u0004\u0000\u0004"+
+		"\b\u0000\u000b\u0000\f\u0000\u0005\u0001\u0000\u0000\u0000\u0001\u0000"+
+		"\u0000\u0001\u0001\u0000\u0001\u0004\u0007\u0000\u0003\u0001\u0000\u0000"+
+		"\u0000\u0002\u0004\u0007\u0000\u0000\u0000\u0003\u0002\u0001\u0000\u0000"+
+		"\u0000\u0004\u0005\u0001\u0000\u0000\u0000\u0005\u0003\u0001\u0000\u0000"+
+		"\u0000\u0005\u0006\u0001\u0000\u0000\u0000\u0006\u0001\u0001\u0000\u0000"+
+		"\u0000\u0001\u0005";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

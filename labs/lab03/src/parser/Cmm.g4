@@ -5,19 +5,12 @@ grammar Cmm;
 Main program
 */
 
-program: (
-    CHAR_CONSTANT
+program: ( CHAR_CONSTANT
         | ID
         | REAL_CONSTANT
         | INT_CONSTANT
-        | comment
     )+
     ;
-
-comment: SINGLE_LINE_COMMENT
-    |  MULTI_LINE_COMMENT
-    ;
-
 
 /*
 Character constants
@@ -77,9 +70,9 @@ INVALID_INT_CONSTANT : '0'[0-9]+ ;
 Comments
 */
 
-MULTI_LINE_COMMENT: [/*]  .?  [*/]
+MULTI_LINE_COMMENT: '/*'  .*?  '*/' -> skip
     ; // Could also use (~[*/]).* instead of .?
-SINGLE_LINE_COMMENT: '//' ~[\n\r]*
+SINGLE_LINE_COMMENT: '//' ~[\n\r]* -> skip
     ;
 WHITE_SPACE: [ \t\n\r]+ -> skip
     ;

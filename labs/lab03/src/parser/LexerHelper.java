@@ -12,26 +12,29 @@ public class LexerHelper {
 		return -1;
 	}
 
-    public static Object lexemeToChar(String charLexeme) {
+    public static Character lexemeToChar(String
+                                                 charLexeme) {
+        if (charLexeme.charAt(1) == '\\') {
+            char c = charLexeme.charAt(2);
+            if (c == 'n') return '\n';
+            if (c == 't') return '\t';
+            String asciiCode =
+                    charLexeme.substring(2, charLexeme.length() -
+                            1);
+            return (char)
+                    Integer.parseInt(asciiCode);
+        }
+        return charLexeme.charAt(1);
+    }
+
+    public static Double lexemeToReal(String lexeme) {
         try {
-            return charLexeme.charAt(0);
+            return Double.parseDouble(lexeme);
         }
         catch(NumberFormatException e) {
             System.out.println(e);
         }
-        return -1;
+        return -1.0;
     }
 
-    public static Object lexemeToReal(String lexeme) {
-        try {
-            return Float.parseFloat(lexeme);
-        }
-        catch(NumberFormatException e) {
-            System.out.println(e);
-        }
-        return -1;
-    }
-
-    // TODO: Implement the lexemeToChar and lexemeToReal methods
-	
 }

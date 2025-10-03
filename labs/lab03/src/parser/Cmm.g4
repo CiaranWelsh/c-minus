@@ -46,12 +46,13 @@ Real constants
 */
 // YES: 0.0 | 12.54 | 987.2
 // NO : .0 | 00.5 | 9.
-REAL_CONSTANT: ([1-9][0-9]* | '0') '.' DIGIT+
-    ;
+//REAL_CONSTANT: ([1-9][0-9]* | '0') '.' DIGIT+
+//    ;
 // do later
 //INVALID_REAL:
 
-
+REAL_CONSTANT: [0-9]* '.' ( [0-9]* | [0-9]+ 'E-' [1-9]+ )
+    ;
 
 /*
 Integer constant

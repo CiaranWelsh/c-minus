@@ -1,4 +1,4 @@
-// Generated from src/parser/Cmm.g4 by ANTLR 4.7
+// Generated from /Users/Ciaran/Documents/MSc/ProgrammingLanguageDesign/labs/lab03/src/parser/Cmm.g4 by ANTLR 4.13.2
 package parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -9,9 +9,9 @@ import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class CmmLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -26,15 +26,24 @@ public class CmmLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	public static final String[] ruleNames = {
-		"INT_CONSTANT"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"INT_CONSTANT"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "INT_CONSTANT"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "INT_CONSTANT"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -93,10 +102,13 @@ public class CmmLexer extends Lexer {
 	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\3\n\b\1\4\2\t\2\3"+
-		"\2\6\2\7\n\2\r\2\16\2\b\2\2\3\3\3\3\2\3\3\2\62;\2\n\2\3\3\2\2\2\3\6\3"+
-		"\2\2\2\5\7\t\2\2\2\6\5\3\2\2\2\7\b\3\2\2\2\b\6\3\2\2\2\b\t\3\2\2\2\t\4"+
-		"\3\2\2\2\4\2\b\2";
+		"\u0004\u0000\u0001\b\u0006\uffff\uffff\u0002\u0000\u0007\u0000\u0001\u0000"+
+		"\u0004\u0000\u0005\b\u0000\u000b\u0000\f\u0000\u0006\u0000\u0000\u0001"+
+		"\u0001\u0001\u0001\u0000\u0001\u0001\u000009\b\u0000\u0001\u0001\u0000"+
+		"\u0000\u0000\u0001\u0004\u0001\u0000\u0000\u0000\u0003\u0005\u0007\u0000"+
+		"\u0000\u0000\u0004\u0003\u0001\u0000\u0000\u0000\u0005\u0006\u0001\u0000"+
+		"\u0000\u0000\u0006\u0004\u0001\u0000\u0000\u0000\u0006\u0007\u0001\u0000"+
+		"\u0000\u0000\u0007\u0002\u0001\u0000\u0000\u0000\u0002\u0000\u0006\u0000";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

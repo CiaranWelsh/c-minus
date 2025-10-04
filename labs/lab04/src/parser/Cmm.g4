@@ -5,12 +5,39 @@ grammar Cmm;
 Main program
 */
 
-program: ( CHAR_CONSTANT
-        | ID
-        | REAL_CONSTANT
-        | INT_CONSTANT
-    )+
+//program: ( CHAR_CONSTANT
+//        | ID
+//        | REAL_CONSTANT
+//        | INT_CONSTANT
+//    )+
+//    ;
+
+program: statement statement*
     ;
+
+statement: expression
+
+    ;
+
+//statement
+
+// do expression first.
+// then do statement
+// build productions that are lower in the tree first
+
+expression: '(' expression ')'
+  | '[' expression ']'
+  | '-' expression
+  | expression ('*'| '/') expression
+  | expression ('+' |'-' ) expression
+
+  | ID
+  | INT_CONSTANT
+  | REAL_CONSTANT
+  ;
+
+
+//builtins:
 
 /*
 Character constants
@@ -69,6 +96,16 @@ INVALID_INT_CONSTANT : '0'[0-9]+ ;
 /*
 Comments
 */
+
+ADD  : '+';
+MIN  : '-';
+MUL  : '*';
+DIV  : '/';
+MOD  : '%';
+AND  : '&&';
+OR   : '||';
+NOT  : '!';
+
 
 MULTI_LINE_COMMENT: '/*'  .*?  '*/' -> skip
     ; // Could also use (~[*/]).* instead of .?

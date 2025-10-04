@@ -1,0 +1,13 @@
+[program]
+4 + 5
+
+[parse_tree]
+- program:
+    - expression
+        - expression
+            - $INT_CONSTANT:4
+        - +
+        - expression
+            - $INT_CONSTANT:5
+
+

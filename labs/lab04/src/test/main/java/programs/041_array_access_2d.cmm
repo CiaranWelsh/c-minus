@@ -1,0 +1,7 @@
+// 2D array access
+void main(){
+  int[5][10] matrix;
+  int x;
+  matrix[0][0] = 44;
+  x = matrix[0][0];
+}

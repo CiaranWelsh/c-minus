@@ -1,0 +1,7 @@
+// Unary minus on variable
+void main(){
+  int a;
+  int b;
+  a = 25;
+  b = -a;
+}

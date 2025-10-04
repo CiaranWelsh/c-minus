@@ -1,0 +1,6 @@
+// Single global doule variable definition
+double a;
+
+void main(){
+
+}

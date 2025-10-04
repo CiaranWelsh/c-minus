@@ -1,0 +1,5 @@
+// Arithmetic subtraction
+void main(){
+  int result;
+  result = 27 - 11;
+}

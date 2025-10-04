@@ -1,0 +1,18 @@
+// Chain of function calls
+int addTen(int x) {
+  return x + 10;
+}
+
+int doubleValue(int x) {
+  return x * 2;
+}
+
+int subtractFive(int x) {
+  return x - 5;
+}
+
+void main(){
+  int result;
+  result = subtractFive(doubleValue(addTen(8)));
+  write result;
+}

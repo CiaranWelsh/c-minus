@@ -1,0 +1,5 @@
+// Arithmetic with parentheses
+void main(){
+  int result;
+  result = (11 + 6) * 4;
+}

@@ -1,0 +1,5 @@
+// Assignment with char literal
+void main(){
+  char c;
+  c = 'x';
+}

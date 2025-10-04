@@ -1,0 +1,7 @@
+// Two global int variables
+int a;
+int b;
+
+void main(){
+
+}

@@ -1,0 +1,6 @@
+// Single global char variable definition
+char a;
+
+void main(){
+
+}

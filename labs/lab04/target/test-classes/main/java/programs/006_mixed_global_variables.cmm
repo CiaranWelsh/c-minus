@@ -1,0 +1,8 @@
+// Mixed types of global variables
+int a;
+double b;
+char c;
+
+void main(){
+
+}

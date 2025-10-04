@@ -1,0 +1,9 @@
+// Function with mixed parameter types
+double calculate(int a, double b, char c) {
+  int temp;
+  temp = (int)c;
+  return (double)a + b;
+}
+
+void main(){
+}

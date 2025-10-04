@@ -1,0 +1,6 @@
+// Two dimensional int array
+int[5][10] matrix;
+
+void main(){
+
+}

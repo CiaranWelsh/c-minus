@@ -1,0 +1,6 @@
+// Read then write variable
+void main(){
+  int a;
+  read a;
+  write a;
+}

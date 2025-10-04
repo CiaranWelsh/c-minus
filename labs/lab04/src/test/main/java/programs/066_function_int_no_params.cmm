@@ -1,0 +1,7 @@
+// Function returning int with no parameters
+int getValue() {
+  return 59;
+}
+
+void main(){
+}

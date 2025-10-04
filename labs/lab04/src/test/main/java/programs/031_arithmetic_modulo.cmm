@@ -1,0 +1,5 @@
+// Arithmetic modulo
+void main(){
+  int result;
+  result = 29 % 8;
+}

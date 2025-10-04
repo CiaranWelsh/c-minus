@@ -1,0 +1,10 @@
+// If with logical AND condition
+void main(){
+  int a;
+  int b;
+  a = 15;
+  b = 23;
+  if ((a > 10) && (b < 30)) {
+    a = 1;
+  }
+}

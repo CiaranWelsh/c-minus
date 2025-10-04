@@ -1,0 +1,16 @@
+// If-else inside while loop
+void main(){
+  int i;
+  int count;
+  i = 0;
+  count = 0;
+  while (i < 30) {
+    if (i > 15) {
+      count = count + 2;
+    }
+    else {
+      count = count + 1;
+    }
+    i = i + 1;
+  }
+}

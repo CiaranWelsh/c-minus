@@ -1,0 +1,5 @@
+// Arithmetic addition
+void main(){
+  int result;
+  result = 8 + 15;
+}

@@ -1,0 +1,13 @@
+// Multiple function definitions and calls
+void first() {
+  write 52;
+}
+
+void second() {
+  write 81;
+}
+
+void main(){
+  first();
+  second();
+}

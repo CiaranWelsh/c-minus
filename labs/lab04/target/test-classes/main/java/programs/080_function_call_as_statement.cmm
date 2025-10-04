@@ -1,0 +1,8 @@
+// Procedure call (void function as statement)
+void printValue() {
+  write 91;
+}
+
+void main(){
+  printValue();
+}

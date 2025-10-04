@@ -1,0 +1,7 @@
+// Cast within arithmetic expression
+void main(){
+  int a;
+  double b;
+  a = 51;
+  b = (double)a + 4.625;
+}

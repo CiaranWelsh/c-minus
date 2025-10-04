@@ -1,0 +1,9 @@
+// Function call with no arguments as statement
+void helper() {
+  int x;
+  x = 63;
+}
+
+void main(){
+  helper();
+}

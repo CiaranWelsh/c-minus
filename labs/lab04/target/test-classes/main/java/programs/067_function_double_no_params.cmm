@@ -1,0 +1,7 @@
+// Function returning double with no parameters
+double getNumber() {
+  return 1.618;
+}
+
+void main(){
+}

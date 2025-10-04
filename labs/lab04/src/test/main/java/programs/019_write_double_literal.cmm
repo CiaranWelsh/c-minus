@@ -1,0 +1,4 @@
+// Write statement with double literal
+void main(){
+  write 7.9;
+}

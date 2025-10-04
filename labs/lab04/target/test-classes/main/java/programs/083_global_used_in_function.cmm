@@ -1,0 +1,11 @@
+// Global variable used in function
+int globalA;
+
+void setGlobal() {
+  globalA = 45;
+}
+
+void main(){
+  setGlobal();
+  write globalA;
+}

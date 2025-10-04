@@ -1,0 +1,12 @@
+// Nested if statements
+void main(){
+  int a;
+  int b;
+  a = 22;
+  b = 38;
+  if (a > 0) {
+    if (b > 0) {
+      a = 1;
+    }
+  }
+}

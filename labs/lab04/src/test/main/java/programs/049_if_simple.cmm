@@ -1,0 +1,8 @@
+// Simple if statement without else
+void main(){
+  int a;
+  a = 28;
+  if (a > 0) {
+    a = 1;
+  }
+}

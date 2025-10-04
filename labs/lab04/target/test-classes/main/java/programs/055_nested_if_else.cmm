@@ -1,0 +1,15 @@
+// Nested if-else
+void main(){
+  int a;
+  int b;
+  a = 16;
+  b = 29;
+  if (a > 10) {
+    if (b > 20) {
+      a = 88;
+    }
+    else {
+      a = 77;
+    }
+  }
+}

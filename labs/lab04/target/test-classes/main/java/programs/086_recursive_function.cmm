@@ -1,0 +1,17 @@
+// Recursive function (factorial)
+int factorial(int n) {
+  int result;
+  if (n <= 1) {
+    result = 1;
+  }
+  else {
+    result = n * factorial(n - 1);
+  }
+  return result;
+}
+
+void main(){
+  int f;
+  f = factorial(5);
+  write f;
+}

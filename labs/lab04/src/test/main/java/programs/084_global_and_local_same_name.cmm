@@ -1,0 +1,15 @@
+// Global and local variable with same name (shadowing)
+int x;
+
+int getX() {
+  int x;
+  x = 100;
+  return x;
+}
+
+void main(){
+  int result;
+  x = 50;
+  result = getX();
+  write result;
+}

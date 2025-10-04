@@ -1,0 +1,8 @@
+// While loop counting down
+void main(){
+  int i;
+  i = 25;
+  while (i > 0) {
+    i = i - 1;
+  }
+}

@@ -1,0 +1,6 @@
+// Multiple local variables
+void main(){
+  int a;
+  double b;
+  char c;
+}

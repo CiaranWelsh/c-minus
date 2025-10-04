@@ -1,0 +1,5 @@
+// Assignment with double literal
+void main(){
+  double x;
+  x = 2.718;
+}

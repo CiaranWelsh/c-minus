@@ -1,0 +1,7 @@
+// Cast char to int
+void main(){
+  char c;
+  int a;
+  c = 'Z';
+  a = (int)c;
+}

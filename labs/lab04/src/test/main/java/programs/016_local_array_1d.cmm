@@ -1,0 +1,4 @@
+// Local 1D array
+void main(){
+  int[10] arr;
+}

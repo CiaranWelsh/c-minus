@@ -1,0 +1,12 @@
+// Read values into array
+int[5] values;
+
+void main(){
+  int i;
+  i = 0;
+  while (i < 5) {
+    read values[i];
+    i = i + 1;
+  }
+  write values[2];
+}

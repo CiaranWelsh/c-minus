@@ -1,0 +1,6 @@
+// Single global int variable definition
+int a;
+
+void main(){
+
+}

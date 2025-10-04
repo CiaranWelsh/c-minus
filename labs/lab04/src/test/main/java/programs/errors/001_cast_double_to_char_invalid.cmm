@@ -1,0 +1,7 @@
+// Invalid: Cast double to char (only built-in types allowed in casts per spec)
+void main(){
+  double d;
+  char c;
+  d = 72.391;
+  c = (char)d;
+}

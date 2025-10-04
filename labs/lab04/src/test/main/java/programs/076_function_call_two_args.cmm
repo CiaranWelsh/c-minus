@@ -1,0 +1,9 @@
+// Function call with two arguments
+int multiply(int a, int b) {
+  return a * b;
+}
+
+void main(){
+  int result;
+  result = multiply(6, 9);
+}

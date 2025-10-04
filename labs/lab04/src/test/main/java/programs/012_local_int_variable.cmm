@@ -1,0 +1,4 @@
+// Local variable in main
+void main(){
+  int a;
+}

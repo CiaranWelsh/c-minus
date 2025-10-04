@@ -1,0 +1,9 @@
+// Function call with one argument
+int triple(int x) {
+  return x * 3;
+}
+
+void main(){
+  int result;
+  result = triple(11);
+}

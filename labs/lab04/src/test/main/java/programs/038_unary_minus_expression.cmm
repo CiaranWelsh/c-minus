@@ -1,0 +1,5 @@
+// Unary minus on expression
+void main(){
+  int a;
+  a = -(8 + 13);
+}

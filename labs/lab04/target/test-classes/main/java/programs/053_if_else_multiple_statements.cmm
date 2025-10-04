@@ -1,0 +1,14 @@
+// If-else with multiple statements
+void main(){
+  int a;
+  int b;
+  a = 34;
+  if (a > 0) {
+    a = 1;
+    b = 2;
+  }
+  else {
+    a = -1;
+    b = -2;
+  }
+}

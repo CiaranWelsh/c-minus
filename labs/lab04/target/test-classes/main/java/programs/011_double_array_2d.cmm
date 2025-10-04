@@ -1,0 +1,6 @@
+// Two dimensional double array
+double[8][3] matrix;
+
+void main(){
+
+}

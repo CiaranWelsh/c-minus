@@ -1,0 +1,7 @@
+// 1D array access with literal index
+void main(){
+  int[10] arr;
+  int x;
+  arr[0] = 67;
+  x = arr[0];
+}

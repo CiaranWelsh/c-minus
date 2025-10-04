@@ -1,0 +1,5 @@
+// Arithmetic precedence: multiplication before addition
+void main(){
+  int result;
+  result = 4 + 7 * 3;
+}

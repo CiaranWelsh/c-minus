@@ -1,0 +1,7 @@
+// Assignment from one variable to another
+void main(){
+  int a;
+  int b;
+  a = 23;
+  b = a;
+}

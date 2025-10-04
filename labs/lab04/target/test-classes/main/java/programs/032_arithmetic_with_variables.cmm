@@ -1,0 +1,9 @@
+// Arithmetic with variables
+void main(){
+  int a;
+  int b;
+  int result;
+  a = 13;
+  b = 22;
+  result = a + b;
+}

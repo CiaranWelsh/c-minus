@@ -1,0 +1,7 @@
+// Cast int to char
+void main(){
+  int a;
+  char c;
+  a = 65;
+  c = (char)a;
+}

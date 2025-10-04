@@ -1,0 +1,16 @@
+// Function that accesses global array
+int[10] numbers;
+
+void fillArray() {
+  int i;
+  i = 0;
+  while (i < 10) {
+    numbers[i] = i * 3;
+    i = i + 1;
+  }
+}
+
+void main(){
+  fillArray();
+  write numbers[5];
+}

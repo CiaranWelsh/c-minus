@@ -1,0 +1,5 @@
+// Arithmetic multiplication
+void main(){
+  int result;
+  result = 6 * 9;
+}

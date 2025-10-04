@@ -5,24 +5,12 @@ grammar Cmm;
 Main program
 */
 
-program: declaration
+program: variable_declaration*  function_declaration+
     ;
-
-declaration: variable_declaration
-    | function_declaration
-    ;
-
 function_declaration: type ID '(' ( type ID (',' type ID )?  )? ')' '{' (variable_declaration* | statement* ) '}'
     ;
-
-
-//function_body
-//    : (variable_declaration | statement)*
-//    ;
-
 variable_declaration: type ID ';'
     ;
-
 type: BUILTIN_TYPE ( '[' INT_CONSTANT ']' )*
     ;
 
